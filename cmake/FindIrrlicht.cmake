@@ -39,7 +39,7 @@ IF (NOT Irrlicht_INCLUDE_DIRS OR NOT Irrlicht_LIBRARIES)
     NAMES
       Irrlicht
     PATHS
-      /usr/lib64                  # Default Fedora28 library path
+      /usr/lib64/                   # Default Fedora28 library path
       /usr/lib/                     # Some more Linux library path
       /usr/lib/x86_64-linux-gnu/    # Some more Linux library path
       /usr/local/lib/               # Some more Linux library path
