@@ -10,8 +10,13 @@ set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 include_directories(./include)
 
 if (UNIX)
+        INCLUDE_DIRECTORIES(
+                "/usr/include/irrlicht"
+        )
+        include_directories(inc)
 	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR})
 	find_package(Irrlicht)
+        link_libraries(Irrlicht)
 	link_directories(Irrlicht) #link vers le .a
 	add_executable(bomberman
  ./test.cpp)
