@@ -1,5 +1,6 @@
 cmake/FindIrrlicht.cmake
 CMakeTmp/*
+CMakeFiles/*
 bomberman
 build.sh
 cmake_install.cmake
