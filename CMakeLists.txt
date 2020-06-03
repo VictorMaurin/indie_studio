@@ -10,6 +10,7 @@ set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 include_directories(./include)
 
 if (UNIX)
+        set (CMAKE_SHARED_LINKER_FLAGS "-lGLU, -lGL")
         INCLUDE_DIRECTORIES(
                 "/usr/include/irrlicht"
         )
