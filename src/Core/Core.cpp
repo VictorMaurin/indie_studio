@@ -7,7 +7,7 @@ Core::Core()
 
 Core::~Core()
 {
-    
+
 }
 
 void Core::run() {
@@ -22,7 +22,7 @@ void Core::run() {
 
     //create device
     device = irr::createDevice(irr::video::EDT_OPENGL,
-                                                    irr::core::dimension2d<irr::u32>(640, 480), 16, false, false, false, 0);
+    irr::core::dimension2d<irr::u32>(640, 480), 16, false, false, false, 0);
     if (!device)
         throw("Problem in device");
     device->setWindowCaption(L"Hello world! - Irrlicht Engine Demo");
