@@ -8,7 +8,7 @@
 #endif
 #include <iostream>
 
-Player::Player()
+Player::Player() : AEntity()
 {
 }
 
@@ -33,7 +33,7 @@ void Player::initPlayer(irr::scene::ISceneManager* sceneManager, irr::video::IVi
 
 int main(void) {
 
-    MyEventReceiver receiver; //Pour géré les event keyboard
+    MyEventReceiver receiver; //Pour gï¿½rï¿½ les event keyboard
     irr::IrrlichtDevice* device =
         irr::createDevice(irr::video::EDT_SOFTWARE, irr::core::dimension2d<irr::u32>(640, 480), 16,
             false, false, false, &receiver);
@@ -42,7 +42,7 @@ int main(void) {
     irr::scene::ISceneManager* sceneManager =           // creation du scene manager
         device->getSceneManager();
     device->getCursorControl()->setVisible(false);   // rend le curseur invisible
-    const irr::SEvent event;
+    irr::SEvent event;
     std::unique_ptr<Player> BOT = std::make_unique<Player>();
 
     //BOT->initPlayer(sceneManager, driver);

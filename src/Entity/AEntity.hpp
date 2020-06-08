@@ -11,10 +11,10 @@ public:
     AEntity();
     ~AEntity();
     virtual void update(void);
-    virtual void draw(void);
+    virtual void draw(void) const;
 
     virtual void setPos(const irr::core::vector3df pos);
-    virtual void getPos(void);
+    virtual void getPos(void) const;
 };
 
 #endif

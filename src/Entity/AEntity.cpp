@@ -14,7 +14,7 @@ void AEntity::update(void)
 
 }
 
-void AEntity::draw(void)
+void AEntity::draw(void) const
 {
 
 }
@@ -24,7 +24,7 @@ void AEntity::setPos(const irr::core::vector3df pos)
 
 }
 
-void AEntity::getPos(void)
+void AEntity::getPos(void) const
 {
 
 }
