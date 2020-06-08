@@ -1,7 +1,6 @@
 #ifndef CORE_HPP
 #define CORE_HPP
 
-#include <irrlicht/irrlicht.h>
 #include <vector>
 #include <ctime>
 #include <cmath>

@@ -2,7 +2,7 @@
 #define IENTITY_HPP
 
 #include <vector>
-#include <irrlicht/irrlicht.h>
+#include "irrlicht.h"
 
 
 class IEntity
