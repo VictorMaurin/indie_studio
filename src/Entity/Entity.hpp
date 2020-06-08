@@ -1,7 +1,9 @@
 #ifndef ENTITY_HPP
 #define ENTITY_HPP
 
-class Entity
+#include "IEntity.hpp"
+
+class Entity : IEntity
 {
 private:
     /* data */

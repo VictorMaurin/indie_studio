@@ -1,4 +1,4 @@
-﻿# CMakeList.txt : fichier projet CMake de niveau supérieur, effectuez une configuration globale
+# CMakeList.txt : fichier projet CMake de niveau supérieur, effectuez une configuration globale
 # et incluez les sous-projets ici.
 #
 cmake_minimum_required(VERSION 3.10)
@@ -13,6 +13,7 @@ if (UNIX)
         set (CMAKE_SHARED_LINKER_FLAGS "-lGLU, -lGL")
         INCLUDE_DIRECTORIES(
                 "/usr/include/irrlicht"
+		"/usr/local/include/irrlicht"
         )
         include_directories(inc)
 	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR})
@@ -20,7 +21,8 @@ if (UNIX)
         link_libraries(Irrlicht)
 	link_directories(Irrlicht) #link vers le .a
 	add_executable(bomberman
- ./test.cpp)
+ ./test.cpp
+ ./src/main.cpp)
 
  target_link_libraries(bomberman ${irrlicht})
 endif()
