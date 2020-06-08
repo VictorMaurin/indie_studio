@@ -7,17 +7,29 @@
 #include <iostream>
 #include "../Entity/AEntity.hpp"
 
+using namespace irr;
+using namespace scene;
+using namespace gui;
+using namespace video;
+using namespace core;
+
 class Core
 {
 private:
-    irr::video::IVideoDriver *driver;
-    irr::scene::ISceneManager *smgr;
-    irr::gui::IGUIEnvironment *guienv;
-    irr::IrrlichtDevice *device;
+    IVideoDriver *driver;
+    ISceneManager *smgr;
+    IGUIEnvironment *guienv;
+    IrrlichtDevice *device;
+    std::vector<IEntity> entities;
+
 public : 
     Core(/* args */);
-    void run();
     ~Core();
+    void run();
+    const std::vector<IEntity> &getEntities() const;
+    const IVideoDriver *getDriver() const;
+    const ISceneManager *getSmgr() const;
+    const IrrlichtDevice *getDevice() const;
 };
 
 #endif

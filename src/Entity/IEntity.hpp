@@ -17,6 +17,4 @@ public:
     virtual void getPos(void) const = 0;
 };
 
-std::vector<IEntity> entities;
-
 #endif /* IENTITY_HPP */

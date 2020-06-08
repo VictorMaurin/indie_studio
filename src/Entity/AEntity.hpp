@@ -3,7 +3,7 @@
 
 #include "IEntity.hpp"
 
-class AEntity : IEntity
+class AEntity : public IEntity
 {
 private:
     /* data */

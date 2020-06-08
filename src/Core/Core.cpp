@@ -22,7 +22,7 @@ void Core::run() {
 
     //create device
     device = irr::createDevice(irr::video::EDT_OPENGL,
-    irr::core::dimension2d<irr::u32>(640, 480), 16, false, false, false, 0);
+    dimension2d<u32>(640, 480), 16, false, false, false, 0);
     if (!device)
         throw("Problem in device");
     device->setWindowCaption(L"Hello world! - Irrlicht Engine Demo");
@@ -43,7 +43,7 @@ void Core::run() {
         }
 
         // draw
-        driver->beginScene(true, true, irr::video::SColor(255, 100, 101, 140));
+        driver->beginScene(true, true, SColor(255, 100, 101, 140));
         smgr->drawAll();
         guienv->drawAll();
         driver->endScene();
@@ -69,4 +69,24 @@ void Core::run() {
             remainingTime -= deltaTime * (double)CLOCKS_PER_SEC;
         }
     }
+}
+
+const std::vector<IEntity> &Core::getEntities() const
+{
+    return (entities);
+}
+
+const IVideoDriver *Core::getDriver() const
+{
+    return (driver);
+}
+
+const ISceneManager *Core::getSmgr() const
+{
+    return (smgr);
+}
+
+const IrrlichtDevice *Core::getDevice() const
+{
+    return (device);
 }
