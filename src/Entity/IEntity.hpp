@@ -1,6 +1,7 @@
 #ifndef IENTITY_HPP
 #define IENTITY_HPP
 
+#include <vector>
 #include <irrlicht/irrlicht.h>
 
 
