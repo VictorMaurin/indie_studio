@@ -1,4 +1,4 @@
-# CMakeList.txt : fichier projet CMake de niveau supérieur, effectuez une configuration globale
+﻿# CMakeList.txt : fichier projet CMake de niveau supérieur, effectuez une configuration globale
 # et incluez les sous-projets ici.
 #
 cmake_minimum_required(VERSION 3.10)
@@ -21,7 +21,8 @@ if (UNIX)
         link_libraries(Irrlicht)
 	link_directories(Irrlicht) #link vers le .a
 	add_executable(bomberman
- ./test.cpp
+        ./src/Core/Core.cpp
+        ./src/Entity/AEntity.cpp
  ./src/main.cpp)
 
  target_link_libraries(bomberman ${irrlicht})
@@ -31,6 +32,7 @@ if (WIN32)
 add_library(Irrlicht STATIC IMPORTED)
 set_property(TARGET Irrlicht PROPERTY IMPORTED_LOCATION ${CMAKE_CURRENT_SOURCE_DIR}/cmake/Irrlicht.lib)
 add_executable(bomberman
- ./test.cpp)
+./src/Core/Core.cpp
+./src/Entity/Entity.cpp)
 target_link_libraries(bomberman Irrlicht)
 endif()
