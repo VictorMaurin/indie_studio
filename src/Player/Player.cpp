@@ -1,7 +1,4 @@
 #include "Player.hpp"
-#include "../Event/Event.hpp"
-#include <memory>
-
 #ifdef IRR_WINDOWS
 #pragma comment(lib, "Irrlicht.lib")
 #pragma comment(linker, "/subsystem:windows /ENTRY:mainCRTStartup")
@@ -17,6 +14,15 @@ Player::~Player()
 
 }
 
+void Player::setPos(const irr::core::vector3df pos)
+{
+    this->PlayerOBJ->setPosition(pos);
+}
+
+irr::core::vector3df Player::getPos()
+{
+    return (this->PlayerOBJ->getPosition());
+}
 
 void Player::initPlayer(irr::scene::ISceneManager* sceneManager, irr::video::IVideoDriver* driver)
 {
@@ -29,6 +35,38 @@ void Player::initPlayer(irr::scene::ISceneManager* sceneManager, irr::video::IVi
         PlayerOBJ->setMaterialFlag(irr::video::EMF_LIGHTING, false);
         PlayerOBJ->setMaterialTexture(0, driver->getTexture("../build/assets/BlackBombermanTextures.png"));
     }
+}
+
+void Player::movementPlayer(MyEventReceiver receiver, const irr::f32 MOVEMENT_SPEED, const irr::f32 frameDeltaTime)
+{
+    irr::core::vector3df nodePosition = this->getPos();
+
+    if (receiver.IsKeyDown(irr::KEY_KEY_S)) {
+        this->PlayerOBJ->setAnimationSpeed(100);
+        nodePosition.Z += MOVEMENT_SPEED * frameDeltaTime;
+        this->PlayerOBJ->setRotation(irr::core::vector3df(0, 180, 0));
+    }
+    else if (receiver.IsKeyDown(irr::KEY_KEY_Z)) {
+        this->PlayerOBJ->setAnimationSpeed(100);
+        nodePosition.Z -= MOVEMENT_SPEED * frameDeltaTime;
+        this->PlayerOBJ->setRotation(irr::core::vector3df(0, 0, 0));
+    }
+    else if (receiver.IsKeyDown(irr::KEY_KEY_D)) {
+        this->PlayerOBJ->setAnimationSpeed(100);
+        nodePosition.X -= MOVEMENT_SPEED * frameDeltaTime;
+        this->PlayerOBJ->setRotation(irr::core::vector3df(0, 90, 0));
+    }
+    else if (receiver.IsKeyDown(irr::KEY_KEY_Q)) {
+        this->PlayerOBJ->setAnimationSpeed(100);
+        nodePosition.X += MOVEMENT_SPEED * frameDeltaTime;
+        this->PlayerOBJ->setRotation(irr::core::vector3df(0, -90, 0));
+    }
+    else {
+        //BOT->setRotation(irr::core::vector3df(0, 0, 0));
+        this->PlayerOBJ->setAnimationSpeed(0);
+        this->PlayerOBJ->setFrameLoop(0, 25);
+    }
+    this->setPos(nodePosition);
 }
 
 int main(void) {
@@ -45,17 +83,7 @@ int main(void) {
     irr::SEvent event;
     std::unique_ptr<Player> BOT = std::make_unique<Player>();
 
-    //BOT->initPlayer(sceneManager, driver);
-
-    BOT->PlayerOBJ =
-        sceneManager->addAnimatedMeshSceneNode(sceneManager->getMesh("../build/assets/Bomberman.MD3"));
-    if (BOT->PlayerOBJ)
-    {
-        BOT->PlayerOBJ->setFrameLoop(0, 25);
-        BOT->PlayerOBJ->setAnimationSpeed(0);
-        BOT->PlayerOBJ->setMaterialFlag(irr::video::EMF_LIGHTING, false);
-        BOT->PlayerOBJ->setMaterialTexture(0, driver->getTexture("../build/assets/BlackBombermanTextures.png"));
-    }
+    BOT->initPlayer(sceneManager, driver);
 
     sceneManager->addCameraSceneNode(0, irr::core::vector3df(0, 5, 10), irr::core::vector3df(0, 0, 0));
     const irr::f32 MOVEMENT_SPEED = 5.f;
@@ -66,38 +94,7 @@ int main(void) {
         const irr::u32 now = device->getTimer()->getTime();
         const irr::f32 frameDeltaTime = (irr::f32)(now - then) / 1000.f;
         then = now;
-        irr::core::vector3df nodePosition = BOT->PlayerOBJ->getPosition();
-
-
-        if (receiver.IsKeyDown(irr::KEY_KEY_S)) {
-            BOT->PlayerOBJ->setAnimationSpeed(100);
-            nodePosition.Z += MOVEMENT_SPEED * frameDeltaTime;
-            BOT->PlayerOBJ->setRotation(irr::core::vector3df(0, 180, 0));
-
-        }
-        else if (receiver.IsKeyDown(irr::KEY_KEY_Z)) {
-            BOT->PlayerOBJ->setAnimationSpeed(100);
-            nodePosition.Z -= MOVEMENT_SPEED * frameDeltaTime;
-            BOT->PlayerOBJ->setRotation(irr::core::vector3df(0, 0, 0));
-        }
-        else if (receiver.IsKeyDown(irr::KEY_KEY_D)) {
-            BOT->PlayerOBJ->setAnimationSpeed(100);
-            nodePosition.X -= MOVEMENT_SPEED * frameDeltaTime;
-            BOT->PlayerOBJ->setRotation(irr::core::vector3df(0, 90, 0));
-        }
-        else if (receiver.IsKeyDown(irr::KEY_KEY_Q)) {
-            BOT->PlayerOBJ->setAnimationSpeed(100);
-            nodePosition.X += MOVEMENT_SPEED * frameDeltaTime;
-            BOT->PlayerOBJ->setRotation(irr::core::vector3df(0, -90, 0));
-        }
-        else {
-            //BOT->setRotation(irr::core::vector3df(0, 0, 0));
-            BOT->PlayerOBJ->setAnimationSpeed(0);
-            BOT->PlayerOBJ->setFrameLoop(0, 25);
-        }
-        BOT->PlayerOBJ->setPosition(nodePosition);
-        //BOT->setFrameLoop(0, 0);
-        //BOT->setAnimationSpeed(0);
+        BOT->movementPlayer(receiver, MOVEMENT_SPEED, frameDeltaTime);
         driver->beginScene(true, true, irr::video::SColor(255, 100, 101, 140));
 
         sceneManager->drawAll();
