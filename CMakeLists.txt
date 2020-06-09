@@ -1,4 +1,4 @@
-﻿# CMakeList.txt : fichier projet CMake de niveau supérieur, effectuez une configuration globale
+# CMakeList.txt : fichier projet CMake de niveau supérieur, effectuez une configuration globale
 # et incluez les sous-projets ici.
 #
 cmake_minimum_required(VERSION 3.10)
@@ -8,6 +8,12 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 include_directories(./include)
+
+if (APPLE)
+	find_package(OPENGL)
+	find_library(COCOA_LIBRARY Cocoa)
+	find_library(IOKIT IOKit)
+endif (APPLE)
 
 if (UNIX)
         set (CMAKE_SHARED_LINKER_FLAGS "-lGLU, -lGL")
@@ -23,10 +29,15 @@ if (UNIX)
 	add_executable(bomberman
         ./src/Core/Core.cpp
         ./src/Entity/AEntity.cpp
- ./src/main.cpp)
+        ./src/Wall/Wall.cpp
+        ./src/main.cpp)
 
  target_link_libraries(bomberman ${irrlicht})
 endif()
+
+if (APPLE)
+target_link_libraries(bomberman ${OPENGL_LIBRARY} ${COCOA_LIBRARY} ${IOKIT} Irrlicht)
+endif (APPLE)
 
 if (WIN32)
 add_library(Irrlicht STATIC IMPORTED)
