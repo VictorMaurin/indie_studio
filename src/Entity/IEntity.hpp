@@ -14,7 +14,7 @@ public:
     virtual void draw(void) const = 0;
 
     virtual void setPos(const irr::core::vector3df pos)=0;
-    virtual void getPos(void) const = 0;
+    virtual irr::core::vector3df getPos(void) const = 0;
 };
 
 #endif /* IENTITY_HPP */
