@@ -40,9 +40,9 @@ public :
     void update_menu();
     void update_game();
     const std::vector<IEntity> &getEntities() const;
-    const IVideoDriver *getDriver() const;
-    const ISceneManager *getSmgr() const;
-    const IrrlichtDevice *getDevice() const;
+    IVideoDriver *getDriver() const;
+    ISceneManager *getSmgr() const;
+    IrrlichtDevice *getDevice() const;
 };
 
 #endif

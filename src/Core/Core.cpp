@@ -32,17 +32,17 @@ const std::vector<IEntity> &Core::getEntities() const
     return (entities);
 }
 
-const IVideoDriver *Core::getDriver() const
+IVideoDriver *Core::getDriver() const
 {
     return (driver);
 }
 
-const ISceneManager *Core::getSmgr() const
+ISceneManager *Core::getSmgr() const
 {
     return (smgr);
 }
 
-const IrrlichtDevice *Core::getDevice() const
+IrrlichtDevice *Core::getDevice() const
 {
     return (device);
 }
