@@ -6,6 +6,7 @@
 #include <cmath>
 #include <iostream>
 #include "../Entity/AEntity.hpp"
+#include "../wall/Wall.hpp"
 
 using namespace irr;
 using namespace scene;
@@ -20,13 +21,14 @@ private:
     ISceneManager *smgr;
     IGUIEnvironment *guienv;
     IrrlichtDevice *device;
-    std::vector<IEntity> entities;
+    std::vector<std::shared_ptr<IEntity>> entities;
 
 public : 
     Core(/* args */);
     ~Core();
     void run();
-    const std::vector<IEntity> &getEntities() const;
+    void init();
+    const std::vector<std::shared_ptr<IEntity>> &getEntities() const;
     const IVideoDriver *getDriver() const;
     const ISceneManager *getSmgr() const;
     const IrrlichtDevice *getDevice() const;

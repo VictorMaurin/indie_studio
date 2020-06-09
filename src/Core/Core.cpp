@@ -7,21 +7,16 @@ Core::Core()
 
 Core::~Core()
 {
-
+    //delete driver;
+    //delete smgr;
+    //delete guienv;
+    //delete device;
 }
 
-void Core::run() {
-
-    std::clock_t frameBgnTime;
-    std::clock_t frameEndTime;
-    double deltaTime = 0.0;
-    size_t fps = 60;
-    double frameTime = 1 / fps;
-    double remainingTime = 0.0;
-    size_t updates = 0;
-
+void Core::init()
+{
     //create device
-    device = irr::createDevice(irr::video::EDT_OPENGL,
+    device = createDevice(EDT_OPENGL,
     dimension2d<u32>(640, 480), 16, false, false, false, 0);
     if (!device)
         throw("Problem in device");
@@ -29,6 +24,22 @@ void Core::run() {
     driver = device->getVideoDriver();
     smgr = device->getSceneManager();
     guienv = device->getGUIEnvironment();
+
+    ILightSceneNode* light = smgr->addLightSceneNode( 0, vector3df(0.0f,30.0f,-40.0f), SColorf(1.0f,1.0f,1.0f,1.0f), 500.0f );
+    smgr->addCameraSceneNode(0, vector3df(0,30,-40), vector3df(0,5,0));
+
+    entities.push_back(std::make_shared<Wall>(smgr, driver, device)); //tmp
+}
+
+void Core::run()
+{
+    std::clock_t frameBgnTime;
+    std::clock_t frameEndTime;
+    double deltaTime = 0.0;
+    size_t fps = 60;
+    double frameTime = 1 / fps;
+    double remainingTime = 0.0;
+    size_t updates = 0;
 
     while (device->run())
     {
@@ -39,7 +50,7 @@ void Core::run() {
         //update
         for (int i = 0; i < entities.size(); i++)
         {
-            entities[i].update();
+            entities[i]->update();
         }
 
         // draw
@@ -63,7 +74,7 @@ void Core::run() {
             {
                 updates++;
                 for (int i = 0; i < entities.size(); i++)
-                    entities[i].update();
+                    entities[i]->update();
             }
             deltaTime = std::clock() - frameBgnTime;
             remainingTime -= deltaTime * (double)CLOCKS_PER_SEC;
@@ -71,7 +82,7 @@ void Core::run() {
     }
 }
 
-const std::vector<IEntity> &Core::getEntities() const
+const std::vector<std::shared_ptr<IEntity>> &Core::getEntities() const
 {
     return (entities);
 }
