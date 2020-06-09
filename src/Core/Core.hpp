@@ -14,6 +14,13 @@ using namespace gui;
 using namespace video;
 using namespace core;
 
+enum class State : int
+{
+    NOTHING,
+    GAME,
+    MENU
+};
+
 class Core
 {
 private:
@@ -22,6 +29,7 @@ private:
     IGUIEnvironment *guienv;
     IrrlichtDevice *device;
     std::vector<std::shared_ptr<IEntity>> entities;
+    State statement;
 
 public : 
     Core(/* args */);
@@ -29,6 +37,11 @@ public :
     void run();
     void init();
     const std::vector<std::shared_ptr<IEntity>> &getEntities() const;
+    void loop();
+    void set_menu();
+    void set_game();
+    void update_menu();
+    void update_game();
     const IVideoDriver *getDriver() const;
     const ISceneManager *getSmgr() const;
     const IrrlichtDevice *getDevice() const;

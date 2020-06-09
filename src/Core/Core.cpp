@@ -1,4 +1,5 @@
 #include "Core.hpp"
+#include "irrlicht.h"
 
 Core::Core()
 {
@@ -15,6 +16,7 @@ Core::~Core()
 
 void Core::init()
 {
+    statement = State::NOTHING;
     //create device
     device = createDevice(EDT_OPENGL,
     dimension2d<u32>(640, 480), 16, false, false, false, 0);
@@ -24,6 +26,54 @@ void Core::init()
     driver = device->getVideoDriver();
     smgr = device->getSceneManager();
     guienv = device->getGUIEnvironment();
+    set_menu();
+    loop();
+}
+
+const std::vector<std::shared_ptr<IEntity>> &Core::getEntities() const
+{
+    return (entities);
+}
+
+const IVideoDriver *Core::getDriver() const
+{
+    return (driver);
+}
+
+const ISceneManager *Core::getSmgr() const
+{
+    return (smgr);
+}
+
+const IrrlichtDevice *Core::getDevice() const
+{
+    return (device);
+}
+
+void Core::set_menu()
+{
+    if (this->statement != State::MENU) {
+        this->statement = State::MENU;
+        // maybe play music 
+    }
+}
+
+void Core::set_game()
+{
+    if (this->statement != State::GAME) {
+        this->statement = State::GAME;
+    }
+}
+
+void Core::loop()
+{
+    std::clock_t frameBgnTime;
+    std::clock_t frameEndTime;
+    double deltaTime = 0.0;
+    size_t fps = 60;
+    double frameTime = 1 / fps;
+    double remainingTime = 0.0;
+    size_t updates = 0;
 
     ILightSceneNode* light = smgr->addLightSceneNode( 0, vector3df(0.0f,30.0f,-40.0f), SColorf(1.0f,1.0f,1.0f,1.0f), 500.0f );
     smgr->addCameraSceneNode(0, vector3df(0,30,-40), vector3df(0,5,0));
@@ -54,10 +104,10 @@ void Core::run()
         }
 
         // draw
-        driver->beginScene(true, true, SColor(255, 100, 101, 140));
-        smgr->drawAll();
-        guienv->drawAll();
-        driver->endScene();
+        if (this->statement == State::MENU)
+            this->update_menu();
+        else if (this->statement == State::GAME)
+            this->update_game();
 
         frameEndTime = std::clock();
 
@@ -82,22 +132,21 @@ void Core::run()
     }
 }
 
-const std::vector<std::shared_ptr<IEntity>> &Core::getEntities() const
+void Core::update_menu()
 {
-    return (entities);
+    driver->beginScene(true, true, SColor(255, 100, 101, 140));
+    smgr->drawAll();
+    guienv->drawAll();
+    driver->endScene();
+    // if game start --> set_game()
+    // if close --> close all
 }
 
-const IVideoDriver *Core::getDriver() const
+void Core::update_game()
 {
-    return (driver);
-}
-
-const ISceneManager *Core::getSmgr() const
-{
-    return (smgr);
-}
-
-const IrrlichtDevice *Core::getDevice() const
-{
-    return (device);
+    driver->beginScene(true, true, SColor(255, 100, 101, 140));
+    smgr->drawAll();
+    guienv->drawAll();
+    driver->endScene();
+    // if return to menu --> set_menu()
 }
