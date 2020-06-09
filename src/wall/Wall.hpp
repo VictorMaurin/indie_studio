@@ -3,7 +3,7 @@
 
 #include <irrlicht.h>
 #include <memory>
-#include "../Entity/AEntity.hpp"
+#include "../Entity/IEntity.hpp"
 #include "../Core/Core.hpp"
 
 using namespace irr;
@@ -12,7 +12,7 @@ using namespace gui;
 using namespace video;
 using namespace core;
 
-class Wall : public AEntity
+class Wall : public IEntity
 {
     public:
         Wall(ISceneManager *smgr, IVideoDriver *driver, IrrlichtDevice *device);
@@ -22,6 +22,7 @@ class Wall : public AEntity
         void draw(void) const;
 
         void setPosition(const vector3df &pos);
+        vector3df getPosition(void) const;
 
     private:
         IMesh *mesh;

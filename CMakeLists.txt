@@ -28,7 +28,6 @@ if (UNIX)
 	link_directories(Irrlicht) #link vers le .a
 	add_executable(bomberman
         ./src/Core/Core.cpp
-        ./src/Entity/AEntity.cpp
         ./src/Wall/Wall.cpp
         ./src/main.cpp)
 

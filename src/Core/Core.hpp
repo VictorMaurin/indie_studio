@@ -5,7 +5,6 @@
 #include <ctime>
 #include <cmath>
 #include <iostream>
-#include "../Entity/AEntity.hpp"
 #include "../wall/Wall.hpp"
 
 using namespace irr;
