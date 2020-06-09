@@ -4,7 +4,7 @@
 cmake_minimum_required(VERSION 3.10)
 project(bomberman)
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 include_directories(./include)
@@ -30,6 +30,9 @@ if (UNIX)
         ./src/Core/Core.cpp
         ./src/Wall/Wall.cpp
         ./src/main.cpp)
+        ./src/bomb/Bomb.cpp
+        ./src/Player/Player.cpp
+ ./src/main.cpp)
 
  target_link_libraries(bomberman ${irrlicht})
 endif()
