@@ -8,7 +8,12 @@
 #ifndef ASSETS_H_
 #define ASSETS_H_
 
+#ifdef _WIN32
+#include <direct.h>
+#else
 #include <unistd.h>
+#endif
+
 #include <string.h>
 
 #define ASSETS_PATH(x) ({                           \
