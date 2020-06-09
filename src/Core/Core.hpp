@@ -5,7 +5,7 @@
 #include <ctime>
 #include <cmath>
 #include <iostream>
-#include "../wall/Wall.hpp"
+#include "../Wall/Wall.hpp"
 
 using namespace irr;
 using namespace scene;
