@@ -41,9 +41,10 @@ public :
     void set_game();
     void update_menu();
     void update_game();
-    const IVideoDriver *getDriver() const;
-    const ISceneManager *getSmgr() const;
-    const IrrlichtDevice *getDevice() const;
+    const std::vector<IEntity> &getEntities() const;
+    IVideoDriver *getDriver() const;
+    ISceneManager *getSmgr() const;
+    IrrlichtDevice *getDevice() const;
 };
 
 #endif
