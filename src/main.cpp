@@ -8,6 +8,7 @@ int main()
     Core core;
     try
     {
+        core.init();
         core.run();
     }
     catch(const std::exception& e)

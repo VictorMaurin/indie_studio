@@ -5,7 +5,7 @@
 #include <ctime>
 #include <cmath>
 #include <iostream>
-#include "../Entity/AEntity.hpp"
+#include "../wall/Wall.hpp"
 
 using namespace irr;
 using namespace scene;
@@ -27,13 +27,15 @@ private:
     ISceneManager *smgr;
     IGUIEnvironment *guienv;
     IrrlichtDevice *device;
-    std::vector<IEntity> entities;
+    std::vector<std::shared_ptr<IEntity>> entities;
     State statement;
 
 public : 
     Core(/* args */);
     ~Core();
     void run();
+    void init();
+    const std::vector<std::shared_ptr<IEntity>> &getEntities() const;
     void loop();
     void set_menu();
     void set_game();
