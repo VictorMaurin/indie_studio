@@ -29,7 +29,6 @@ if (UNIX)
 	add_executable(bomberman
         ./src/Core/Core.cpp
         ./src/Wall/Wall.cpp
-        ./src/main.cpp)
         ./src/bomb/Bomb.cpp
         ./src/Player/Player.cpp
  ./src/main.cpp)

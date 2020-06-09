@@ -23,6 +23,8 @@ class Wall : public IEntity
 
         void setPosition(const vector3df &pos);
         vector3df getPosition(void) const;
+        void setScale(const vector3df &scale);
+        vector3df getScale(void) const;
 
     private:
         IMesh *mesh;
