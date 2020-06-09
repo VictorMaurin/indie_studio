@@ -40,10 +40,26 @@ void Wall::draw(void) const
 
 void Wall::setPosition(const vector3df &pos)
 {
-    node->setPosition(pos);
+    if (node)
+        node->setPosition(pos);
 }
 
 vector3df Wall::getPosition(void) const
 {
-    return (node->getPosition());
+    if (node)
+        return (node->getPosition());
+    return(vector3df(0, 0, 0));
+}
+
+void Wall::setScale(const vector3df &scale)
+{
+    if (node)
+        node->setScale(scale);
+}
+
+vector3df Wall::getScale(void) const
+{
+    if (node)
+        return (node->getScale());
+    return(vector3df(-1, -1, -1));
 }
