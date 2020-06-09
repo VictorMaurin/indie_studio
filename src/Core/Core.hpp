@@ -41,7 +41,7 @@ public :
     void set_game();
     void update_menu();
     void update_game();
-    const std::vector<IEntity> &getEntities() const;
+    const std::vector<std::shared_ptr<IEntity>> &getEntities() const;
     IVideoDriver *getDriver() const;
     ISceneManager *getSmgr() const;
     IrrlichtDevice *getDevice() const;
