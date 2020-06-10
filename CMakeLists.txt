@@ -31,6 +31,7 @@ if (UNIX)
         ./src/Wall/Wall.cpp
         ./src/bomb/Bomb.cpp
         ./src/Player/Player.cpp
+        ./assets/find_asset.cpp
  ./src/main.cpp)
 
  target_link_libraries(bomberman ${irrlicht})
