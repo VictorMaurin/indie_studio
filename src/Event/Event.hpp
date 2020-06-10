@@ -1,3 +1,6 @@
+#ifndef EVT_RECEIVER_HPP
+#define EVT_RECEIVER_HPP
+
 #include <irrlicht.h>
 #include "driverChoice.h"
 
@@ -42,3 +45,5 @@ private:
     bool KeyIsDown[irr::KEY_KEY_CODES_COUNT];
     irr::SEvent::SJoystickEvent JoystickState;
 };
+
+#endif // !EVT_RECEIVER_HPP
