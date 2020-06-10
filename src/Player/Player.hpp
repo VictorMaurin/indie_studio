@@ -1,7 +1,7 @@
 #include <irrlicht.h>
 #include "driverChoice.h"
 #include "../Entity/IEntity.hpp"
-#include "../Event/Event.hpp"*
+#include "../Event/Event.hpp"
 #include <memory>
 
 class Player : public IEntity

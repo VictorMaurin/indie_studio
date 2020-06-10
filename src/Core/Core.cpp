@@ -16,18 +16,26 @@ Core::~Core()
 
 void Core::init()
 {
+    this->eventReceiver = new MyEventReceiver();
     statement = State::NOTHING;
     //create device
     device = createDevice(EDT_OPENGL,
-    dimension2d<u32>(640, 480), 16, false, false, false, 0);
+    dimension2d<u32>(640, 480), 16, false, false, false, eventReceiver);
     if (!device)
         throw("Problem in device");
+    device->setResizable(true);
     device->setWindowCaption(L"Hello world! - Irrlicht Engine Demo");
     driver = device->getVideoDriver();
     smgr = device->getSceneManager();
     guienv = device->getGUIEnvironment();
     set_menu();
-    loop();
+    
+    //tmp light source
+    ILightSceneNode* light = smgr->addLightSceneNode( 0, vector3df(0.0f,30.0f,-40.0f), SColorf(1.0f,1.0f,1.0f,1.0f), 500.0f );
+    //tmp camera
+    smgr->addCameraSceneNode(0, vector3df(0,30,-40), vector3df(0,0,0));
+
+    entities.push_back(std::make_shared<Mesh>("crate3.obj", "crate3.png", smgr, driver, device)); //tmp
 }
 
 const std::vector<std::shared_ptr<IEntity>> &Core::getEntities() const
@@ -63,22 +71,6 @@ void Core::set_game()
     if (this->statement != State::GAME) {
         this->statement = State::GAME;
     }
-}
-
-void Core::loop()
-{
-    std::clock_t frameBgnTime;
-    std::clock_t frameEndTime;
-    double deltaTime = 0.0;
-    size_t fps = 60;
-    double frameTime = 1 / fps;
-    double remainingTime = 0.0;
-    size_t updates = 0;
-
-    ILightSceneNode* light = smgr->addLightSceneNode( 0, vector3df(0.0f,30.0f,-40.0f), SColorf(1.0f,1.0f,1.0f,1.0f), 500.0f );
-    smgr->addCameraSceneNode(0, vector3df(0,30,-40), vector3df(0,5,0));
-
-    entities.push_back(std::make_shared<Wall>(smgr, driver, device)); //tmp
 }
 
 void Core::run()
@@ -129,6 +121,9 @@ void Core::run()
             deltaTime = std::clock() - frameBgnTime;
             remainingTime -= deltaTime * (double)CLOCKS_PER_SEC;
         }
+
+        if (this->eventReceiver->IsKeyDown(irr::KEY_KEY_E) || this->eventReceiver->IsKeyDown(irr::KEY_ESCAPE))
+            device->closeDevice();
     }
 }
 

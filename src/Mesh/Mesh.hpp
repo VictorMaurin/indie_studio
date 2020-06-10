@@ -1,9 +1,17 @@
-#ifndef WALL_HPP
-#define WALL_HPP
+/*
+** EPITECH PROJECT, 2020
+** OOP_indie_studio_2019
+** File description:
+** Mesh
+*/
+
+#ifndef MESH_HPP_
+#define MESH_HPP_
 
 #include <irrlicht.h>
 #include <memory>
 #include "../Entity/IEntity.hpp"
+#include "../assets/assets.hpp"
 #include "../Core/Core.hpp"
 
 using namespace irr;
@@ -12,12 +20,11 @@ using namespace gui;
 using namespace video;
 using namespace core;
 
-class Wall : public IEntity
+class Mesh : public IEntity
 {
     public:
-        Wall(ISceneManager *smgr, IVideoDriver *driver, IrrlichtDevice *device);
-        ~Wall();
-
+        Mesh(std::string meshName, std::string textureName, ISceneManager *smgr, IVideoDriver *driver, IrrlichtDevice *device);
+        ~Mesh();
         void update(void);
         void draw(void) const;
 
@@ -31,4 +38,4 @@ class Wall : public IEntity
         IMeshSceneNode *node;
 };
 
-#endif /* WALL_HPP */
+#endif /* !MESH_HPP_ */
