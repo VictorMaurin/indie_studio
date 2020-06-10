@@ -10,10 +10,10 @@ public:
 	Player();
 	~Player();
 	void initPlayer(irr::scene::ISceneManager* sceneManager, irr::video::IVideoDriver* driver);
-	void movementPlayer(MyEventReceiver receiver, const irr::f32 MOVEMENT_SPEED, const irr::f32 frameDeltaTime);
+	void movementPlayer(irr::core::array<irr::SJoystickInfo>& joystickInfo, MyEventReceiver receiver, const irr::f32 MOVEMENT_SPEED, const irr::f32 frameDeltaTime);
 	void initJoystic(irr::core::array<irr::SJoystickInfo> &joystickInfo, irr::IrrlichtDevice* device);
 	void movementPlayerJoystick(irr::core::array<irr::SJoystickInfo> &joystickInfo, MyEventReceiver receiver, const irr::f32 MOVEMENT_SPEED, const irr::f32 frameDeltaTime);
-
+	void movementPlayerMouse(MyEventReceiver receiver, const irr::f32 MOVEMENT_SPEED, const irr::f32 frameDeltaTime);
 	void update(void);
 	void draw(void) const;
 
@@ -23,5 +23,7 @@ public:
 	irr::core::vector3df getScale(void) const;
 	irr::scene::IAnimatedMeshSceneNode* PlayerOBJ;
 private:
+	int joysticActivated;
+	int keyboardActived;
 
 };
