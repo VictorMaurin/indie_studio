@@ -6,6 +6,7 @@
 */
 
 #include <string>
+#include <iostream>
 
 #include <stdio.h>  /* defines FILENAME_MAX */
 #ifdef _WIN32
@@ -30,7 +31,7 @@ std::string findAsset( std::string asset ) {
         current_working_dir += NEXT_FOLDER;
         current_working_dir += "OOP_indie_studio_2019";
     }
-    if ((pos = current_working_dir.find("bin")) && pos == (current_working_dir.length() - 4)) {
+    if ((pos = current_working_dir.find("bin")) && pos == (current_working_dir.length() - 3)) {
         current_working_dir += NEXT_FOLDER;
         current_working_dir += "..";
         current_working_dir += NEXT_FOLDER;
