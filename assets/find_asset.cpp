@@ -11,7 +11,7 @@
 #ifdef _WIN32
 #include <direct.h>
 #define GetCurrentDir _getcwd
-#define NEXT_FOLDER "\"
+#define NEXT_FOLDER "\\"
 #else
 #include <unistd.h>
 #define GetCurrentDir getcwd
@@ -22,9 +22,11 @@ std::string findAsset( std::string asset ) {
     char buff[FILENAME_MAX];
     GetCurrentDir( buff, FILENAME_MAX );
     std::string current_working_dir(buff);
-    if (current_working_dir.find("OOP_indie_studio_2019") == std::string::npos ||
-        current_working_dir.find("indie") == std::string::npos ||
+    if (current_working_dir.find("OOP_indie_studio_2019") == std::string::npos &&
+        current_working_dir.find("indie") == std::string::npos &&
         current_working_dir.find("bomberman") == std::string::npos) {
+        current_working_dir += NEXT_FOLDER;
+        current_working_dir += "..";
         current_working_dir += NEXT_FOLDER;
         current_working_dir += "OOP_indie_studio_2019";
     }
