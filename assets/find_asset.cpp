@@ -16,7 +16,7 @@
 #define GetCurrentDir getcwd
 #endif
  
-std::string GetCurrentWorkingDir( std::string asset ) {
+std::string findAsset( std::string asset ) {
     char buff[FILENAME_MAX];
     GetCurrentDir( buff, FILENAME_MAX );
     std::string current_working_dir(buff);

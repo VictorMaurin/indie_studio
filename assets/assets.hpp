@@ -8,6 +8,6 @@
 #ifndef ASSETS_H_
 #define ASSETS_H_
 
-std::string GetCurrentWorkingDir( std::string asset );
+std::string findAsset( std::string asset );
 
 #endif /* !ASSETS_H_ */
