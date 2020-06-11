@@ -1,9 +1,11 @@
+#ifndef PLAYER_HPP
+#define PLAYER_HPP
+
 #include <irrlicht.h>
 #include "driverChoice.h"
 #include "../Entity/IEntity.hpp"
 #include "../Event/Event.hpp"
 #include "../assets/assets.hpp"
-#include "../Bomb/Bomb.hpp"
 
 class Player : public IEntity
 {
@@ -36,3 +38,4 @@ private:
 	irr::EKEY_CODE _right;
 
 };
+#endif

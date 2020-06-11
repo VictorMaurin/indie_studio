@@ -7,6 +7,7 @@
 #include <iostream>
 #include "../Mesh/Mesh.hpp"
 #include "../Event/Event.hpp"
+#include "../Player/Player.hpp"
 
 using namespace irr;
 using namespace scene;
