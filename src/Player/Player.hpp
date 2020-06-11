@@ -4,13 +4,14 @@
 #include <irrlicht.h>
 #include "driverChoice.h"
 #include "../Entity/IEntity.hpp"
+#include "../Core/Core.hpp"
 #include "../Event/Event.hpp"
 #include "../assets/assets.hpp"
 
 class Player : public IEntity
 {
 public:
-	Player(std::string meshName, std::string textureName, irr::scene::ISceneManager* smgr, irr::video::IVideoDriver* driver, irr::IrrlichtDevice* device, irr::core::array<irr::SJoystickInfo> joystickInfo, MyEventReceiver* receiver, irr::EKEY_CODE advance, irr::EKEY_CODE behind, irr::EKEY_CODE left, irr::EKEY_CODE right);
+	Player(std::string meshName, std::string textureName, std::shared_ptr<Core> core, irr::scene::ISceneManager* smgr, irr::video::IVideoDriver* driver, irr::IrrlichtDevice* device, irr::core::array<irr::SJoystickInfo> joystickInfo, MyEventReceiver* receiver, irr::EKEY_CODE advance, irr::EKEY_CODE behind, irr::EKEY_CODE left, irr::EKEY_CODE right);
 	~Player();
 	void initPlayer(std::string meshName, std::string textureName, irr::scene::ISceneManager* sceneManager, irr::video::IVideoDriver* driver);
 	void movementPlayer(irr::core::array<irr::SJoystickInfo>& joystickInfo, MyEventReceiver* receiver, const irr::f32 MOVEMENT_SPEED, const irr::f32 frameDeltaTime);
@@ -26,6 +27,7 @@ public:
 	irr::core::vector3df getScale(void) const;
 private:
 	MyEventReceiver* _receiver;
+	Core* _core;
 	irr::scene::IAnimatedMeshSceneNode* PlayerOBJ;
 	int joysticActivated;
 	irr::IrrlichtDevice* _device;
@@ -36,6 +38,5 @@ private:
 	irr::EKEY_CODE _behind;
 	irr::EKEY_CODE _left;
 	irr::EKEY_CODE _right;
-
 };
 #endif

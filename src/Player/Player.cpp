@@ -1,6 +1,6 @@
 #include "Player.hpp"
 
-Player::Player(std::string meshName, std::string textureName, irr::scene::ISceneManager* smgr, irr::video::IVideoDriver* driver, irr::IrrlichtDevice* device, irr::core::array<irr::SJoystickInfo> joystickInfo, MyEventReceiver* receiver, irr::EKEY_CODE advance, irr::EKEY_CODE behind, irr::EKEY_CODE left, irr::EKEY_CODE right)
+Player::Player(std::string meshName, std::string textureName, std::shared_ptr<Core> core, irr::scene::ISceneManager* smgr, irr::video::IVideoDriver* driver, irr::IrrlichtDevice* device, irr::core::array<irr::SJoystickInfo> joystickInfo, MyEventReceiver* receiver, irr::EKEY_CODE advance, irr::EKEY_CODE behind, irr::EKEY_CODE left, irr::EKEY_CODE right)
 {
     this->_device = device;
     this->MOVEMENT_SPEED = 5.f;
