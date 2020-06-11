@@ -1,12 +1,14 @@
 #include "Player.hpp"
-#ifdef IRR_WINDOWS
-#pragma comment(lib, "Irrlicht.lib")
-#pragma comment(linker, "/subsystem:windows /ENTRY:mainCRTStartup")
-#endif
-#include <iostream>
 
-Player::Player() : IEntity()
+Player::Player(std::string meshName, std::string textureName, irr::scene::ISceneManager* smgr, irr::video::IVideoDriver* driver, irr::IrrlichtDevice* device, irr::core::array<irr::SJoystickInfo> joystickInfo, MyEventReceiver* receiver)
 {
+    this->_device = device;
+    this->MOVEMENT_SPEED = 5.f;
+    this->then = device->getTimer()->getTime();
+    this->_joystickInfo = joystickInfo;
+    this->_receiver = receiver;
+    this->initPlayer(meshName, textureName, smgr, driver);
+    this->initJoystic(this->_joystickInfo,this->_device);
 }
 
 Player::~Player()
@@ -23,16 +25,16 @@ irr::core::vector3df Player::getPosition() const
     return (this->PlayerOBJ->getPosition());
 }
 
-void Player::initPlayer(irr::scene::ISceneManager* sceneManager, irr::video::IVideoDriver* driver)
+void Player::initPlayer(std::string meshName, std::string textureName, irr::scene::ISceneManager* sceneManager, irr::video::IVideoDriver* driver)
 {
     this->PlayerOBJ =
-        sceneManager->addAnimatedMeshSceneNode(sceneManager->getMesh("../build/assets/Bomberman.MD3"));
+        sceneManager->addAnimatedMeshSceneNode(sceneManager->getMesh(findAsset(meshName).c_str()));
     if (this->PlayerOBJ)
     {
         PlayerOBJ->setFrameLoop(0, 25);
         PlayerOBJ->setAnimationSpeed(0);
         PlayerOBJ->setMaterialFlag(irr::video::EMF_LIGHTING, false);
-        PlayerOBJ->setMaterialTexture(0, driver->getTexture("../build/assets/BlackBombermanTextures.png"));
+        PlayerOBJ->setMaterialTexture(0, driver->getTexture(findAsset(textureName).c_str()));
     }
 }
 
@@ -79,27 +81,27 @@ void Player::initJoystic(irr::core::array<irr::SJoystickInfo> &joystickInfo, irr
     //End manette
 }
 
-void Player::movementPlayerMouse(MyEventReceiver receiver, const irr::f32 MOVEMENT_SPEED, const irr::f32 frameDeltaTime)
+void Player::movementPlayerMouse(MyEventReceiver* receiver, const irr::f32 MOVEMENT_SPEED, const irr::f32 frameDeltaTime)
 {
     irr::core::vector3df nodePosition = this->getPosition();
 
     if (this->joysticActivated == 0) {
-        if (receiver.IsKeyDown(irr::KEY_KEY_S)) {
+        if (receiver->IsKeyDown(irr::KEY_KEY_S)) {
             this->PlayerOBJ->setAnimationSpeed(100);
             nodePosition.Z += MOVEMENT_SPEED * frameDeltaTime;
             this->PlayerOBJ->setRotation(irr::core::vector3df(0, 180, 0));
         }
-        else if (receiver.IsKeyDown(irr::KEY_KEY_Z)) {
+        else if (receiver->IsKeyDown(irr::KEY_KEY_Z)) {
             this->PlayerOBJ->setAnimationSpeed(100);
             nodePosition.Z -= MOVEMENT_SPEED * frameDeltaTime;
             this->PlayerOBJ->setRotation(irr::core::vector3df(0, 0, 0));
         }
-        else if (receiver.IsKeyDown(irr::KEY_KEY_D)) {
+        else if (receiver->IsKeyDown(irr::KEY_KEY_D)) {
             this->PlayerOBJ->setAnimationSpeed(100);
             nodePosition.X -= MOVEMENT_SPEED * frameDeltaTime;
             this->PlayerOBJ->setRotation(irr::core::vector3df(0, 90, 0));
         }
-        else if (receiver.IsKeyDown(irr::KEY_KEY_Q)) {
+        else if (receiver->IsKeyDown(irr::KEY_KEY_Q)) {
             this->PlayerOBJ->setAnimationSpeed(100);
             nodePosition.X += MOVEMENT_SPEED * frameDeltaTime;
             this->PlayerOBJ->setRotation(irr::core::vector3df(0, -90, 0));
@@ -112,7 +114,7 @@ void Player::movementPlayerMouse(MyEventReceiver receiver, const irr::f32 MOVEME
     }
 }
 
-void Player::movementPlayerJoystick(irr::core::array<irr::SJoystickInfo> &joystickInfo, MyEventReceiver receiver, const irr::f32 MOVEMENT_SPEED, const irr::f32 frameDeltaTime)
+void Player::movementPlayerJoystick(irr::core::array<irr::SJoystickInfo> &joystickInfo, MyEventReceiver* receiver, const irr::f32 MOVEMENT_SPEED, const irr::f32 frameDeltaTime)
 {
     // manette
     bool movedWithJoystick = false;
@@ -122,7 +124,7 @@ void Player::movementPlayerJoystick(irr::core::array<irr::SJoystickInfo> &joysti
         irr::f32 moveHorizontal = 0.f; // Range is -1.f for full left to +1.f for full right
         irr::f32 moveVertical = 0.f; // -1.f for full down to +1.f for full up.
 
-        const irr::SEvent::SJoystickEvent& joystickData = receiver.GetJoystickState();
+        const irr::SEvent::SJoystickEvent& joystickData = receiver->GetJoystickState();
         const irr::f32 DEAD_ZONE = 0.05f;
 
         if (joystickData.ButtonStates == 512)
@@ -185,63 +187,64 @@ void Player::movementPlayerJoystick(irr::core::array<irr::SJoystickInfo> &joysti
     }
 }
 
-void Player::movementPlayer(irr::core::array<irr::SJoystickInfo>& joystickInfo, MyEventReceiver receiver, const irr::f32 MOVEMENT_SPEED, const irr::f32 frameDeltaTime)
+void Player::movementPlayer(irr::core::array<irr::SJoystickInfo> &joystickInfo, MyEventReceiver* receiver, const irr::f32 MOVEMENT_SPEED, const irr::f32 frameDeltaTime)
 {
-    this->movementPlayerMouse(receiver, MOVEMENT_SPEED, frameDeltaTime);
-    this->movementPlayerJoystick(joystickInfo, receiver, MOVEMENT_SPEED, frameDeltaTime);
+    movementPlayerMouse(receiver, MOVEMENT_SPEED, frameDeltaTime);
+    movementPlayerJoystick(joystickInfo, receiver, MOVEMENT_SPEED, frameDeltaTime);
 }
 
-int main(void) {
-
-    MyEventReceiver receiver; //Pour g�r� les event keyboard
-    irr::IrrlichtDevice* device =
-    irr::createDevice(irr::video::EDT_SOFTWARE, irr::core::dimension2d<irr::u32>(640, 480), 16,
-        false, false, false, &receiver);
-    irr::core::array<irr::SJoystickInfo> joystickInfo;
-    std::unique_ptr<Player> BOT = std::make_unique<Player>();
-    BOT->initJoystic(joystickInfo, device);
-    irr::video::IVideoDriver* driver =                  // creation du driver video
-        device->getVideoDriver();
-    irr::scene::ISceneManager* sceneManager =           // creation du scene manager
-        device->getSceneManager();
-    device->getCursorControl()->setVisible(false);   // rend le curseur invisible
-    irr::SEvent event;
-    BOT->initPlayer(sceneManager, driver);
-
-    sceneManager->addCameraSceneNode(0, irr::core::vector3df(0, 5, 10), irr::core::vector3df(0, 0, 0));
-    const irr::f32 MOVEMENT_SPEED = 5.f;
-    irr::u32 then = device->getTimer()->getTime();
-
-    while (device->run())
-    {
-        const irr::u32 now = device->getTimer()->getTime();
-        const irr::f32 frameDeltaTime = (irr::f32)(now - then) / 1000.f;
-        then = now;
-        BOT->movementPlayer(joystickInfo, receiver, MOVEMENT_SPEED, frameDeltaTime);
-        driver->beginScene(true, true, irr::video::SColor(255, 100, 101, 140));
-
-        sceneManager->drawAll();
-        driver->endScene();
-    }
-    device->drop();
-
-    return 0;
-}
+//int main(void) {
+//
+//    MyEventReceiver receiver; //Pour g�r� les event keyboard
+//    irr::IrrlichtDevice* device =
+//    irr::createDevice(irr::video::EDT_SOFTWARE, irr::core::dimension2d<irr::u32>(640, 480), 16,
+//        false, false, false, &receiver);
+//    irr::core::array<irr::SJoystickInfo> joystickInfo;
+//    std::unique_ptr<Player> BOT = std::make_unique<Player>();
+//    BOT->initJoystic(joystickInfo, device);
+//    irr::video::IVideoDriver* driver =                  // creation du driver video
+//        device->getVideoDriver();
+//    irr::scene::ISceneManager* sceneManager =           // creation du scene manager
+//        device->getSceneManager();
+//    device->getCursorControl()->setVisible(false);   // rend le curseur invisible
+//    irr::SEvent event;
+//    BOT->initPlayer(sceneManager, driver);
+//
+//    sceneManager->addCameraSceneNode(0, irr::core::vector3df(0, 5, 10), irr::core::vector3df(0, 0, 0));
+//    irr::u32 then = device->getTimer()->getTime();
+//
+//    while (device->run())
+//    {
+//        const irr::u32 now = device->getTimer()->getTime();
+//        const irr::f32 frameDeltaTime = (irr::f32)(now - then) / 1000.f;
+//        then = now;
+//        BOT->movementPlayer(joystickInfo, receiver, MOVEMENT_SPEED, frameDeltaTime);
+//        driver->beginScene(true, true, irr::video::SColor(255, 100, 101, 140));
+//
+//        sceneManager->drawAll();
+//        driver->endScene();
+//    }
+//    device->drop();
+//
+//    return 0;
+//}
 
 void Player::update(void)
 {
-
+    const irr::u32 now = this->_device->getTimer()->getTime();
+    const irr::f32 frameDeltaTime = (irr::f32)(now - this->then) / 1000.f;
+    this->then = now;
+    this->movementPlayer(this->_joystickInfo, this->_receiver, this->MOVEMENT_SPEED, frameDeltaTime);
 }
 
 void Player::draw(void) const
 {
-
 }
 
 void Player::setScale(const irr::core::vector3df& scale)
 {
-    if (this->PlayerOBJ)
-        this->PlayerOBJ->setScale(scale);
+    //if (this->PlayerOBJ)
+    //    this->PlayerOBJ->setScale(scale);
 }
 
 irr::core::vector3df Player::getScale(void) const

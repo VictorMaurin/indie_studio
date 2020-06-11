@@ -7,6 +7,7 @@
 #include <iostream>
 #include "../Mesh/Mesh.hpp"
 #include "../Event/Event.hpp"
+#include "../Player/Player.hpp"
 
 using namespace irr;
 using namespace scene;
@@ -31,6 +32,7 @@ private:
     std::vector<std::shared_ptr<IEntity>> entities;
     State statement;
     MyEventReceiver *eventReceiver;
+    irr::core::array<irr::SJoystickInfo> joystickInfo;
 
 public : 
     Core(/* args */);

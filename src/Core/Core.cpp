@@ -35,7 +35,8 @@ void Core::init()
     //tmp camera
     smgr->addCameraSceneNode(0, vector3df(0,30,-40), vector3df(0,0,0));
 
-    entities.push_back(std::make_shared<Mesh>("crate3.obj", "crate3.png", smgr, driver, device)); //tmp
+    //entities.push_back(std::make_shared<Mesh>("crate3.obj", "crate3.png", smgr, driver, device));//tmp
+    entities.push_back(std::make_shared<Player>("Bomberman.MD3", "BlackBombermanTextures.png", smgr, driver, device, joystickInfo, eventReceiver));
 }
 
 const std::vector<std::shared_ptr<IEntity>> &Core::getEntities() const
@@ -88,7 +89,6 @@ void Core::run()
         frameBgnTime = std::clock();
 
         // do events
-
         //update
         for (int i = 0; i < entities.size(); i++)
         {
@@ -125,6 +125,7 @@ void Core::run()
         if (this->eventReceiver->IsKeyDown(irr::KEY_KEY_E) || this->eventReceiver->IsKeyDown(irr::KEY_ESCAPE))
             device->closeDevice();
     }
+    device->drop();
 }
 
 void Core::update_menu()
