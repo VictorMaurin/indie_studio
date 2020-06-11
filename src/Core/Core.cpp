@@ -40,7 +40,7 @@ void Core::init()
     smgr->addCameraSceneNode(0, vector3df(0,30,-40), vector3df(0,0,0));
 
     //entities.push_back(std::make_shared<Mesh>("crate3.obj", "crate3.png", smgr, driver, device));//tmp
-    //entities.push_back(std::make_shared<Player>("Bentities.push_back(std::make_shared<Player>("Bomberman.MD3", "BlackBombermanTextures.png", smgr, driver, device, joystickInfo, eventReceiver, irr::KEY_KEY_Z, irr::KEY_KEY_S, irr::KEY_KEY_Q, irr::KEY_KEY_D));omberman.MD3", "BlackBombermanTextures.png", smgr, driver, device, joystickInfo, eventReceiver, irr::KEY_KEY_Y, irr::KEY_KEY_H, irr::KEY_KEY_G, irr::KEY_KEY_J));
+    entities.push_back(std::make_shared<Player>("Bomberman.MD3", "BlackBombermanTextures.png", smgr, driver, device, joystickInfo, eventReceiver, irr::KEY_KEY_Z, irr::KEY_KEY_S, irr::KEY_KEY_Q, irr::KEY_KEY_D));
 
 }
 
@@ -150,19 +150,4 @@ void Core::update_game()
     guienv->drawAll();
     driver->endScene();
     // if return to menu --> set_menu()
-}
-
-MyEventReceiver* Core::getEventreceiver()
-{
-    return (this->eventReceiver);
-}
-
-irr::core::array<irr::SJoystickInfo> Core::getJoystickinfo()
-{
-    return (this->joystickInfo);
-}
-
-std::vector<std::shared_ptr<IEntity>> Core::getEntities()
-{
-    return (this->entities);
 }
