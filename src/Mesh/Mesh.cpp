@@ -30,7 +30,7 @@ Mesh::~Mesh()
 {
     // node->drop();
     // mesh->drop();
-    delete node;
+    node->remove();
     delete mesh;
 }
 
@@ -66,4 +66,14 @@ vector3df Mesh::getScale(void) const
     if (node)
         return (node->getScale());
     return(vector3df(-1, -1, -1));
+}
+
+irr::scene::IMesh *Mesh::getMesh() const
+{
+    return (mesh);
+}
+
+IMeshSceneNode *Mesh::getNode() const
+{
+    return (node);
 }

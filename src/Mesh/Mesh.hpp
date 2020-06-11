@@ -32,7 +32,8 @@ class Mesh : public IEntity
         vector3df getPosition(void) const;
         void setScale(const vector3df &scale);
         vector3df getScale(void) const;
-
+        IMesh *getMesh() const;
+        IMeshSceneNode *getNode() const;
     private:
         IMesh *mesh;
         IMeshSceneNode *node;
