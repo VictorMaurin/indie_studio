@@ -1,14 +1,17 @@
 #include "Player.hpp"
 
-Player::Player(std::string meshName, std::string textureName, irr::scene::ISceneManager* smgr, irr::video::IVideoDriver* driver, irr::IrrlichtDevice* device, irr::core::array<irr::SJoystickInfo> joystickInfo, MyEventReceiver* receiver,
+Player::Player(std::string meshName, std::string textureName, Core *core,
                 irr::EKEY_CODE advance, irr::EKEY_CODE behind, irr::EKEY_CODE left, irr::EKEY_CODE right)
 {
-    this->_device = device;
+    this->_core = core;
+    this->_device = core->getDevice();
     this->MOVEMENT_SPEED = 5.f;
-    this->then = device->getTimer()->getTime();
-    this->_joystickInfo = joystickInfo;
-    this->_receiver = receiver;
+    this->then = _device->getTimer()->getTime();
+    this->_joystickInfo = core->getJoystickinfo();
+    this->_receiver = core->getEventreceiver();
     this->joysticActivated = 0;
+    this->_driver = core->getDriver();
+    this->_entities = core->getEntities();
 
     //SetKeyboard
     this->_advance = advance;
@@ -16,8 +19,8 @@ Player::Player(std::string meshName, std::string textureName, irr::scene::IScene
     this->_left = left;
     this->_right = right;
 
-    this->initPlayer(meshName, textureName, smgr, driver);
-    this->initJoystic(this->_joystickInfo,this->_device);
+    this->initPlayer(meshName, textureName, core->getSmgr(), _driver);
+    this->initJoystic(this->_joystickInfo, this->_device);
 }
 
 Player::~Player()
@@ -200,6 +203,12 @@ void Player::movementPlayer(irr::core::array<irr::SJoystickInfo> &joystickInfo, 
 {
     movementPlayerMouse(receiver, MOVEMENT_SPEED, frameDeltaTime);
     movementPlayerJoystick(joystickInfo, receiver, MOVEMENT_SPEED, frameDeltaTime);
+}
+
+void Player::plantbomb()
+{
+    if (_receiver->IsKeyDown(irr::KEY_SPACE))
+        this->_entities.push_back(std::make_shared<Bomb>(this->_core, this->getPosition()));
 }
 
 //int main(void) {
