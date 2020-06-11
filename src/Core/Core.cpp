@@ -16,10 +16,14 @@ Core::~Core()
 
 void Core::init()
 {
+    video::E_DRIVER_TYPE driverType = driverChoiceConsole();
+    if (driverType == video::EDT_COUNT)
+        throw("Problem in driver");
+
     this->eventReceiver = new MyEventReceiver();
     statement = State::NOTHING;
     //create device
-    device = createDevice(EDT_OPENGL,
+    device = createDevice(driverType,
     dimension2d<u32>(640, 480), 16, false, false, false, eventReceiver);
     if (!device)
         throw("Problem in device");
@@ -35,8 +39,10 @@ void Core::init()
     //tmp camera
     smgr->addCameraSceneNode(0, vector3df(0,30,-40), vector3df(0,0,0));
 
-    //entities.push_back(std::make_shared<Mesh>("crate3.obj", "crate3.png", smgr, driver, device));//tmp
-    entities.push_back(std::make_shared<Player>("Bomberman.MD3", "BlackBombermanTextures.png", smgr, driver, device, joystickInfo, eventReceiver));
+    entities.push_back(std::make_shared<Mesh>("crate3.obj", "crate3.png", smgr, driver, device));//tmp
+    //entities.push_back(std::make_shared<Player>("Bomberman.MD3", "BlackBombermanTextures.png", smgr, driver, device, joystickInfo, eventReceiver, irr::KEY_KEY_Z, irr::KEY_KEY_S, irr::KEY_KEY_Q, irr::KEY_KEY_D));
+    //entities.push_back(std::make_shared<Player>("Bomberman.MD3", "BlackBombermanTextures.png", smgr, driver, device, joystickInfo, eventReceiver, irr::KEY_KEY_Y, irr::KEY_KEY_H, irr::KEY_KEY_G, irr::KEY_KEY_J));
+
 }
 
 const std::vector<std::shared_ptr<IEntity>> &Core::getEntities() const
