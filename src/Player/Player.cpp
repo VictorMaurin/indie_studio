@@ -168,23 +168,23 @@ void Player::movementPlayerJoystick(irr::core::array<irr::SJoystickInfo> &joysti
                 std::cout << moveHorizontal << std::endl;
                 if (moveHorizontal < 0) {
                     this->PlayerOBJ->setAnimationSpeed(100);
-                    nodePosition.X -= MOVEMENT_SPEED * frameDeltaTime * moveHorizontal;
-                    this->PlayerOBJ->setRotation(irr::core::vector3df(0, -90, 0));
+                    nodePosition.X += MOVEMENT_SPEED * frameDeltaTime * moveHorizontal;
+                    this->PlayerOBJ->setRotation(irr::core::vector3df(0, 90, 0));
                 }
                 else if (moveHorizontal > 0) {
                     this->PlayerOBJ->setAnimationSpeed(100);
-                    nodePosition.X -= MOVEMENT_SPEED * frameDeltaTime * moveHorizontal;
-                    this->PlayerOBJ->setRotation(irr::core::vector3df(0, 90, 0));
+                    nodePosition.X += MOVEMENT_SPEED * frameDeltaTime * moveHorizontal;
+                    this->PlayerOBJ->setRotation(irr::core::vector3df(0, -90, 0));
                 }
                 else if (moveVertical > 0) {
                     this->PlayerOBJ->setAnimationSpeed(100);
-                    nodePosition.Z -= MOVEMENT_SPEED * frameDeltaTime * moveVertical;
-                    this->PlayerOBJ->setRotation(irr::core::vector3df(0, 0, 0));
+                    nodePosition.Z += MOVEMENT_SPEED * frameDeltaTime * moveVertical;
+                    this->PlayerOBJ->setRotation(irr::core::vector3df(0, 180, 0));
                 }
                 else if (moveVertical < 0) {
                     this->PlayerOBJ->setAnimationSpeed(100);
-                    nodePosition.Z -= MOVEMENT_SPEED * frameDeltaTime * moveVertical;
-                    this->PlayerOBJ->setRotation(irr::core::vector3df(0, 180, 0));
+                    nodePosition.Z += MOVEMENT_SPEED * frameDeltaTime * moveVertical;
+                    this->PlayerOBJ->setRotation(irr::core::vector3df(0, 0, 0));
                 }
                 movedWithJoystick = true;
             }
