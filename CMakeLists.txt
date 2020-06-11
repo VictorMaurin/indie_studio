@@ -1,4 +1,4 @@
-# CMakeList.txt : fichier projet CMake de niveau supérieur, effectuez une configuration globale
+﻿# CMakeList.txt : fichier projet CMake de niveau supérieur, effectuez une configuration globale
 # et incluez les sous-projets ici.
 #
 cmake_minimum_required(VERSION 3.10)
@@ -32,7 +32,7 @@ if (UNIX)
 	add_executable(bomberman
         ./src/Core/Core.cpp
         ./src/Mesh/Mesh.cpp
-        ./src/bomb/Bomb.cpp
+        ./src/Bomb/Bomb.cpp
         ./assets/find_asset.cpp
  ./src/main.cpp)
 
