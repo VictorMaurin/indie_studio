@@ -2,36 +2,34 @@
 
 Bomb::Bomb(Core core, Player player)
 {
-    driver = core.getDriver();
     device = core.getDevice();
+    driver = core.getDriver();
     smgr = core.getSmgr();
-    this->then = device->getTimer()->getTime();
-    mesh = smgr->getMesh("../../assets/bomb.obj");
-    if (!mesh) {
-        device->drop();
-        throw "device drop";
-    }
-    node = smgr->addMeshSceneNode(mesh);
-    if (node) {
-        node->setMaterialFlag(EMF_LIGHTING, false);
-        node->setMaterialTexture(0, driver->getTexture("../../assets/bombbody_BaseColor.png"));
-    }
-    // pos = player.getPos();
+    std::unique_ptr<Mesh> mesh = std::make_unique<Mesh>(
+        "bomb.obj", "bombbody_BaseColor.png",
+        smgr, driver, device);
+    mesh->setPosition(player.getPosition());
 }
 
 Bomb::~Bomb()
 {
 }
 
+void Bomb::createExplodeCube()
+{
+
+    
+}
+
 void Bomb::explode()
 {
-    
+    createExplodeCube();
 }
 
 void Bomb::update(void)
 {
     now = device->getTimer()->getTime();
-    if (now - then > 3) {
+    if (now / 1000 >= 3) {
         explode();
     }
 }

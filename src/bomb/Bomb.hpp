@@ -3,6 +3,7 @@
 
 #include "../Core/Core.hpp"
 #include "../Player/Player.hpp"
+#include "../Mesh/Mesh.hpp"
 #include "irrlicht.h"
 using namespace irr;
 using namespace scene;
@@ -15,7 +16,6 @@ using namespace core;
 class Bomb : public IEntity
 {
 private:
-    u32 then;
     IVideoDriver *driver;
     IrrlichtDevice *device;
     ISceneManager *smgr;
@@ -23,9 +23,12 @@ private:
     IMeshSceneNode *node;
     vector3df pos;
     u32 now;
-public :
+    IParticleEmitter *em;
+    IParticleAffector *paf;
+public : 
     Bomb(Core core, Player player);
     ~Bomb();
+    void createExplodeCube();
     void update(void);
     void draw(void) const;
     void explode();
