@@ -1,12 +1,21 @@
 #include "Player.hpp"
 
-Player::Player(std::string meshName, std::string textureName, irr::scene::ISceneManager* smgr, irr::video::IVideoDriver* driver, irr::IrrlichtDevice* device, irr::core::array<irr::SJoystickInfo> joystickInfo, MyEventReceiver* receiver)
+Player::Player(std::string meshName, std::string textureName, irr::scene::ISceneManager* smgr, irr::video::IVideoDriver* driver, irr::IrrlichtDevice* device, irr::core::array<irr::SJoystickInfo> joystickInfo, MyEventReceiver* receiver,
+                irr::EKEY_CODE advance, irr::EKEY_CODE behind, irr::EKEY_CODE left, irr::EKEY_CODE right)
 {
     this->_device = device;
     this->MOVEMENT_SPEED = 5.f;
     this->then = device->getTimer()->getTime();
     this->_joystickInfo = joystickInfo;
     this->_receiver = receiver;
+    this->joysticActivated = 0;
+
+    //SetKeyboard
+    this->_advance = advance;
+    this->_behind = behind;
+    this->_left = left;
+    this->_right = right;
+
     this->initPlayer(meshName, textureName, smgr, driver);
     this->initJoystic(this->_joystickInfo,this->_device);
 }
@@ -86,22 +95,22 @@ void Player::movementPlayerMouse(MyEventReceiver* receiver, const irr::f32 MOVEM
     irr::core::vector3df nodePosition = this->getPosition();
 
     if (this->joysticActivated == 0) {
-        if (receiver->IsKeyDown(irr::KEY_KEY_S)) {
+        if (receiver->IsKeyDown(this->_advance)) {
             this->PlayerOBJ->setAnimationSpeed(100);
             nodePosition.Z += MOVEMENT_SPEED * frameDeltaTime;
             this->PlayerOBJ->setRotation(irr::core::vector3df(0, 180, 0));
         }
-        else if (receiver->IsKeyDown(irr::KEY_KEY_Z)) {
+        else if (receiver->IsKeyDown(this->_behind)) {
             this->PlayerOBJ->setAnimationSpeed(100);
             nodePosition.Z -= MOVEMENT_SPEED * frameDeltaTime;
             this->PlayerOBJ->setRotation(irr::core::vector3df(0, 0, 0));
         }
-        else if (receiver->IsKeyDown(irr::KEY_KEY_D)) {
+        else if (receiver->IsKeyDown(this->_left)) {
             this->PlayerOBJ->setAnimationSpeed(100);
             nodePosition.X -= MOVEMENT_SPEED * frameDeltaTime;
             this->PlayerOBJ->setRotation(irr::core::vector3df(0, 90, 0));
         }
-        else if (receiver->IsKeyDown(irr::KEY_KEY_Q)) {
+        else if (receiver->IsKeyDown(this->_right)) {
             this->PlayerOBJ->setAnimationSpeed(100);
             nodePosition.X += MOVEMENT_SPEED * frameDeltaTime;
             this->PlayerOBJ->setRotation(irr::core::vector3df(0, -90, 0));
@@ -243,8 +252,8 @@ void Player::draw(void) const
 
 void Player::setScale(const irr::core::vector3df& scale)
 {
-    //if (this->PlayerOBJ)
-    //    this->PlayerOBJ->setScale(scale);
+    if (this->PlayerOBJ)
+        this->PlayerOBJ->setScale(scale);
 }
 
 irr::core::vector3df Player::getScale(void) const

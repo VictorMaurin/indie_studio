@@ -8,7 +8,8 @@ class Player : public IEntity
 {
 public:
 	//Player() {};
-	Player(std::string meshName, std::string textureName, irr::scene::ISceneManager* smgr, irr::video::IVideoDriver* driver, irr::IrrlichtDevice* device, irr::core::array<irr::SJoystickInfo> joystickInfo, MyEventReceiver* receiver);
+	Player(std::string meshName, std::string textureName, irr::scene::ISceneManager* smgr, irr::video::IVideoDriver* driver, irr::IrrlichtDevice* device, irr::core::array<irr::SJoystickInfo> joystickInfo, MyEventReceiver* receiver,
+		irr::EKEY_CODE advance, irr::EKEY_CODE behind, irr::EKEY_CODE left, irr::EKEY_CODE right);
 	~Player();
 	void initPlayer(std::string meshName, std::string textureName, irr::scene::ISceneManager* sceneManager, irr::video::IVideoDriver* driver);
 	void movementPlayer(irr::core::array<irr::SJoystickInfo>& joystickInfo, MyEventReceiver* receiver, const irr::f32 MOVEMENT_SPEED, const irr::f32 frameDeltaTime);
@@ -30,5 +31,9 @@ private:
 	irr::f32 MOVEMENT_SPEED;
 	irr::u32 then;
 	irr::core::array<irr::SJoystickInfo> _joystickInfo;
+	irr::EKEY_CODE _advance;
+	irr::EKEY_CODE _behind;
+	irr::EKEY_CODE _left;
+	irr::EKEY_CODE _right;
 
 };
