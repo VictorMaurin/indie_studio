@@ -1,11 +1,15 @@
-#include <iostream>
-#include "../assets/assets.hpp"
-#include "Wall.hpp"
+/*
+** EPITECH PROJECT, 2020
+** OOP_indie_studio_2019
+** File description:
+** Mesh
+*/
 
-Wall::Wall(ISceneManager *smgr, IVideoDriver *driver, IrrlichtDevice *device)
+#include "Mesh.hpp"
+
+Mesh::Mesh(std::string meshName, std::string textureName, ISceneManager *smgr, IVideoDriver *driver, IrrlichtDevice *device)
 {
-    std::cout << findAsset("crate3.obj") << std::endl;
-    mesh = smgr->getMesh(findAsset("crate3.obj").c_str());
+    mesh = smgr->getMesh(findAsset(meshName).c_str());
     if (!mesh)
     {
         device->drop();
@@ -14,7 +18,7 @@ Wall::Wall(ISceneManager *smgr, IVideoDriver *driver, IrrlichtDevice *device)
     node = smgr->addMeshSceneNode(mesh);
     if (node)
     {
-        node->setMaterialTexture( 0, driver->getTexture(findAsset("crate3.png").c_str()) );
+        node->setMaterialTexture( 0, driver->getTexture(findAsset(textureName).c_str()) );
         node->setScale(vector3d<float>(30.0f, 30.0f, 30.0f));
         ISceneNodeAnimator* anim = smgr->createRotationAnimator(vector3df(0,0.1f,0));
         node->addAnimator(anim);
@@ -22,42 +26,42 @@ Wall::Wall(ISceneManager *smgr, IVideoDriver *driver, IrrlichtDevice *device)
     }
 }
 
-Wall::~Wall()
+Mesh::~Mesh()
 {
+    // node->drop();
+    // mesh->drop();
     delete node;
     delete mesh;
 }
 
-void Wall::update(void)
+void Mesh::update(void)
 {
-
 }
 
-void Wall::draw(void) const
+void Mesh::draw(void) const
 {
-
 }
 
-void Wall::setPosition(const vector3df &pos)
+void Mesh::setPosition(const vector3df &pos)
 {
     if (node)
         node->setPosition(pos);
 }
 
-vector3df Wall::getPosition(void) const
+vector3df Mesh::getPosition(void) const
 {
     if (node)
         return (node->getPosition());
     return(vector3df(0, 0, 0));
 }
 
-void Wall::setScale(const vector3df &scale)
+void Mesh::setScale(const vector3df &scale)
 {
     if (node)
         node->setScale(scale);
 }
 
-vector3df Wall::getScale(void) const
+vector3df Mesh::getScale(void) const
 {
     if (node)
         return (node->getScale());

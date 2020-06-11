@@ -5,7 +5,8 @@
 #include <ctime>
 #include <cmath>
 #include <iostream>
-#include "../Wall/Wall.hpp"
+#include "../Mesh/Mesh.hpp"
+#include "../Event/Event.hpp"
 
 using namespace irr;
 using namespace scene;
@@ -29,6 +30,7 @@ private:
     IrrlichtDevice *device;
     std::vector<std::shared_ptr<IEntity>> entities;
     State statement;
+    MyEventReceiver *eventReceiver;
 
 public : 
     Core(/* args */);
@@ -36,7 +38,6 @@ public :
     void run();
     void init();
     const std::vector<std::shared_ptr<IEntity>> &getEntities() const;
-    void loop();
     void set_menu();
     void set_game();
     void update_menu();

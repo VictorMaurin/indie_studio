@@ -13,6 +13,9 @@ if (APPLE)
 	find_package(OPENGL)
 	find_library(COCOA_LIBRARY Cocoa)
 	find_library(IOKIT IOKit)
+        find_library(FOUNDATION Foundation)
+        find_library(CARBON Carbon)
+        find_library(APPKIT AppKit)
 endif (APPLE)
 
 if (UNIX)
@@ -28,9 +31,8 @@ if (UNIX)
 	link_directories(Irrlicht) #link vers le .a
 	add_executable(bomberman
         ./src/Core/Core.cpp
-        ./src/Wall/Wall.cpp
+        ./src/Mesh/Mesh.cpp
         ./src/bomb/Bomb.cpp
-        ./src/Player/Player.cpp
         ./assets/find_asset.cpp
  ./src/main.cpp)
 
@@ -38,7 +40,7 @@ if (UNIX)
 endif()
 
 if (APPLE)
-target_link_libraries(bomberman ${OPENGL_LIBRARY} ${COCOA_LIBRARY} ${IOKIT} Irrlicht)
+        target_link_libraries(bomberman ${OPENGL_LIBRARY} ${COCOA_LIBRARY} ${IOKIT} ${FOUNDATION} ${CARBON} ${APPKIT} Irrlicht)
 endif (APPLE)
 
 if (WIN32)

@@ -36,38 +36,6 @@ void Player::initPlayer(irr::scene::ISceneManager* sceneManager, irr::video::IVi
     }
 }
 
-void Player::movementPlayer(MyEventReceiver receiver, const irr::f32 MOVEMENT_SPEED, const irr::f32 frameDeltaTime)
-{
-    irr::core::vector3df nodePosition = this->getPosition();
-
-    if (receiver.IsKeyDown(irr::KEY_KEY_S)) {
-        this->PlayerOBJ->setAnimationSpeed(100);
-        nodePosition.Z += MOVEMENT_SPEED * frameDeltaTime;
-        this->PlayerOBJ->setRotation(irr::core::vector3df(0, 180, 0));
-    }
-    else if (receiver.IsKeyDown(irr::KEY_KEY_Z)) {
-        this->PlayerOBJ->setAnimationSpeed(100);
-        nodePosition.Z -= MOVEMENT_SPEED * frameDeltaTime;
-        this->PlayerOBJ->setRotation(irr::core::vector3df(0, 0, 0));
-    }
-    else if (receiver.IsKeyDown(irr::KEY_KEY_D)) {
-        this->PlayerOBJ->setAnimationSpeed(100);
-        nodePosition.X -= MOVEMENT_SPEED * frameDeltaTime;
-        this->PlayerOBJ->setRotation(irr::core::vector3df(0, 90, 0));
-    }
-    else if (receiver.IsKeyDown(irr::KEY_KEY_Q)) {
-        this->PlayerOBJ->setAnimationSpeed(100);
-        nodePosition.X += MOVEMENT_SPEED * frameDeltaTime;
-        this->PlayerOBJ->setRotation(irr::core::vector3df(0, -90, 0));
-    }
-    else {
-        //BOT->setRotation(irr::core::vector3df(0, 0, 0));
-        this->PlayerOBJ->setAnimationSpeed(0);
-        this->PlayerOBJ->setFrameLoop(0, 25);
-    }
-    this->setPosition(nodePosition);
-}
-
 void Player::initJoystic(irr::core::array<irr::SJoystickInfo> &joystickInfo, irr::IrrlichtDevice* device)
 {
     if (device->activateJoysticks(joystickInfo))
@@ -111,6 +79,39 @@ void Player::initJoystic(irr::core::array<irr::SJoystickInfo> &joystickInfo, irr
     //End manette
 }
 
+void Player::movementPlayerMouse(MyEventReceiver receiver, const irr::f32 MOVEMENT_SPEED, const irr::f32 frameDeltaTime)
+{
+    irr::core::vector3df nodePosition = this->getPosition();
+
+    if (this->joysticActivated == 0) {
+        if (receiver.IsKeyDown(irr::KEY_KEY_S)) {
+            this->PlayerOBJ->setAnimationSpeed(100);
+            nodePosition.Z += MOVEMENT_SPEED * frameDeltaTime;
+            this->PlayerOBJ->setRotation(irr::core::vector3df(0, 180, 0));
+        }
+        else if (receiver.IsKeyDown(irr::KEY_KEY_Z)) {
+            this->PlayerOBJ->setAnimationSpeed(100);
+            nodePosition.Z -= MOVEMENT_SPEED * frameDeltaTime;
+            this->PlayerOBJ->setRotation(irr::core::vector3df(0, 0, 0));
+        }
+        else if (receiver.IsKeyDown(irr::KEY_KEY_D)) {
+            this->PlayerOBJ->setAnimationSpeed(100);
+            nodePosition.X -= MOVEMENT_SPEED * frameDeltaTime;
+            this->PlayerOBJ->setRotation(irr::core::vector3df(0, 90, 0));
+        }
+        else if (receiver.IsKeyDown(irr::KEY_KEY_Q)) {
+            this->PlayerOBJ->setAnimationSpeed(100);
+            nodePosition.X += MOVEMENT_SPEED * frameDeltaTime;
+            this->PlayerOBJ->setRotation(irr::core::vector3df(0, -90, 0));
+        }
+        else {
+            if (this->joysticActivated == 0)
+                this->PlayerOBJ->setFrameLoop(0, 25);
+        }
+    this->setPosition(nodePosition);
+    }
+}
+
 void Player::movementPlayerJoystick(irr::core::array<irr::SJoystickInfo> &joystickInfo, MyEventReceiver receiver, const irr::f32 MOVEMENT_SPEED, const irr::f32 frameDeltaTime)
 {
     // manette
@@ -124,38 +125,70 @@ void Player::movementPlayerJoystick(irr::core::array<irr::SJoystickInfo> &joysti
         const irr::SEvent::SJoystickEvent& joystickData = receiver.GetJoystickState();
         const irr::f32 DEAD_ZONE = 0.05f;
 
-        moveHorizontal =
-            (irr::f32)joystickData.Axis[irr::SEvent::SJoystickEvent::AXIS_X] / 32767.f;
-        if (fabs(moveHorizontal) < DEAD_ZONE)
-            moveHorizontal = 0.f;
+        if (joystickData.ButtonStates == 512)
+            this->joysticActivated = 1;
+        else if (joystickData.ButtonStates == 256)
+            this->joysticActivated = 0;
 
-        moveVertical =
-            (irr::f32)joystickData.Axis[irr::SEvent::SJoystickEvent::AXIS_Y] / -32767.f;
-        if (fabs(moveVertical) < DEAD_ZONE)
-            moveVertical = 0.f;
-        const irr::u16 povDegrees = joystickData.POV / 100;
-        if (povDegrees < 360)
-        {
-            if (povDegrees > 0 && povDegrees < 180)
-                moveHorizontal = 1.f;
-            else if (povDegrees > 180)
-                moveHorizontal = -1.f;
+        if (this->joysticActivated == 1) {
+            moveHorizontal =
+                (irr::f32)joystickData.Axis[irr::SEvent::SJoystickEvent::AXIS_X] / 32767.f;
+            if (fabs(moveHorizontal) < DEAD_ZONE)
+                moveHorizontal = 0.f;
+            moveVertical =
+                (irr::f32)joystickData.Axis[irr::SEvent::SJoystickEvent::AXIS_Y] / -32767.f;
+            if (fabs(moveVertical) < DEAD_ZONE)
+                moveVertical = 0.f;
+            const irr::u16 povDegrees = joystickData.POV / 100;
+            if (povDegrees < 360)
+            {
+                if (povDegrees > 0 && povDegrees < 180)
+                    moveHorizontal = 1.f;
+                else if (povDegrees > 180)
+                    moveHorizontal = -1.f;
 
-            if (povDegrees > 90 && povDegrees < 270)
-                moveVertical = -1.f;
-            else if (povDegrees > 270 || povDegrees < 90)
-                moveVertical = +1.f;
+                if (povDegrees > 90 && povDegrees < 270)
+                    moveVertical = -1.f;
+                else if (povDegrees > 270 || povDegrees < 90)
+                    moveVertical = +1.f;
+            }
+            if (!irr::core::equals(moveHorizontal, 0.f) || !irr::core::equals(moveVertical, 0.f))
+            {
+                std::cout << moveHorizontal << std::endl;
+                if (moveHorizontal < 0) {
+                    this->PlayerOBJ->setAnimationSpeed(100);
+                    nodePosition.X -= MOVEMENT_SPEED * frameDeltaTime * moveHorizontal;
+                    this->PlayerOBJ->setRotation(irr::core::vector3df(0, -90, 0));
+                }
+                else if (moveHorizontal > 0) {
+                    this->PlayerOBJ->setAnimationSpeed(100);
+                    nodePosition.X -= MOVEMENT_SPEED * frameDeltaTime * moveHorizontal;
+                    this->PlayerOBJ->setRotation(irr::core::vector3df(0, 90, 0));
+                }
+                else if (moveVertical > 0) {
+                    this->PlayerOBJ->setAnimationSpeed(100);
+                    nodePosition.Z -= MOVEMENT_SPEED * frameDeltaTime * moveVertical;
+                    this->PlayerOBJ->setRotation(irr::core::vector3df(0, 0, 0));
+                }
+                else if (moveVertical < 0) {
+                    this->PlayerOBJ->setAnimationSpeed(100);
+                    nodePosition.Z -= MOVEMENT_SPEED * frameDeltaTime * moveVertical;
+                    this->PlayerOBJ->setRotation(irr::core::vector3df(0, 180, 0));
+                }
+                movedWithJoystick = true;
+            }
+            else {
+                this->PlayerOBJ->setFrameLoop(0, 25);
+            }
         }
-
-        if (!irr::core::equals(moveHorizontal, 0.f) || !irr::core::equals(moveVertical, 0.f))
-        {
-            nodePosition.X += MOVEMENT_SPEED * frameDeltaTime * moveHorizontal;
-            nodePosition.Y += MOVEMENT_SPEED * frameDeltaTime * moveVertical;
-            movedWithJoystick = true;
-        }
-    }
     this->PlayerOBJ->setPosition(nodePosition);
-    //manette end
+    }
+}
+
+void Player::movementPlayer(irr::core::array<irr::SJoystickInfo>& joystickInfo, MyEventReceiver receiver, const irr::f32 MOVEMENT_SPEED, const irr::f32 frameDeltaTime)
+{
+    this->movementPlayerMouse(receiver, MOVEMENT_SPEED, frameDeltaTime);
+    this->movementPlayerJoystick(joystickInfo, receiver, MOVEMENT_SPEED, frameDeltaTime);
 }
 
 int main(void) {
@@ -184,12 +217,10 @@ int main(void) {
         const irr::u32 now = device->getTimer()->getTime();
         const irr::f32 frameDeltaTime = (irr::f32)(now - then) / 1000.f;
         then = now;
-        BOT->movementPlayerJoystick(joystickInfo, receiver, MOVEMENT_SPEED, frameDeltaTime);
-        BOT->movementPlayer(receiver, MOVEMENT_SPEED, frameDeltaTime);
+        BOT->movementPlayer(joystickInfo, receiver, MOVEMENT_SPEED, frameDeltaTime);
         driver->beginScene(true, true, irr::video::SColor(255, 100, 101, 140));
 
         sceneManager->drawAll();
-
         driver->endScene();
     }
     device->drop();
