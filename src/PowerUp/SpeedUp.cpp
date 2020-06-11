@@ -12,7 +12,6 @@ SpeedUp::~SpeedUp()
 
 void SpeedUp::setPosition(const irr::core::vector3df &pos)
 {
-    pos = pos;
 }
 
 irr::core::vector3df SpeedUp::getPosition() const

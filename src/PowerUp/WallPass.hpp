@@ -3,13 +3,22 @@
 
 #include "IPowerUp.hpp"
 
-class WallPass : public IEntity : public IPowerUp
+class WallPass : public IEntity, public IPowerUp
 {
 private:
     vector3df pos;
 public:
     WallPass(/* args */);
     ~WallPass();
+    void update(void);
+    void draw(void) const;
+
+    void setPosition(const vector3df &pos);
+    vector3df getPosition(void) const;
+    void setScale(const vector3df &scale);
+    vector3df getScale(void) const;
+    IMesh *getMesh() const;
+    IMeshSceneNode *getNode() const;
 };
 
 #endif

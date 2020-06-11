@@ -10,7 +10,7 @@ FireUp::~FireUp()
 
 }
 
-void FireUp::setPosition(const irr::core::vector3df &pos)
+void FireUp::setPosition(const vector3df &pos)
 {
     pos = pos;
 }
