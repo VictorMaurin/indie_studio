@@ -41,7 +41,7 @@ void Core::init()
 
     std::cout << "balalalal: " << this << "/" << std::endl;
     //entities.push_back(std::make_shared<Mesh>("crate3.obj", "crate3.png", smgr, driver, device));//tmp
-    entities.push_back(std::make_shared<Player>("Bomberman.MD3", "BlackBombermanTextures.png", *this, smgr, driver, device, joystickInfo, eventReceiver, irr::KEY_KEY_Z, irr::KEY_KEY_S, irr::KEY_KEY_Q, irr::KEY_KEY_D));
+    entities.push_back(std::make_shared<Player>("Bomberman.MD3", "BlackBombermanTextures.png", this, smgr, driver, device, joystickInfo, eventReceiver, irr::KEY_KEY_Z, irr::KEY_KEY_S, irr::KEY_KEY_Q, irr::KEY_KEY_D));
 
 }
 
