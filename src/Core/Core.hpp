@@ -7,7 +7,6 @@
 #include <iostream>
 #include "../Mesh/Mesh.hpp"
 #include "../Event/Event.hpp"
-#include "../Player/Player.hpp"
 
 using namespace irr;
 using namespace scene;
@@ -47,9 +46,6 @@ public :
     IVideoDriver *getDriver() const;
     ISceneManager *getSmgr() const;
     IrrlichtDevice *getDevice() const;
-    MyEventReceiver* getEventreceiver();
-    irr::core::array<irr::SJoystickInfo> getJoystickinfo();
-    std::vector<std::shared_ptr<IEntity>> getEntities();
 };
 
 #endif
