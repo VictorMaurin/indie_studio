@@ -204,7 +204,7 @@ void Player::movementPlayer(irr::core::array<irr::SJoystickInfo> &joystickInfo, 
 
 void Player::plantBomb()
 {
-    if (this->_receiver->IsKeyDown(irr::KEY_SPACE))
+    if (this->_receiver->IsKeyDown(irr::KEY_SPACE) || this->_receiver->GetJoystickState().ButtonStates == 2)
         this->_core->getEntities()->push_back(std::make_shared<Bomb>(this->_core, this->getPosition()));
 }
 
