@@ -2,7 +2,7 @@
 
 Player::Player(std::string meshName, std::string textureName, Core *core, irr::scene::ISceneManager* smgr, irr::video::IVideoDriver* driver, irr::IrrlichtDevice* device, irr::core::array<irr::SJoystickInfo> joystickInfo, MyEventReceiver* receiver, irr::EKEY_CODE advance, irr::EKEY_CODE behind, irr::EKEY_CODE left, irr::EKEY_CODE right)
 {
-    // this->_core = core;
+    this->_core = core;
     this->_device = device;
     this->MOVEMENT_SPEED = 5.f;
     this->then = device->getTimer()->getTime();
@@ -90,7 +90,7 @@ void Player::initJoystic(irr::core::array<irr::SJoystickInfo> &joystickInfo, irr
     //End manette
 }
 
-void Player::movementPlayerMouse(MyEventReceiver* receiver, const irr::f32 MOVEMENT_SPEED, const irr::f32 frameDeltaTime)
+void Player::movementPlayerKeyBoard(MyEventReceiver* receiver, const irr::f32 MOVEMENT_SPEED, const irr::f32 frameDeltaTime)
 {
     irr::core::vector3df nodePosition = this->getPosition();
 
@@ -198,8 +198,14 @@ void Player::movementPlayerJoystick(irr::core::array<irr::SJoystickInfo> &joysti
 
 void Player::movementPlayer(irr::core::array<irr::SJoystickInfo> &joystickInfo, MyEventReceiver* receiver, const irr::f32 MOVEMENT_SPEED, const irr::f32 frameDeltaTime)
 {
-    movementPlayerMouse(receiver, MOVEMENT_SPEED, frameDeltaTime);
+    movementPlayerKeyBoard(receiver, MOVEMENT_SPEED, frameDeltaTime);
     movementPlayerJoystick(joystickInfo, receiver, MOVEMENT_SPEED, frameDeltaTime);
+}
+
+void Player::plantBomb()
+{
+    if (this->_receiver->IsKeyDown(irr::KEY_SPACE))
+        this->_core->getEntities().push_back(std::make_shared<Bomb>(this->_core, this->getPosition()));
 }
 
 //int main(void) {
@@ -244,6 +250,7 @@ void Player::update(void)
     const irr::f32 frameDeltaTime = (irr::f32)(now - this->then) / 1000.f;
     this->then = now;
     this->movementPlayer(this->_joystickInfo, this->_receiver, this->MOVEMENT_SPEED, frameDeltaTime);
+    this->plantBomb();
 }
 
 void Player::draw(void) const

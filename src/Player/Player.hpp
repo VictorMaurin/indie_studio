@@ -22,7 +22,8 @@ public:
 	void movementPlayer(irr::core::array<irr::SJoystickInfo>& joystickInfo, MyEventReceiver* receiver, const irr::f32 MOVEMENT_SPEED, const irr::f32 frameDeltaTime);
 	void initJoystic(irr::core::array<irr::SJoystickInfo> &joystickInfo, irr::IrrlichtDevice* device);
 	void movementPlayerJoystick(irr::core::array<irr::SJoystickInfo> &joystickInfo, MyEventReceiver* receiver, const irr::f32 MOVEMENT_SPEED, const irr::f32 frameDeltaTime);
-	void movementPlayerMouse(MyEventReceiver* receiver, const irr::f32 MOVEMENT_SPEED, const irr::f32 frameDeltaTime);
+	void movementPlayerKeyBoard(MyEventReceiver* receiver, const irr::f32 MOVEMENT_SPEED, const irr::f32 frameDeltaTime);
+	void plantBomb();
 
 	void update(void);
 	void draw(void) const;
@@ -32,7 +33,7 @@ public:
 	irr::core::vector3df getScale(void) const;
 private:
 	MyEventReceiver* _receiver;
-	std::shared_ptr<Core> _core;
+	Core* _core;
 	irr::scene::IAnimatedMeshSceneNode* PlayerOBJ;
 	int joysticActivated;
 	irr::IrrlichtDevice* _device;
