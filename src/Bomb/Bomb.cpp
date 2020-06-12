@@ -40,12 +40,22 @@ void Bomb::draw(void) const
 {
 }
 
-void Bomb::setPos(const irr::core::vector3df pos)
+void Bomb::setPosition(const irr::core::vector3df &pos)
 {
     node->setPosition(pos);
 }
 
-vector3df Bomb::getPos(void) const
+irr::core::vector3df Bomb::getPosition() const
 {
     return (node->getPosition());
+}
+
+void Bomb::setScale(const irr::core::vector3df &scale)
+{
+    node->setScale(scale);
+}
+
+irr::core::vector3df Bomb::getScale() const
+{
+    return (node->getScale());
 }

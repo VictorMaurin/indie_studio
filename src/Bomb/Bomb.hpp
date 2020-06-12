@@ -36,8 +36,11 @@ public :
     void update(void);
     void draw(void) const;
     void explode();
-    void setPos(const irr::core::vector3df pos);
-    vector3df getPos(void) const;
+
+    void setPosition(const irr::core::vector3df &pos);
+    irr::core::vector3df getPosition(void) const;
+    void setScale(const irr::core::vector3df &scale);
+    irr::core::vector3df getScale(void) const;
 };
 
 #endif
