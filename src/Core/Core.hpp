@@ -5,8 +5,10 @@
 #include <ctime>
 #include <cmath>
 #include <iostream>
+#include "irrlicht.h"
 #include "../Mesh/Mesh.hpp"
 #include "../Event/Event.hpp"
+#include "../Map/Map.hpp"
 
 using namespace irr;
 using namespace scene;
@@ -28,16 +30,17 @@ private:
     ISceneManager *smgr;
     IGUIEnvironment *guienv;
     IrrlichtDevice *device;
-    std::vector<std::shared_ptr<IEntity>> entities;
+    std::shared_ptr<std::vector<std::shared_ptr<IEntity>>> entities;
     State statement;
     MyEventReceiver *eventReceiver;
+    Map *map;
 
 public : 
     Core(/* args */);
     ~Core();
     void run();
     void init();
-    const std::vector<std::shared_ptr<IEntity>> &getEntities() const;
+    const std::shared_ptr<std::vector<std::shared_ptr<IEntity>>> &getEntities() const;
     void set_menu();
     void set_game();
     void update_menu();

@@ -6,6 +6,8 @@
 int main()
 {
     Core core;
+
+    srand(time(0));
     try
     {
         core.init();

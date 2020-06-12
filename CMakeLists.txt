@@ -34,6 +34,8 @@ if (UNIX)
         ./src/Mesh/Mesh.cpp
         ./src/bomb/Bomb.cpp
         ./assets/find_asset.cpp
+        ./src/Map/Map.cpp
+        ./src/Breakable/Breakable.cpp
  ./src/main.cpp)
 
  target_link_libraries(bomberman ${irrlicht})

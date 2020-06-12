@@ -8,6 +8,8 @@
 #ifndef ASSETS_H_
 #define ASSETS_H_
 
+#include <string>
+
 std::string findAsset( std::string asset );
 
 #endif /* !ASSETS_H_ */

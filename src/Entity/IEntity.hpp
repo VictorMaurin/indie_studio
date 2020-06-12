@@ -13,6 +13,9 @@ public:
     virtual void update(void)=0;
     virtual void draw(void) const = 0;
 
+    virtual void remove(void)=0;
+    virtual bool isBreakable(void)=0;
+
     virtual void setPosition(const irr::core::vector3df &pos)=0;
     virtual irr::core::vector3df getPosition(void) const = 0;
     virtual void setScale(const irr::core::vector3df &scale)=0;
