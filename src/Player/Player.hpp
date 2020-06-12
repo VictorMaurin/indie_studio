@@ -27,6 +27,8 @@ public:
 
 	void update(void);
 	void draw(void) const;
+	void remove(void);
+    bool isBreakable(void);
 	void setPosition(const irr::core::vector3df& pos);
 	irr::core::vector3df getPosition(void) const;
 	void setScale(const irr::core::vector3df& scale);
