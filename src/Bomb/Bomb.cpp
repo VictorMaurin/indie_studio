@@ -59,3 +59,13 @@ irr::core::vector3df Bomb::getScale() const
 {
     return (node->getScale());
 }
+
+void Bomb::remove()
+{
+
+}
+
+bool Bomb::isBreakable()
+{
+    
+}

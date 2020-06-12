@@ -36,6 +36,8 @@ public :
     void update(void);
     void draw(void) const;
     void explode();
+    void remove(void);
+    bool isBreakable(void);
 
     void setPosition(const irr::core::vector3df &pos);
     irr::core::vector3df getPosition(void) const;
