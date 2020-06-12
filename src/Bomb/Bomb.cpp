@@ -67,5 +67,5 @@ void Bomb::remove()
 
 bool Bomb::isBreakable()
 {
-     
+    return (true);
 }
