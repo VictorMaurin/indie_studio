@@ -9,6 +9,8 @@
 #include "../Bomb/Bomb.hpp"
 #include "../assets/assets.hpp"
 
+class Bomb;
+
 class Core;
 
 class Player : public IEntity
