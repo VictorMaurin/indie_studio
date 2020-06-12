@@ -23,14 +23,13 @@ private:
     IVideoDriver *driver;
     IrrlichtDevice *device;
     ISceneManager *smgr;
-    IMesh *mesh;
     IMeshSceneNode *node;
     u32 now;
     IParticleEmitter *em;
     IParticleAffector *paf;
     Core *core;
-public : 
-    Bomb(Core *core, vector3df pos);
+    std::unique_ptr<Mesh> mesh;
+public : Bomb(Core *core, vector3df pos);
     ~Bomb();
     void createExplodeCube();
     void update(void);

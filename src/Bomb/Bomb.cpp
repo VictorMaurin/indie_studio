@@ -6,15 +6,15 @@ Bomb::Bomb(Core *core, vector3df pos)
     device = core->getDevice();
     driver = core->getDriver();
     smgr = core->getSmgr();
-    std::unique_ptr<Mesh> mesh = std::make_unique<Mesh>(
+    mesh = std::make_unique<Mesh>(
         "bomb.obj", "bombbody_BaseColor.png",
         smgr, driver, device);
     
     mesh->setPosition(pos);
-    vector3df scale = vector3df(1000, 1000, 1000);
-    mesh->setScale(scale);
-    node = mesh->getNode();
-    node->setPosition(pos);
+    pos.X -= 2;
+
+    // mesh->setScale(scale);
+    mesh->setPosition(pos);
 }
 
 Bomb::~Bomb()
@@ -28,14 +28,17 @@ void Bomb::createExplodeCube()
 
 void Bomb::explode()
 {
+    std::cout << "bomb explode" << std::endl;
+    // mesh->remove();
     createExplodeCube();
 }
 
 void Bomb::update(void)
 {
     now = device->getTimer()->getTime();
-    node->setScale(vector3df(0.01f, 0.01f, 0.01f));
-    if (now / 1000 >= 3) {
+    std::cout << now << std::endl;
+    // node->setScale(vector3df(0.01f, 0.01f, 0.01f));
+    if (now / 1000 >= 6) {
         explode();
     }
 }
