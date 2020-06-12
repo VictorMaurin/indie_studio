@@ -1,5 +1,4 @@
 #include "Core.hpp"
-#include "irrlicht.h"
 
 Core::Core()
 {
@@ -35,17 +34,18 @@ void Core::init()
     set_menu();
     
     //tmp light source
-    ILightSceneNode* light = smgr->addLightSceneNode( 0, vector3df(0.0f,50.0f,2.0f), SColorf(1.0f,1.0f,1.0f,1.0f), 30.0f );
+    ILightSceneNode* light = smgr->addLightSceneNode( 0, vector3df(0.0f,50.0f,2.0f), SColorf(1.0f,1.0f,1.0f,1.0f), 35.0f );
     //tmp camera
-    smgr->addCameraSceneNode(0, vector3df(0,11,-1.5), vector3df(0,0,0));
+    smgr->addCameraSceneNode(0, vector3df(0,11,-2), vector3df(0,0,0));
 
+    entities = std::make_shared<std::vector<std::shared_ptr<IEntity>>>();
     std::cout << "balalalal: " << this << "/" << std::endl;
     entities.push_back(std::make_shared<Player>("Bomberman.MD3", "BlackBombermanTextures.png", this, smgr, driver, device, joystickInfo, eventReceiver, irr::KEY_KEY_Z, irr::KEY_KEY_S, irr::KEY_KEY_Q, irr::KEY_KEY_D));
 
     this->map = new Map(entities, 19, 13, smgr, driver, device);
 }
 
-const std::vector<std::shared_ptr<IEntity>> &Core::getEntities() const
+const std::shared_ptr<std::vector<std::shared_ptr<IEntity>>> &Core::getEntities() const
 {
     return (entities);
 }
@@ -100,9 +100,9 @@ void Core::run()
         frameBgnTime = std::clock();
 
         //update
-        for (int i = 0; i < entities.size(); i++)
+        for (int i = 0; i < entities->size(); i++)
         {
-            entities[i]->update();
+            entities->at(i)->update();
         }
 
         // draw
@@ -125,8 +125,8 @@ void Core::run()
             if (updates < 5)
             {
                 updates++;
-                for (int i = 0; i < entities.size(); i++)
-                    entities[i]->update();
+                for (int i = 0; i < entities->size(); i++)
+                    entities->at(i)->update();
             }
             deltaTime = (std::clock() - frameBgnTime) / (double)CLOCKS_PER_SEC;
             remainingTime -= deltaTime;

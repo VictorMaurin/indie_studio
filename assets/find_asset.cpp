@@ -5,7 +5,6 @@
 ** find_asset
 */
 
-#include <string>
 #include <iostream>
 
 #include <stdio.h>  /* defines FILENAME_MAX */
