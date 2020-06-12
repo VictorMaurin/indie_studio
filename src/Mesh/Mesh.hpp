@@ -12,7 +12,6 @@
 #include <memory>
 #include "../Entity/IEntity.hpp"
 #include "../assets/assets.hpp"
-#include "../Core/Core.hpp"
 
 using namespace irr;
 using namespace scene;
@@ -28,13 +27,16 @@ class Mesh : public IEntity
         void update(void);
         void draw(void) const;
 
+        void remove(void);
+        bool isBreakable(void);
         void setPosition(const vector3df &pos);
         vector3df getPosition(void) const;
         void setScale(const vector3df &scale);
         vector3df getScale(void) const;
         IMesh *getMesh() const;
         IMeshSceneNode *getNode() const;
-    private:
+
+    protected:
         IMesh *mesh;
         IMeshSceneNode *node;
 };

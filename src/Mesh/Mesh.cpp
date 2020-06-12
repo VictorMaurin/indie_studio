@@ -19,10 +19,10 @@ Mesh::Mesh(std::string meshName, std::string textureName, ISceneManager *smgr, I
     if (node)
     {
         node->setMaterialTexture( 0, driver->getTexture(findAsset(textureName).c_str()) );
-        node->setScale(vector3d<float>(30.0f, 30.0f, 30.0f));
-        ISceneNodeAnimator* anim = smgr->createRotationAnimator(vector3df(0,0.1f,0));
-        node->addAnimator(anim);
-        anim->drop();
+        // node->setScale(vector3d<float>(30.0f, 30.0f, 30.0f));
+        // ISceneNodeAnimator* anim = smgr->createRotationAnimator(vector3df(0,0.1f,0));
+        // node->addAnimator(anim);
+        // anim->drop();
     }
 }
 
@@ -30,8 +30,9 @@ Mesh::~Mesh()
 {
     // node->drop();
     // mesh->drop();
-    node->remove();
-    delete mesh;
+    // node->remove();
+    // delete node;
+    // delete mesh;
 }
 
 void Mesh::update(void)
@@ -40,6 +41,18 @@ void Mesh::update(void)
 
 void Mesh::draw(void) const
 {
+}
+
+bool Mesh::isBreakable(void)
+{
+    return (false);
+}
+
+void Mesh::remove(void)
+{
+    if (node) {
+        node->remove();
+    }
 }
 
 void Mesh::setPosition(const vector3df &pos)
