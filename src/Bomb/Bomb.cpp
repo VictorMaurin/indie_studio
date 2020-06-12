@@ -9,7 +9,11 @@ Bomb::Bomb(Core *core, vector3df pos)
     std::unique_ptr<Mesh> mesh = std::make_unique<Mesh>(
         "bomb.obj", "bombbody_BaseColor.png",
         smgr, driver, device);
+    
     mesh->setPosition(pos);
+    vector3df scale = vector3df(1000, 1000, 1000);
+    mesh->setScale(scale);
+    node = mesh->getNode();
     node->setPosition(pos);
 }
 
