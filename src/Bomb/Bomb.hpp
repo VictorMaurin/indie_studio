@@ -15,7 +15,7 @@ using namespace core;
 #include "../Entity/IEntity.hpp"
 
 class Core;
-class Payer;
+class Player;
 
 class Bomb : public IEntity
 {
