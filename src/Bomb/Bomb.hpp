@@ -14,6 +14,9 @@ using namespace core;
 
 #include "../Entity/IEntity.hpp"
 
+class Core;
+class Payer;
+
 class Bomb : public IEntity
 {
 private:
