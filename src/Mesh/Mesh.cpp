@@ -31,7 +31,6 @@ Mesh::~Mesh()
     // node->drop();
     // mesh->drop();
     // node->remove();
-    // delete mesh;
     // delete node;
     // delete mesh;
 }
