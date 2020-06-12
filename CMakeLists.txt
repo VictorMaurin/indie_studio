@@ -30,9 +30,10 @@ if (UNIX)
         link_libraries(Irrlicht)
 	link_directories(Irrlicht) #link vers le .a
 	add_executable(bomberman
-        ./src/Core/Core.cpp
         ./src/Mesh/Mesh.cpp
         ./src/Bomb/Bomb.cpp
+        ./src/Player/Player.cpp
+        ./src/Core/Core.cpp
         ./assets/find_asset.cpp
         ./src/Map/Map.cpp
         ./src/Breakable/Breakable.cpp

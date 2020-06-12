@@ -205,7 +205,7 @@ void Player::movementPlayer(irr::core::array<irr::SJoystickInfo> &joystickInfo, 
 void Player::plantBomb()
 {
     if (this->_receiver->IsKeyDown(irr::KEY_SPACE))
-        this->_core->getEntities().push_back(std::make_shared<Bomb>(this->_core, this->getPosition()));
+        this->_core->getEntities()->push_back(std::make_shared<Bomb>(this->_core, this->getPosition()));
 }
 
 //int main(void) {
@@ -255,6 +255,17 @@ void Player::update(void)
 
 void Player::draw(void) const
 {
+}
+
+void Player::remove(void)
+{
+    if (this->PlayerOBJ)
+        this->PlayerOBJ->remove();
+}
+
+bool Player::isBreakable(void)
+{
+    return (true);
 }
 
 void Player::setScale(const irr::core::vector3df& scale)

@@ -15,7 +15,7 @@ using namespace core;
 #include "../Entity/IEntity.hpp"
 
 class Core;
-class Payer;
+class Player;
 
 class Bomb : public IEntity
 {
@@ -23,21 +23,25 @@ private:
     IVideoDriver *driver;
     IrrlichtDevice *device;
     ISceneManager *smgr;
-    IMesh *mesh;
     IMeshSceneNode *node;
     u32 now;
     IParticleEmitter *em;
     IParticleAffector *paf;
     Core *core;
-public : 
-    Bomb(Core *core, vector3df pos);
+    std::unique_ptr<Mesh> mesh;
+public : Bomb(Core *core, vector3df pos);
     ~Bomb();
     void createExplodeCube();
     void update(void);
     void draw(void) const;
     void explode();
-    void setPos(const irr::core::vector3df pos);
-    vector3df getPos(void) const;
+    void remove(void);
+    bool isBreakable(void);
+
+    void setPosition(const irr::core::vector3df &pos);
+    irr::core::vector3df getPosition(void) const;
+    void setScale(const irr::core::vector3df &scale);
+    irr::core::vector3df getScale(void) const;
 };
 
 #endif

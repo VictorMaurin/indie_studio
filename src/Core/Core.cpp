@@ -15,10 +15,13 @@ Core::~Core()
 
 void Core::init()
 {
+#ifdef __APPLE__
+    video::E_DRIVER_TYPE driverType = EDT_OPENGL;
+#else
     video::E_DRIVER_TYPE driverType = driverChoiceConsole();
+#endif
     if (driverType == video::EDT_COUNT)
         throw("Problem in driver");
-
     this->eventReceiver = new MyEventReceiver();
     statement = State::NOTHING;
     //create device
@@ -40,7 +43,7 @@ void Core::init()
 
     entities = std::make_shared<std::vector<std::shared_ptr<IEntity>>>();
     std::cout << "balalalal: " << this << "/" << std::endl;
-    entities.push_back(std::make_shared<Player>("Bomberman.MD3", "BlackBombermanTextures.png", this, smgr, driver, device, joystickInfo, eventReceiver, irr::KEY_KEY_Z, irr::KEY_KEY_S, irr::KEY_KEY_Q, irr::KEY_KEY_D));
+    entities->push_back(std::make_shared<Player>("Bomberman.MD3", "BlackBombermanTextures.png", this, smgr, driver, device, joystickInfo, eventReceiver, irr::KEY_KEY_Z, irr::KEY_KEY_S, irr::KEY_KEY_Q, irr::KEY_KEY_D));
     this->map = new Map(entities, 19, 13, smgr, driver, device);
 }
 
@@ -168,9 +171,4 @@ MyEventReceiver* Core::getEventreceiver()
 irr::core::array<irr::SJoystickInfo> Core::getJoystickinfo()
 {
     return (this->joystickInfo);
-}
-
-std::vector<std::shared_ptr<IEntity>> Core::getEntities()
-{
-    return (this->entities);
 }

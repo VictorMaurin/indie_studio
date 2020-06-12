@@ -17,7 +17,6 @@ using namespace gui;
 using namespace video;
 using namespace core;
 
-
 enum class State : int
 {
     NOTHING,
@@ -53,7 +52,6 @@ public :
     IrrlichtDevice *getDevice() const;
     MyEventReceiver* getEventreceiver();
     irr::core::array<irr::SJoystickInfo> getJoystickinfo();
-    std::vector<std::shared_ptr<IEntity>> getEntities();
 };
 
 #endif

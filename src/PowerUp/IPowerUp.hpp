@@ -3,6 +3,12 @@
 
 #include "../Entity/IEntity.hpp"
 
+using namespace irr;
+using namespace scene;
+using namespace gui;
+using namespace video;
+using namespace core;
+
 class IPowerUp
 {
 private:
