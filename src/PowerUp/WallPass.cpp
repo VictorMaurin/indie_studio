@@ -12,7 +12,7 @@ WallPass::~WallPass()
 
 void WallPass::setPosition(const irr::core::vector3df &pos)
 {
-    pos = pos;
+    // pos = pos;
 }
 
 irr::core::vector3df WallPass::getPosition() const
