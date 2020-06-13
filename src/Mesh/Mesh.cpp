@@ -51,7 +51,8 @@ bool Mesh::isBreakable(void)
 
 void Mesh::remove(void)
 {
-    if (node) {
+    if (isRemove == false) {
+        isRemove = true;
         node->remove();
     }
 }
@@ -99,4 +100,12 @@ irr::scene::IMesh *Mesh::getMesh() const
 IMeshSceneNode *Mesh::getNode() const
 {
     return (node);
+}
+
+void Mesh::setTexture(std::string assets)
+{
+    if (node)
+    {
+        node->setMaterialTexture(0, core->getDriver()->getTexture(findAsset(assets).c_str()));
+    }
 }

@@ -36,6 +36,7 @@ private:
     MyEventReceiver *eventReceiver;
     irr::core::array<irr::SJoystickInfo> joystickInfo;
     std::shared_ptr<GameMap> map;
+    std::shared_ptr<std::vector<std::shared_ptr<IEntity>>> players;
 
 public : 
     Core(/* args */);
@@ -52,6 +53,7 @@ public :
     IrrlichtDevice *getDevice() const;
     MyEventReceiver* getEventreceiver();
     irr::core::array<irr::SJoystickInfo> getJoystickinfo();
+    const std::shared_ptr<std::vector<std::shared_ptr<IEntity>>> &getPlayers() const;
 };
 
 #endif

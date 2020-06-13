@@ -34,11 +34,13 @@ class Mesh : public IEntity
         void setPosition(const vector3df &pos);
         void canCollide(bool);
 
+        void setTexture(std::string assets);
         vector3df getPosition(void) const;
         void setScale(const vector3df &scale);
         vector3df getScale(void) const;
         IMesh *getMesh() const;
         IMeshSceneNode *getNode() const;
+        bool isRemove = false;
 
     protected:
         Core *core;
