@@ -20,7 +20,7 @@ if (APPLE)
 endif (APPLE)
 
 if (UNIX)
-        set (CMAKE_SHARED_LINKER_FLAGS "-lGLU, -lGL")
+        set (CMAKE_SHARED_LINKER_FLAGS "-g, -lGLU, -lGL")
         INCLUDE_DIRECTORIES(
                 "/usr/include/irrlicht"
 		"/usr/local/include/irrlicht"
@@ -35,6 +35,7 @@ if (UNIX)
         ./src/Bomb/Bomb.cpp
         ./src/Player/Player.cpp
         ./src/Core/Core.cpp
+        ./src/Menu/Menu.cpp
         ./assets/find_asset.cpp
         ./src/Breakable/Breakable.cpp
         ./src/Explosion/Explosion.cpp

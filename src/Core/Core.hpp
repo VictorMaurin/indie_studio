@@ -35,6 +35,7 @@ private:
     State statement;
     MyEventReceiver *eventReceiver;
     irr::core::array<irr::SJoystickInfo> joystickInfo;
+    bool is_ia;
     std::shared_ptr<GameMap> map;
     std::shared_ptr<std::vector<std::shared_ptr<IEntity>>> players;
     ISceneCollisionManager *collMan;
@@ -49,10 +50,14 @@ public :
     void set_game();
     void update_menu();
     void update_game();
+    void setstatement(State is);
+    void set_ia(bool ia);
+    State getstatement();
     ISceneCollisionManager *getCollMan() const;
     IVideoDriver *getDriver() const;
     ISceneManager *getSmgr() const;
     IrrlichtDevice *getDevice() const;
+    IGUIEnvironment *getGUIenv() const;
     MyEventReceiver* getEventreceiver();
     irr::core::array<irr::SJoystickInfo> getJoystickinfo();
     const std::shared_ptr<std::vector<std::shared_ptr<IEntity>>> &getPlayers() const;
