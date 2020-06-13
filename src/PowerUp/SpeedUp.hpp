@@ -2,6 +2,7 @@
 #define SPEEDUP_HPP
 
 #include "IPowerUp.hpp"
+#include "../Map/Map.hpp"
 
 class SpeedUp : public IEntity, public IPowerUp
 {
@@ -11,7 +12,7 @@ private:
 public:
     SpeedUp(/* args */);
     ~SpeedUp();
-    void update(void);
+    void update(std::shared_ptr<GameMap> map);
     void draw(void) const;
 
     void setPosition(const vector3df &pos);

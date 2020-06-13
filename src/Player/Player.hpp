@@ -1,17 +1,22 @@
 #ifndef PLAYER_HPP
 #define PLAYER_HPP
 
-#include <irrlicht.h>
+class Core;
+class IEntity;
+
 #include "driverChoice.h"
-#include "../Entity/IEntity.hpp"
-#include "../Core/Core.hpp"
-#include "../Event/Event.hpp"
+#include <irrlicht.h>
+#include <fstream>
+
 #include "../Bomb/Bomb.hpp"
+#include "../Event/Event.hpp"
 #include "../assets/assets.hpp"
 
-class Bomb;
-
-class Core;
+using namespace irr;
+using namespace scene;
+using namespace gui;
+using namespace video;
+using namespace core;
 
 class Player : public IEntity
 {
@@ -19,20 +24,22 @@ public:
 	Player(std::string meshName, std::string textureName, Core* core, irr::scene::ISceneManager* smgr, irr::video::IVideoDriver* driver, irr::IrrlichtDevice* device, irr::core::array<irr::SJoystickInfo> joystickInfo, MyEventReceiver* receiver, irr::EKEY_CODE advance, irr::EKEY_CODE behind, irr::EKEY_CODE left, irr::EKEY_CODE right);
 	~Player();
 	void initPlayer(std::string meshName, std::string textureName, irr::scene::ISceneManager* sceneManager, irr::video::IVideoDriver* driver);
-	void movementPlayer(irr::core::array<irr::SJoystickInfo>& joystickInfo, MyEventReceiver* receiver, const irr::f32 MOVEMENT_SPEED, const irr::f32 frameDeltaTime);
+	void movementPlayer(std::shared_ptr<GameMap> map, irr::core::array<irr::SJoystickInfo>& joystickInfo, MyEventReceiver* receiver, const irr::f32 MOVEMENT_SPEED, const irr::f32 frameDeltaTime);
 	void initJoystic(irr::core::array<irr::SJoystickInfo> &joystickInfo, irr::IrrlichtDevice* device);
-	void movementPlayerJoystick(irr::core::array<irr::SJoystickInfo> &joystickInfo, MyEventReceiver* receiver, const irr::f32 MOVEMENT_SPEED, const irr::f32 frameDeltaTime);
-	void movementPlayerKeyBoard(MyEventReceiver* receiver, const irr::f32 MOVEMENT_SPEED, const irr::f32 frameDeltaTime);
+	void movementPlayerJoystick(std::shared_ptr<GameMap> map, irr::core::array<irr::SJoystickInfo> &joystickInfo, MyEventReceiver* receiver, const irr::f32 MOVEMENT_SPEED, const irr::f32 frameDeltaTime);
+	void movementPlayerKeyBoard(std::shared_ptr<GameMap> map, MyEventReceiver* receiver, const irr::f32 MOVEMENT_SPEED, const irr::f32 frameDeltaTime);
 	void plantBomb();
 
-	void update(void);
+	void update(std::shared_ptr<GameMap> map);
 	void draw(void) const;
 	void remove(void);
+	void canCollide(bool);
     bool isBreakable(void);
 	void setPosition(const irr::core::vector3df& pos);
 	irr::core::vector3df getPosition(void) const;
 	void setScale(const irr::core::vector3df& scale);
 	irr::core::vector3df getScale(void) const;
+	void setTexture(std::string assets) {};
 private:
 	MyEventReceiver* _receiver;
 	Core* _core;
@@ -46,5 +53,6 @@ private:
 	irr::EKEY_CODE _behind;
 	irr::EKEY_CODE _left;
 	irr::EKEY_CODE _right;
+	bool isRemove = false;
 };
 #endif

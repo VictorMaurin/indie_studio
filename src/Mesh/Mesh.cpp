@@ -7,15 +7,16 @@
 
 #include "Mesh.hpp"
 
-Mesh::Mesh(std::string meshName, std::string textureName, ISceneManager *smgr, IVideoDriver *driver, IrrlichtDevice *device)
+Mesh::Mesh(std::string meshName, std::string textureName, Core *core_param, ISceneManager *smgr, IVideoDriver *driver, IrrlichtDevice *device)
 {
-    mesh = smgr->getMesh(findAsset(meshName).c_str());
+    this->core = core_param;
+    mesh = core->getSmgr()->getMesh(findAsset(meshName).c_str());
     if (!mesh)
     {
-        device->drop();
+        core->getDevice()->drop();
         throw "couldnt create wall mesh";
     }
-    node = smgr->addMeshSceneNode(mesh);
+    node = core->getSmgr()->addMeshSceneNode(mesh, 0, IDFlag_IsPickable);
     if (node)
     {
         node->setMaterialTexture( 0, driver->getTexture(findAsset(textureName).c_str()) );
@@ -35,7 +36,7 @@ Mesh::~Mesh()
     // delete mesh;
 }
 
-void Mesh::update(void)
+void Mesh::update(std::shared_ptr<GameMap> map)
 {
 }
 
@@ -50,8 +51,19 @@ bool Mesh::isBreakable(void)
 
 void Mesh::remove(void)
 {
-    if (node) {
+    if (isRemove == false) {
+        isRemove = true;
         node->remove();
+    }
+}
+
+void Mesh::canCollide(bool b)
+{
+    ITriangleSelector *selector = 0;
+    if (b) {
+        selector = core->getSmgr()->createTriangleSelector(this->mesh, this->node);
+        this->node->setTriangleSelector(selector);
+        selector->drop();
     }
 }
 
@@ -89,4 +101,12 @@ irr::scene::IMesh *Mesh::getMesh() const
 IMeshSceneNode *Mesh::getNode() const
 {
     return (node);
+}
+
+void Mesh::setTexture(std::string assets)
+{
+    if (node)
+    {
+        node->setMaterialTexture(0, core->getDriver()->getTexture(findAsset(assets).c_str()));
+    }
 }

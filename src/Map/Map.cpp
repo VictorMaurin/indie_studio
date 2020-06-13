@@ -6,10 +6,11 @@
 */
 
 #include "Map.hpp"
-#include <iostream>
+#include "../Mesh/Mesh.hpp"
+#include "../Breakable/Breakable.hpp"
 
-Map::Map(std::shared_ptr<std::vector<std::shared_ptr<IEntity>>> entities, int width, int height,
-        ISceneManager *smgr, IVideoDriver *driver, IrrlichtDevice *device)
+GameMap::GameMap(std::shared_ptr<std::vector<std::shared_ptr<IEntity>>> entities, int width, int height,
+        Core *core, ISceneManager *smgr, IVideoDriver *driver, IrrlichtDevice *device)
 {
     this->height = height;
     this->width = width;
@@ -20,7 +21,7 @@ Map::Map(std::shared_ptr<std::vector<std::shared_ptr<IEntity>>> entities, int wi
     for (size_t i = 0; i < height; i++) {
         xPos = -(int)(width / 2);
         for (size_t j = 0; j < width; j++) {
-            this->ground[i][j] = std::make_shared<Mesh>("tile.obj", "grass.jpg", smgr, driver, device);
+            this->ground[i][j] = std::make_shared<Mesh>("tile.obj", "grass.jpg", core, smgr, driver, device);
             this->ground[i][j]->setPosition(vector3df(xPos, 0.0f, zPos));
             entities->push_back(this->ground[i][j]);
 
@@ -37,8 +38,9 @@ Map::Map(std::shared_ptr<std::vector<std::shared_ptr<IEntity>>> entities, int wi
         for (size_t j = 0; j < width; j++) {
             if (i == 0 || i == height - 1 || j == 0 || j == width - 1 || //borders
             (i % 2 == 0 && j % 2 == 0)) {//inside map
-                this->map[i][j] = std::make_shared<Mesh>("block.obj", "block.png", smgr, driver, device);
+                this->map[i][j] = std::make_shared<Mesh>("block.obj", "block.png", core, smgr, driver, device);
                 this->map[i][j]->setPosition(vector3df(xPos, 0.0f, zPos));
+                this->map[i][j]->canCollide(true);
                 entities->push_back(this->map[i][j]);
             }
             xPos += 1;
@@ -54,9 +56,10 @@ Map::Map(std::shared_ptr<std::vector<std::shared_ptr<IEntity>>> entities, int wi
             if (this->map[i][j] == 0) {
                 if ((i > 2 && i < height - 3) || (j > 2 && j < width - 3)) {
                     nbCrates++;
-                    this->map[i][j] = std::make_shared<Breakable>(smgr, driver, device);
-                    this->map[i][j]->setPosition(vector3df(xPos, 0.0f, zPos));
+                    this->map[i][j] = std::make_shared<Breakable>(core, smgr, driver, device);
                     this->map[i][j]->setScale(vector3df(0.85f, 0.85f, 0.85f));
+                    this->map[i][j]->setPosition(vector3df(xPos, -0.15f, zPos));
+                    this->map[i][j]->canCollide(true);
                     entities->push_back(this->map[i][j]);
                 }
             }
@@ -68,15 +71,13 @@ Map::Map(std::shared_ptr<std::vector<std::shared_ptr<IEntity>>> entities, int wi
     this->removeRandomFromMap();
 }
 
-Map::~Map()
+GameMap::~GameMap()
 {
 }
 
 vector2di pickDirection()
 {
     vector2di dir = vector2di(0, 0);
-    // int xOffset = 0;
-    // int yOffset = 0;
 
     while (abs(dir.X) == abs(dir.Y)) {
         dir.X = rand() % 3 + (-1);
@@ -85,7 +86,7 @@ vector2di pickDirection()
     return (dir);
 }
 
-int Map::removeNeighbour(int &i, int &j, int &missing)
+int GameMap::removeNeighbour(int &i, int &j, int &missing)
 {
     vector2di dir;
 
@@ -110,7 +111,7 @@ int Map::removeNeighbour(int &i, int &j, int &missing)
     return (1);
 }
 
-void Map::removeRandomFromMap(void)
+void GameMap::removeRandomFromMap(void)
 {
     int i = 0;
     int j = 0;
@@ -139,7 +140,17 @@ void Map::removeRandomFromMap(void)
     }
 }
 
-std::vector<std::vector<std::shared_ptr<IEntity>>> Map::getMap(void) const
+std::vector<std::vector<std::shared_ptr<IEntity>>> GameMap::getMap(void) const
 {
     return (this->map);
+}
+
+vector2di GameMap::getMapSize(void) const
+{
+    return (vector2di(this->width, this->height));
+}
+
+const std::vector<std::vector<std::shared_ptr<IEntity>>> &GameMap::getGround() const
+{
+    return (this->ground);
 }
