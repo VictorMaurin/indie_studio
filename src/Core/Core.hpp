@@ -35,7 +35,6 @@ private:
     State statement;
     MyEventReceiver *eventReceiver;
     irr::core::array<irr::SJoystickInfo> joystickInfo;
-    Map *map;
     bool is_ia;
     std::shared_ptr<GameMap> map;
     std::shared_ptr<std::vector<std::shared_ptr<IEntity>>> players;
