@@ -36,7 +36,7 @@ private:
 public : 
     Bomb(Core *core, vector3df pos);
     ~Bomb();
-
+    void returnToGreen(std::shared_ptr<GameMap> map, std::string asset);
     void createExplodeCube();
     void update(std::shared_ptr<GameMap> map);
     void draw(void) const;

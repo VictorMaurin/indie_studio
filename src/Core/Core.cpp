@@ -48,6 +48,8 @@ void Core::init()
     this->map = std::make_shared<GameMap>(entities, 19, 13, this, smgr, driver, device);
     entities->push_back(std::make_shared<Player>("Bomberman.MD3", "BlackBombermanTextures.png", this, smgr, driver, device, joystickInfo, eventReceiver, irr::KEY_KEY_Z, irr::KEY_KEY_S, irr::KEY_KEY_Q, irr::KEY_KEY_D));
     players->push_back(entities->back());
+    entities->push_back(std::make_shared<Player>("Bomberman.MD3", "BlackBombermanTextures.png", this, smgr, driver, device, joystickInfo, eventReceiver, irr::KEY_KEY_T, irr::KEY_KEY_Y, irr::KEY_KEY_U, irr::KEY_KEY_I));
+    players->push_back(entities->back());
 }
 
 const std::shared_ptr<std::vector<std::shared_ptr<IEntity>>> &Core::getPlayers() const
