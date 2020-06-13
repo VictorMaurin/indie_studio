@@ -22,6 +22,8 @@ private:
     IrrlichtDevice *device;
     ISceneManager *smgr;
     Core *_core;
+    u32 now;
+    u32 then;
 
 public : 
     Explosion(Core *core, const vector3df &pos);

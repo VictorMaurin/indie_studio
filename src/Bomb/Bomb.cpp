@@ -15,13 +15,13 @@ Bomb::Bomb(Core *core, vector3df pos)
     posInt.X = (int)pos.X;
     posInt.Y = (int)pos.Y;
     posInt.Z = (int)pos.Z;
-
     // posInt.X -= 2;
     vector3df posFloat;
     posFloat.X = (float)posInt.X;
     posFloat.Y = (float)posInt.Y;
     posFloat.Z = (float)posInt.Z;
     // mesh->setScale(scale);
+    then = device->getTimer()->getRealTime();
     mesh->setPosition(posFloat);
 }
 
@@ -31,7 +31,7 @@ Bomb::~Bomb()
 
 void Bomb::createExplodeCube()
 {
-    _core->getEntities()->push_back(std::make_shared<Explosion>(this->_core, mesh->getPosition()));
+    // _core->getEntities()->push_back(std::make_shared<Explosion>(this->_core, mesh->getPosition()));
     mesh->remove();
 }
 
@@ -42,9 +42,9 @@ void Bomb::explode()
 
 void Bomb::update(std::shared_ptr<GameMap> map)
 {
-    now = device->getTimer()->getTime();
+    now = device->getTimer()->getRealTime();
     // node->setScale(vector3df(0.01f, 0.01f, 0.01f));
-    if (now / 1000 >= 6 && passed == false) {
+    if ((now - then) / 1000 >= 3 && passed == false) {
         passed = true;
         explode();
     }

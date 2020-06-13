@@ -25,6 +25,7 @@ private:
     ISceneManager *smgr;
     IMeshSceneNode *node;
     u32 now;
+    u32 then;
     IParticleEmitter *em;
     IParticleAffector *paf;
     Core *_core;

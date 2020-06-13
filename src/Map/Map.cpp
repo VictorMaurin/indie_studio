@@ -149,3 +149,8 @@ vector2di GameMap::getMapSize(void) const
 {
     return (vector2di(this->width, this->height));
 }
+
+const std::vector<std::vector<std::shared_ptr<IEntity>>> &GameMap::getGround() const
+{
+    return (this->ground);
+}

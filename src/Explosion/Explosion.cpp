@@ -35,6 +35,7 @@ Explosion::Explosion(Core *core, const vector3df &pos)
     if (!ps)
         throw "cannot open particle";
     ps->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
+    then = device->getTimer()->getRealTime();
     ps->setPosition(pos);
 }
 
@@ -55,7 +56,13 @@ bool Explosion::isBreakable()
 
 void Explosion::update(std::shared_ptr<GameMap> map)
 {
-
+    std::cout << "update" << std::endl;
+    bool passed = false;
+    now = device->getTimer()->getRealTime();
+    // node->setScale(vector3df(0.01f, 0.01f, 0.01f));
+    if ((now - then) / 1000 >= 3 && passed == false) {
+        passed = true;
+    }
 }
 
 void Explosion::draw() const
