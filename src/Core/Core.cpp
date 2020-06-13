@@ -43,8 +43,8 @@ void Core::init()
 
     entities = std::make_shared<std::vector<std::shared_ptr<IEntity>>>();
     std::cout << "balalalal: " << this << "/" << std::endl;
+    this->map = std::make_shared<GameMap>(entities, 19, 13, this, smgr, driver, device);
     entities->push_back(std::make_shared<Player>("Bomberman.MD3", "BlackBombermanTextures.png", this, smgr, driver, device, joystickInfo, eventReceiver, irr::KEY_KEY_Z, irr::KEY_KEY_S, irr::KEY_KEY_Q, irr::KEY_KEY_D));
-    this->map = new Map(entities, 19, 13, smgr, driver, device);
 }
 
 const std::shared_ptr<std::vector<std::shared_ptr<IEntity>>> &Core::getEntities() const
@@ -104,7 +104,7 @@ void Core::run()
         //update
         for (int i = 0; i < entities->size(); i++)
         {
-            entities->at(i)->update();
+            entities->at(i)->update(this->map);
         }
 
         // draw
@@ -128,7 +128,7 @@ void Core::run()
             {
                 updates++;
                 for (int i = 0; i < entities->size(); i++)
-                    entities->at(i)->update();
+                    entities->at(i)->update(this->map);
             }
             deltaTime = (std::clock() - frameBgnTime) / (double)CLOCKS_PER_SEC;
             remainingTime -= deltaTime;

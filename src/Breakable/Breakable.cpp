@@ -7,7 +7,7 @@
 
 #include "Breakable.hpp"
 
-Breakable::Breakable(ISceneManager *smgr, IVideoDriver *driver, IrrlichtDevice *device) : Mesh("crate3.obj", "crate3.png", smgr, driver, device)
+Breakable::Breakable(Core *core, ISceneManager *smgr, IVideoDriver *driver, IrrlichtDevice *device) : Mesh("crate3.obj", "crate3.png", core, smgr, driver, device)
 {
 }
 

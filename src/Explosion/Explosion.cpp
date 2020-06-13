@@ -56,7 +56,12 @@ void Explosion::setScale(const irr::core::vector3df &scale)
     ps->setScale(scale);
 }
 
-irr::core::vector3df Explosion::getScale()
+vector3df Explosion::getScale()
 {
-    ps->getScale();
+    return (ps->getScale());
+}
+
+void Explosion::canCollide(__attribute__((unused)) bool b)
+{
+
 }

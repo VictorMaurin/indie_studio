@@ -5,11 +5,11 @@
 #include <ctime>
 #include <cmath>
 #include <iostream>
-#include "irrlicht.h"
-#include "../Mesh/Mesh.hpp"
+#include <irrlicht.h>
+
 #include "../Event/Event.hpp"
+#include "../Entity/IEntity.hpp"
 #include "../Player/Player.hpp"
-#include "../Map/Map.hpp"
 
 using namespace irr;
 using namespace scene;
@@ -35,7 +35,7 @@ private:
     State statement;
     MyEventReceiver *eventReceiver;
     irr::core::array<irr::SJoystickInfo> joystickInfo;
-    Map *map;
+    std::shared_ptr<GameMap> map;
 
 public : 
     Core(/* args */);

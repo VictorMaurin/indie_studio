@@ -1,20 +1,30 @@
 #ifndef IENTITY_HPP
 #define IENTITY_HPP
 
-#include <vector>
-#include "irrlicht.h"
+class GameMap;
 
+#include <vector>
+#include <irrlicht.h>
+
+#include "../Map/Map.hpp"
+
+using namespace irr;
+using namespace scene;
+using namespace gui;
+using namespace video;
+using namespace core;
 
 class IEntity
 {
 public:
     virtual ~IEntity() = default;
 
-    virtual void update(void)=0;
+    virtual void update(std::shared_ptr<GameMap> map)=0;
     virtual void draw(void) const = 0;
 
     virtual void remove(void)=0;
     virtual bool isBreakable(void)=0;
+    virtual void canCollide(bool)=0;
 
     virtual void setPosition(const irr::core::vector3df &pos)=0;
     virtual irr::core::vector3df getPosition(void) const = 0;

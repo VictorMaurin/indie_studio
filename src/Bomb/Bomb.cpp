@@ -8,7 +8,7 @@ Bomb::Bomb(Core *core, vector3df pos)
     smgr = core->getSmgr();
     mesh = std::make_unique<Mesh>(
         "bomb.obj", "bombbody_BaseColor.png",
-        smgr, driver, device);
+        core, smgr, driver, device);
     
     mesh->setPosition(pos);
     pos.X -= 2;
@@ -33,7 +33,7 @@ void Bomb::explode()
     createExplodeCube();
 }
 
-void Bomb::update(void)
+void Bomb::update(std::shared_ptr<GameMap> map)
 {
     now = device->getTimer()->getTime();
     std::cout << now << std::endl;
@@ -45,6 +45,11 @@ void Bomb::update(void)
 
 void Bomb::draw(void) const
 {
+}
+
+void Bomb::canCollide(__attribute__((unused)) bool b)
+{
+
 }
 
 void Bomb::setPosition(const irr::core::vector3df &pos)
