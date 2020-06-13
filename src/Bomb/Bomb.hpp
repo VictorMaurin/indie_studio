@@ -27,8 +27,10 @@ private:
     u32 now;
     IParticleEmitter *em;
     IParticleAffector *paf;
-    Core *core;
-    std::unique_ptr<Mesh> mesh;
+    Core *_core;
+    std::shared_ptr<Mesh> mesh;
+    bool passed = false;
+
 public : Bomb(Core *core, vector3df pos);
     ~Bomb();
     void createExplodeCube();

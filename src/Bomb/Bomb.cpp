@@ -2,19 +2,27 @@
 
 Bomb::Bomb(Core *core, vector3df pos)
 {
-    core = core;
-    device = core->getDevice();
-    driver = core->getDriver();
-    smgr = core->getSmgr();
-    mesh = std::make_unique<Mesh>(
-        "bomb.obj", "bombbody_BaseColor.png",
+    _core = core;
+    device = _core->getDevice();
+    driver = _core->getDriver();
+    smgr = _core->getSmgr();
+    mesh = std::make_shared<Mesh>(
+        "bomb2.obj", "bombbody_BaseColor.png",
         smgr, driver, device);
     
     mesh->setPosition(pos);
-    pos.X -= 2;
+    vector3di posInt;
+    posInt.X = (int)pos.X;
+    posInt.Y = (int)pos.Y;
+    posInt.Z = (int)pos.Z;
 
+    // posInt.X -= 2;
+    vector3df posFloat;
+    posFloat.X = (float)posInt.X;
+    posFloat.Y = (float)posInt.Y;
+    posFloat.Z = (float)posInt.Z;
     // mesh->setScale(scale);
-    mesh->setPosition(pos);
+    mesh->setPosition(posFloat);
 }
 
 Bomb::~Bomb()
@@ -23,22 +31,21 @@ Bomb::~Bomb()
 
 void Bomb::createExplodeCube()
 {
-
+    _core->getEntities()->push_back(std::make_shared<Explosion>(this->_core, mesh->getPosition()));
+    mesh->remove();
 }
 
 void Bomb::explode()
 {
-    std::cout << "bomb explode" << std::endl;
-    // mesh->remove();
     createExplodeCube();
 }
 
 void Bomb::update(void)
 {
     now = device->getTimer()->getTime();
-    std::cout << now << std::endl;
     // node->setScale(vector3df(0.01f, 0.01f, 0.01f));
-    if (now / 1000 >= 6) {
+    if (now / 1000 >= 6 && passed == false) {
+        passed = true;
         explode();
     }
 }
