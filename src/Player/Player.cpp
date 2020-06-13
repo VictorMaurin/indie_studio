@@ -44,7 +44,7 @@ void Player::initPlayer(std::string meshName, std::string textureName, irr::scen
         PlayerOBJ->setAnimationSpeed(0);
         PlayerOBJ->setMaterialFlag(irr::video::EMF_LIGHTING, false);
         PlayerOBJ->setMaterialTexture(0, driver->getTexture(findAsset(textureName).c_str()));
-        this->PlayerOBJ->setPosition(vector3df(8.0f, 0.0f, 5.0f));//tmp
+        this->PlayerOBJ->setPosition(vector3df(-8.0f, 0.0f, -5.0f));//tmp
     }
 }
 
@@ -95,35 +95,62 @@ void Player::movementPlayerKeyBoard(std::shared_ptr<GameMap> map, MyEventReceive
 {
     vector3df nodePosition = this->getPosition();
     vector2di mapSize = map->getMapSize();
-    std::cout << (map->getMap()[(int)(nodePosition.Z + 1) + (mapSize.Y / 2)][(int)nodePosition.X + (mapSize.X / 2)] == 0) << std::endl;
-
+    line3df ray;
+    vector3df intersection;
+    triangle3df hitTriangle;
+    ISceneNode *collNode;
+    
     if (this->joysticActivated == 0) {
-        // std::fstream file;
-        // file.open("debugLog.txt", std::fstream::in | std::fstream::out | std::fstream::app);
-        // if (!file )
-        //     file.open("debugLog.txt", std::fstream::in | std::fstream::out | std::fstream::trunc);
-        // file << nodePosition.X << " " << nodePosition.Z << " | " << (int)nodePosition.X + (mapSize.X / 2) << " " << (int)nodePosition.Z + (mapSize.Y / 2) << std::endl;
-        // file.close();
+        ray.start = nodePosition;
+        ray.start.Y += 0.3;
+        
         if (receiver->IsKeyDown(this->_advance)) {
-            this->PlayerOBJ->setAnimationSpeed(100);
-            nodePosition.Z += MOVEMENT_SPEED * frameDeltaTime;
-            nodePosition.X = (int)nodePosition.X;
             this->PlayerOBJ->setRotation(irr::core::vector3df(0, 180, 0));
+            ray.end = ray.start + vector3df(0.0f, 0.0f, 100.0f);
+            this->_core->getCollMan()->getSceneNodeAndCollisionPointFromRay(ray, intersection, hitTriangle, IDFlag_IsPickable, 0);
+
+            // nodePosition.X = (int)nodePosition.X;
+            if ((intersection - nodePosition).getLength() > 0.4f) {
+                this->PlayerOBJ->setAnimationSpeed(100);
+                nodePosition.Z += MOVEMENT_SPEED * frameDeltaTime;
+            }
         } else if (receiver->IsKeyDown(this->_behind)) {
-            this->PlayerOBJ->setAnimationSpeed(100);
-            nodePosition.Z -= MOVEMENT_SPEED * frameDeltaTime;
-            nodePosition.X = (int)nodePosition.X;
             this->PlayerOBJ->setRotation(irr::core::vector3df(0, 0, 0));
+            ray.end = ray.start + vector3df(0.0f, 0.0f, -100.0f);
+            this->_core->getCollMan()->getSceneNodeAndCollisionPointFromRay(ray, intersection, hitTriangle, IDFlag_IsPickable, 0);
+
+            // nodePosition.X = (int)nodePosition.X;
+            if ((intersection - nodePosition).getLength() > 0.4f) {
+                this->PlayerOBJ->setAnimationSpeed(100);
+                nodePosition.Z -= MOVEMENT_SPEED * frameDeltaTime;
+            }
         } else if (receiver->IsKeyDown(this->_left)) {
-            this->PlayerOBJ->setAnimationSpeed(100);
-            nodePosition.X -= MOVEMENT_SPEED * frameDeltaTime;
-            nodePosition.Z = (int)nodePosition.Z;
             this->PlayerOBJ->setRotation(irr::core::vector3df(0, 90, 0));
+            ray.end = ray.start + vector3df(-100.0f, 0.0f, 0.0f);
+            this->_core->getCollMan()->getSceneNodeAndCollisionPointFromRay(ray, intersection, hitTriangle, IDFlag_IsPickable, 0);
+            
+            // nodePosition.Z = (int)nodePosition.Z;
+            if ((intersection - nodePosition).getLength() > 0.4f) {
+                this->PlayerOBJ->setAnimationSpeed(100);
+                nodePosition.X -= MOVEMENT_SPEED * frameDeltaTime;
+            }
         } else if (receiver->IsKeyDown(this->_right)) {
-            this->PlayerOBJ->setAnimationSpeed(100);
-            nodePosition.X += MOVEMENT_SPEED * frameDeltaTime;
-            nodePosition.Z = (int)nodePosition.Z;
             this->PlayerOBJ->setRotation(irr::core::vector3df(0, -90, 0));
+            ray.end = ray.start + vector3df(100.0f, 0.0f, 0.0f);
+            this->_core->getCollMan()->getSceneNodeAndCollisionPointFromRay(ray, intersection, hitTriangle, IDFlag_IsPickable, 0);
+            // nodePosition.Z = (int)nodePosition.Z;
+
+            // std::fstream file;
+            // file.open("debugLog.txt", std::fstream::in | std::fstream::out | std::fstream::app);
+            // if (!file )
+            //     file.open("debugLog.txt", std::fstream::in | std::fstream::out | std::fstream::trunc);
+            // file << nodePosition.X << " " << nodePosition.Z << " | " << intersection.X << " " << intersection.Y << " " << intersection.Z << " | " << (intersection - nodePosition).getLength() << std::endl;
+            // file.close();
+
+            if ((intersection - nodePosition).getLength() > 0.4f) {
+                this->PlayerOBJ->setAnimationSpeed(100);
+                nodePosition.X += MOVEMENT_SPEED * frameDeltaTime;
+            }
         } else {
             if (this->joysticActivated == 0)
                 this->PlayerOBJ->setFrameLoop(0, 25);

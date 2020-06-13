@@ -16,7 +16,7 @@ Mesh::Mesh(std::string meshName, std::string textureName, Core *core_param, ISce
         core->getDevice()->drop();
         throw "couldnt create wall mesh";
     }
-    node = core->getSmgr()->addMeshSceneNode(mesh);
+    node = core->getSmgr()->addMeshSceneNode(mesh, 0, IDFlag_IsPickable);
     if (node)
     {
         node->setMaterialTexture( 0, driver->getTexture(findAsset(textureName).c_str()) );
@@ -60,10 +60,11 @@ void Mesh::remove(void)
 void Mesh::canCollide(bool b)
 {
     ITriangleSelector *selector = 0;
-
-    selector = core->getSmgr()->createTriangleSelector(this->mesh, this->node);
-    this->node->setTriangleSelector(selector);
-    selector->drop();
+    if (b) {
+        selector = core->getSmgr()->createTriangleSelector(this->mesh, this->node);
+        this->node->setTriangleSelector(selector);
+        selector->drop();
+    }
 }
 
 void Mesh::setPosition(const vector3df &pos)
