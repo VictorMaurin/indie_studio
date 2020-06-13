@@ -1,4 +1,5 @@
 #include "Core.hpp"
+#include "../Menu/Menu.hpp"
 
 Core::Core()
 {
@@ -23,7 +24,7 @@ void Core::init()
     if (driverType == video::EDT_COUNT)
         throw("Problem in driver");
     this->eventReceiver = new MyEventReceiver();
-    statement = State::NOTHING;
+    statement = State::MENU;
     //create device
     device = createDevice(driverType,
     dimension2d<u32>(640, 480), 16, false, false, false, eventReceiver);
@@ -45,6 +46,7 @@ void Core::init()
     std::cout << "balalalal: " << this << "/" << std::endl;
     entities->push_back(std::make_shared<Player>("Bomberman.MD3", "BlackBombermanTextures.png", this, smgr, driver, device, joystickInfo, eventReceiver, irr::KEY_KEY_Z, irr::KEY_KEY_S, irr::KEY_KEY_Q, irr::KEY_KEY_D));
     this->map = new Map(entities, 19, 13, smgr, driver, device);
+    Menu *menu = new Menu(this);
 }
 
 const std::shared_ptr<std::vector<std::shared_ptr<IEntity>>> &Core::getEntities() const
@@ -67,11 +69,20 @@ IrrlichtDevice *Core::getDevice() const
     return (device);
 }
 
+IGUIEnvironment *Core::getGUIenv() const
+{
+    return (guienv);
+}
+
+void Core::set_ia(bool ia)
+{
+    this->is_ia = ia;
+}
+
 void Core::set_menu()
 {
     if (this->statement != State::MENU) {
         this->statement = State::MENU;
-        // maybe play music 
     }
 }
 
@@ -112,7 +123,6 @@ void Core::run()
             this->update_menu();
         else if (this->statement == State::GAME)
             this->update_game();
-
         frameEndTime = std::clock();
 
         deltaTime = (frameEndTime - frameBgnTime) / (double)CLOCKS_PER_SEC;
@@ -144,18 +154,27 @@ void Core::run()
     device->drop();
 }
 
+void Core::setstatement(State is)
+{
+    this->statement = is;
+}
+
+State Core::getstatement()
+{
+    return (this->statement);
+}
+
 void Core::update_menu()
 {
     driver->beginScene(true, true, SColor(255, 100, 101, 140));
     smgr->drawAll();
     guienv->drawAll();
     driver->endScene();
-    // if game start --> set_game()
-    // if close --> close all
 }
 
 void Core::update_game()
 {
+    device->setEventReceiver(this->eventReceiver);
     driver->beginScene(true, true, SColor(255, 100, 101, 140));
     smgr->drawAll();
     guienv->drawAll();
