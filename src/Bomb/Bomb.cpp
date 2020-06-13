@@ -314,7 +314,7 @@ void Bomb::draw(void) const
 {
 }
 
-void Bomb::canCollide(__attribute__((unused)) bool b)
+void Bomb::canCollide(bool b)
 {
 
 }

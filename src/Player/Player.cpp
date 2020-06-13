@@ -244,7 +244,7 @@ void Player::plantBomb()
         this->_core->getEntities()->push_back(std::make_shared<Bomb>(this->_core, this->getPosition()));
 }
 
-void Player::canCollide(__attribute__((unused)) bool b)
+void Player::canCollide(bool b)
 {
 
 }
