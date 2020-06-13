@@ -5,9 +5,11 @@
 
 class IEntity;
 class Mesh;
+class Explosion;
 
 #include "../Core/Core.hpp"
 #include "../Mesh/Mesh.hpp"
+#include "../Explosion/Explosion.hpp"
 
 using namespace irr;
 using namespace scene;
@@ -25,11 +27,13 @@ private:
     u32 now;
     IParticleEmitter *em;
     IParticleAffector *paf;
-    Core *core;
+    Core *_core;
     std::unique_ptr<Mesh> mesh;
+    bool passed = false;
 public : 
     Bomb(Core *core, vector3df pos);
     ~Bomb();
+
     void createExplodeCube();
     void update(std::shared_ptr<GameMap> map);
     void draw(void) const;

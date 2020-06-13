@@ -4,6 +4,7 @@
 #include <irrlicht.h>
 
 #include "../Core/Core.hpp"
+#include "../../assets/assets.hpp"
 
 using namespace irr;
 using namespace scene;
@@ -20,15 +21,21 @@ private:
     IVideoDriver *driver;
     IrrlichtDevice *device;
     ISceneManager *smgr;
+    Core *_core;
 
 public : 
-    Explosion(Core *core, vector3df pos);
+    Explosion(Core *core, const vector3df &pos);
     ~Explosion();
-    void setPosition(const vector3df &pos);
-    vector3df getPosition(void) const;
-    void setScale(const vector3df &scale);
-    vector3df getScale(void);
+
+    void remove(void);
+    bool isBreakable(void);
+    void update(std::shared_ptr<GameMap> map);
+    void draw(void) const;
     void canCollide(bool);
+    void setPosition(const irr::core::vector3df &pos);
+    irr::core::vector3df getPosition(void) const;
+    void setScale(const irr::core::vector3df &scale);
+    irr::core::vector3df getScale(void) const;
 };
 
 #endif

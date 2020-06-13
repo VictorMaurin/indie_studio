@@ -1,19 +1,20 @@
 #include "Explosion.hpp"
 
-Explosion::Explosion(Core *core, vector3df pos)
+Explosion::Explosion(Core *core, const vector3df &pos)
 {
-    smgr = core->getSmgr();
-    device = core->getDevice();
-    driver = core->getDriver();
+    _core = core;
+    smgr = _core->getSmgr();
+    device = _core->getDevice();
+    driver = _core->getDriver();
     ps = smgr->addParticleSystemSceneNode(false);
 
     em = ps->createBoxEmitter(
-        core::aabbox3d<f32>(0, 0, 0, 0, 1, 1), // emitter size
+        core::aabbox3d<f32>(0, 0, 0, 0, 0, 0), // emitter size
         core::vector3df(0.0f, 0.01f, 0.0f),    // initial direction
         5, 5,                                  // emit rate
         video::SColor(0, 255, 255, 255),       // darkest color
         video::SColor(0, 255, 255, 255),       // brightest color
-        800, 1000, 0,                          // min and max age, angle
+        300, 200, 0,                          // min and max age, angle
         core::dimension2df(5.f, 5.f),          // min size
         core::dimension2df(5.f, 5.f));         // max size
 
@@ -26,17 +27,38 @@ Explosion::Explosion(Core *core, vector3df pos)
     paf->drop();
 
     // ps->setPosition(core::vector3df(0, 0, 40));
-    ps->setScale(vector3df(0.01, 0.01, 0.01));
+    ps->setScale(vector3df(0.002, 0.002, 0.002));
     ps->setMaterialFlag(video::EMF_LIGHTING, false);
     ps->setMaterialFlag(video::EMF_ZWRITE_ENABLE, false);
-    ps->setMaterialTexture(0, driver->getTexture("assets/fire.bmp"));
+    std::string asset = findAsset("fire.bmp");
+    ps->setMaterialTexture(0, driver->getTexture(asset.c_str()));
+    if (!ps)
+        throw "cannot open particle";
     ps->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
-    vector3df temp = pos;
-    temp.X += 3;
-    ps->setPosition(temp);
+    ps->setPosition(pos);
 }
 
 Explosion::~Explosion()
+{
+
+}
+
+void Explosion::remove()
+{
+
+}
+
+bool Explosion::isBreakable()
+{
+    return (false);
+}
+
+void Explosion::update(std::shared_ptr<GameMap> map)
+{
+
+}
+
+void Explosion::draw() const
 {
 
 }
@@ -56,7 +78,7 @@ void Explosion::setScale(const irr::core::vector3df &scale)
     ps->setScale(scale);
 }
 
-vector3df Explosion::getScale()
+vector3df Explosion::getScale() const
 {
     return (ps->getScale());
 }
