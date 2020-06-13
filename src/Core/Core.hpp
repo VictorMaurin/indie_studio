@@ -36,6 +36,7 @@ private:
     MyEventReceiver *eventReceiver;
     irr::core::array<irr::SJoystickInfo> joystickInfo;
     Map *map;
+    bool is_ia;
 
 public : 
     Core(/* args */);
@@ -47,9 +48,13 @@ public :
     void set_game();
     void update_menu();
     void update_game();
+    void setstatement(State is);
+    void set_ia(bool ia);
+    State getstatement();
     IVideoDriver *getDriver() const;
     ISceneManager *getSmgr() const;
     IrrlichtDevice *getDevice() const;
+    IGUIEnvironment *getGUIenv() const;
     MyEventReceiver* getEventreceiver();
     irr::core::array<irr::SJoystickInfo> getJoystickinfo();
 };
