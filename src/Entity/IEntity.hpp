@@ -30,6 +30,7 @@ public:
     virtual irr::core::vector3df getPosition(void) const = 0;
     virtual void setScale(const irr::core::vector3df &scale)=0;
     virtual irr::core::vector3df getScale(void) const = 0;
+    virtual void setTexture(std::string assets) = 0;
 };
 
 #endif /* IENTITY_HPP */

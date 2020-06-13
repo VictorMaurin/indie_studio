@@ -39,6 +39,7 @@ public:
 	irr::core::vector3df getPosition(void) const;
 	void setScale(const irr::core::vector3df& scale);
 	irr::core::vector3df getScale(void) const;
+	void setTexture(std::string assets) {};
 private:
 	MyEventReceiver* _receiver;
 	Core* _core;
@@ -52,5 +53,6 @@ private:
 	irr::EKEY_CODE _behind;
 	irr::EKEY_CODE _left;
 	irr::EKEY_CODE _right;
+	bool isRemove = false;
 };
 #endif

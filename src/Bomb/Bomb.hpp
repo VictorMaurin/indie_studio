@@ -31,6 +31,8 @@ private:
     Core *_core;
     std::unique_ptr<Mesh> mesh;
     bool passed = false;
+    vector3df posFloat;
+
 public : 
     Bomb(Core *core, vector3df pos);
     ~Bomb();
@@ -38,7 +40,7 @@ public :
     void createExplodeCube();
     void update(std::shared_ptr<GameMap> map);
     void draw(void) const;
-    void explode();
+    void explode(std::shared_ptr<GameMap> map, std::string asset);
     void remove(void);
     bool isBreakable(void);
     void canCollide(bool);
@@ -47,6 +49,7 @@ public :
     irr::core::vector3df getPosition(void) const;
     void setScale(const irr::core::vector3df &scale);
     irr::core::vector3df getScale(void) const;
+    void setTexture(std::string assets) {};
 };
 
 #endif

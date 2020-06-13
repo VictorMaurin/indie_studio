@@ -38,6 +38,7 @@ public :
     irr::core::vector3df getPosition(void) const;
     void setScale(const irr::core::vector3df &scale);
     irr::core::vector3df getScale(void) const;
+    void setTexture(std::string assets) {};
 };
 
 #endif

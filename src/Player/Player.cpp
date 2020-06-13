@@ -300,8 +300,10 @@ void Player::draw(void) const
 
 void Player::remove(void)
 {
-    if (this->PlayerOBJ)
+    if (this->PlayerOBJ && isRemove == false) {
+        isRemove = true;
         this->PlayerOBJ->remove();
+    }
 }
 
 bool Player::isBreakable(void)
