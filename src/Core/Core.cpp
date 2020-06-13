@@ -41,6 +41,8 @@ void Core::init()
     //tmp camera
     smgr->addCameraSceneNode(0, vector3df(0,11,-2), vector3df(0,0,0));
 
+    this->collMan = smgr->getSceneCollisionManager();
+
     entities = std::make_shared<std::vector<std::shared_ptr<IEntity>>>();
     std::cout << "balalalal: " << this << "/" << std::endl;
     this->map = std::make_shared<GameMap>(entities, 19, 13, this, smgr, driver, device);
@@ -171,4 +173,9 @@ MyEventReceiver* Core::getEventreceiver()
 irr::core::array<irr::SJoystickInfo> Core::getJoystickinfo()
 {
     return (this->joystickInfo);
+}
+
+ISceneCollisionManager *Core::getCollMan() const
+{
+    return (this->collMan);
 }

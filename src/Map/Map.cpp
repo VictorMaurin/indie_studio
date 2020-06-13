@@ -40,6 +40,7 @@ GameMap::GameMap(std::shared_ptr<std::vector<std::shared_ptr<IEntity>>> entities
             (i % 2 == 0 && j % 2 == 0)) {//inside map
                 this->map[i][j] = std::make_shared<Mesh>("block.obj", "block.png", core, smgr, driver, device);
                 this->map[i][j]->setPosition(vector3df(xPos, 0.0f, zPos));
+                this->map[i][j]->canCollide(true);
                 entities->push_back(this->map[i][j]);
             }
             xPos += 1;
@@ -56,8 +57,9 @@ GameMap::GameMap(std::shared_ptr<std::vector<std::shared_ptr<IEntity>>> entities
                 if ((i > 2 && i < height - 3) || (j > 2 && j < width - 3)) {
                     nbCrates++;
                     this->map[i][j] = std::make_shared<Breakable>(core, smgr, driver, device);
-                    this->map[i][j]->setPosition(vector3df(xPos, 0.0f, zPos));
                     this->map[i][j]->setScale(vector3df(0.85f, 0.85f, 0.85f));
+                    this->map[i][j]->setPosition(vector3df(xPos, -0.15f, zPos));
+                    this->map[i][j]->canCollide(true);
                     entities->push_back(this->map[i][j]);
                 }
             }
@@ -76,8 +78,6 @@ GameMap::~GameMap()
 vector2di pickDirection()
 {
     vector2di dir = vector2di(0, 0);
-    // int xOffset = 0;
-    // int yOffset = 0;
 
     while (abs(dir.X) == abs(dir.Y)) {
         dir.X = rand() % 3 + (-1);

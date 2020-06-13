@@ -36,6 +36,7 @@ private:
     MyEventReceiver *eventReceiver;
     irr::core::array<irr::SJoystickInfo> joystickInfo;
     std::shared_ptr<GameMap> map;
+    ISceneCollisionManager *collMan;
 
 public : 
     Core(/* args */);
@@ -47,6 +48,7 @@ public :
     void set_game();
     void update_menu();
     void update_game();
+    ISceneCollisionManager *getCollMan() const;
     IVideoDriver *getDriver() const;
     ISceneManager *getSmgr() const;
     IrrlichtDevice *getDevice() const;
