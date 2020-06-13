@@ -34,6 +34,7 @@ class GameMap {
         int removeNeighbour(int &i, int &j, int &missing);
         std::vector<std::vector<std::shared_ptr<IEntity>>> getMap(void) const;
         vector2di getMapSize(void) const;
+        const std::vector<std::vector<std::shared_ptr<IEntity>>> &getGround() const;
     protected:
         int height;
         int width;
