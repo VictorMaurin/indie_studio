@@ -1,18 +1,23 @@
 #ifndef EXPLOSION_HPP
 #define EXPLOSION_HPP
 
-#include "../Entity/IEntity.hpp"
+#include <irrlicht.h>
+
 #include "../Core/Core.hpp"
 #include "../../assets/assets.hpp"
 
-class Core;
+using namespace irr;
+using namespace scene;
+using namespace gui;
+using namespace video;
+using namespace core;
 
 class Explosion : public IEntity
 {
 private:
     vector3df pos;
-    scene::IParticleSystemSceneNode *ps;
-    scene::IParticleEmitter *em;
+    IParticleSystemSceneNode *ps;
+    IParticleEmitter *em;
     IVideoDriver *driver;
     IrrlichtDevice *device;
     ISceneManager *smgr;
@@ -23,10 +28,12 @@ private:
 public : 
     Explosion(Core *core, const vector3df &pos);
     ~Explosion();
+
     void remove(void);
     bool isBreakable(void);
-    void update(void);
+    void update(std::shared_ptr<GameMap> map);
     void draw(void) const;
+    void canCollide(bool);
     void setPosition(const irr::core::vector3df &pos);
     irr::core::vector3df getPosition(void) const;
     void setScale(const irr::core::vector3df &scale);

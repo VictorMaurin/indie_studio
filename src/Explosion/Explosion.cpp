@@ -51,10 +51,10 @@ void Explosion::remove()
 
 bool Explosion::isBreakable()
 {
-
+    return (false);
 }
 
-void Explosion::update()
+void Explosion::update(std::shared_ptr<GameMap> map)
 {
     std::cout << "update" << std::endl;
     bool passed = false;
@@ -85,7 +85,12 @@ void Explosion::setScale(const irr::core::vector3df &scale)
     ps->setScale(scale);
 }
 
-irr::core::vector3df Explosion::getScale() const
+vector3df Explosion::getScale() const
 {
     return (ps->getScale());
+}
+
+void Explosion::canCollide(__attribute__((unused)) bool b)
+{
+
 }

@@ -2,13 +2,13 @@
 
 Bomb::Bomb(Core *core, vector3df pos)
 {
-    _core = core;
-    device = _core->getDevice();
-    driver = _core->getDriver();
-    smgr = _core->getSmgr();
-    mesh = std::make_shared<Mesh>(
+    core = core;
+    device = core->getDevice();
+    driver = core->getDriver();
+    smgr = core->getSmgr();
+    mesh = std::make_unique<Mesh>(
         "bomb2.obj", "bombbody_BaseColor.png",
-        smgr, driver, device);
+        core, smgr, driver, device);
     
     mesh->setPosition(pos);
     vector3di posInt;
@@ -40,7 +40,7 @@ void Bomb::explode()
     createExplodeCube();
 }
 
-void Bomb::update(void)
+void Bomb::update(std::shared_ptr<GameMap> map)
 {
     now = device->getTimer()->getRealTime();
     // node->setScale(vector3df(0.01f, 0.01f, 0.01f));
@@ -52,6 +52,11 @@ void Bomb::update(void)
 
 void Bomb::draw(void) const
 {
+}
+
+void Bomb::canCollide(__attribute__((unused)) bool b)
+{
+
 }
 
 void Bomb::setPosition(const irr::core::vector3df &pos)
