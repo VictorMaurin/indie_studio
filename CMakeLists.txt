@@ -38,7 +38,6 @@ if (UNIX)
         ./src/Menu/Menu.cpp
         ./assets/find_asset.cpp
         ./src/Breakable/Breakable.cpp
-        ./src/Explosion/Explosion.cpp
         ./src/Mesh/Mesh.cpp
  ./src/main.cpp)
 
@@ -60,7 +59,6 @@ add_executable(bomberman
         ./src/Menu/Menu.cpp
         ./assets/find_asset.cpp
         ./src/Breakable/Breakable.cpp
-        ./src/Explosion/Explosion.cpp
         ./src/Mesh/Mesh.cpp
  ./src/main.cpp)
 target_link_libraries(bomberman Irrlicht)
