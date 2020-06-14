@@ -35,47 +35,47 @@ void Bomb::createExplodeCube()
 
 void Bomb::returnToGreen(std::shared_ptr<GameMap> map, std::string asset)
 {
-    if ((int(posFloat.X) + int((map->getMapSize().X / 2)) < map->getGround().size())
+    if ((int(posFloat.X) + int((map->getMapSize().X / 2)) < map->getGround().at(0).size())
     && int(posFloat.Z) + int((map->getMapSize().Y / 2)) < map->getGround().size()) {
         map->getGround().at(int(posFloat.Z) + int((map->getMapSize().Y / 2))).
         at(int(posFloat.X) + int((map->getMapSize().X / 2)))->setTexture(asset);
     }
-    if ((int(posFloat.X + 1) + int((map->getMapSize().X / 2)) < map->getGround().size())
+    if ((int(posFloat.X + 1) + int((map->getMapSize().X / 2)) < map->getGround().at(0).size())
     && int(posFloat.Z) + int((map->getMapSize().Y / 2)) < map->getGround().size()) {
         map->getGround().at(int(posFloat.Z) + int((map->getMapSize().Y / 2))).
         at(int(posFloat.X + 1) + int((map->getMapSize().X / 2)))->setTexture(asset);
     }
-    if ((int(posFloat.X) + int((map->getMapSize().X / 2)) < map->getGround().size())
+    if ((int(posFloat.X) + int((map->getMapSize().X / 2)) < map->getGround().at(0).size())
     && int(posFloat.Z + 1) + int((map->getMapSize().Y / 2)) < map->getGround().size()) {
         map->getGround().at(int(posFloat.Z + 1) + int((map->getMapSize().Y / 2))).
         at(int(posFloat.X) + int((map->getMapSize().X / 2)))->setTexture(asset);
     }
-    if ((int(posFloat.X - 1) + int((map->getMapSize().X / 2)) < map->getGround().size())
+    if ((int(posFloat.X - 1) + int((map->getMapSize().X / 2)) < map->getGround().at(0).size())
     && int(posFloat.Z) + int((map->getMapSize().Y / 2)) < map->getGround().size()) {
         map->getGround().at(int(posFloat.Z) + int((map->getMapSize().Y / 2))).
         at(int(posFloat.X - 1) + int((map->getMapSize().X / 2)))->setTexture(asset);
     }
-    if ((int(posFloat.X) + int((map->getMapSize().X / 2)) < map->getGround().size())
+    if ((int(posFloat.X) + int((map->getMapSize().X / 2)) < map->getGround().at(0).size())
     && int(posFloat.Z - 1) + int((map->getMapSize().Y / 2)) < map->getGround().size()) {
         map->getGround().at(int(posFloat.Z - 1) + int((map->getMapSize().Y / 2))).
         at(int(posFloat.X) + int((map->getMapSize().X / 2)))->setTexture(asset);
     }
-    if ((int(posFloat.X + 2) + int((map->getMapSize().X / 2)) < map->getGround().size())
+    if ((int(posFloat.X + 2) + int((map->getMapSize().X / 2)) < map->getGround().at(0).size())
 && int(posFloat.Z) + int((map->getMapSize().Y / 2)) < map->getGround().size()) {
     map->getGround().at(int(posFloat.Z) + int((map->getMapSize().Y / 2))).
     at(int(posFloat.X + 2) + int((map->getMapSize().X / 2)))->setTexture(asset);
     }
-    if ((int(posFloat.X) + int((map->getMapSize().X / 2)) < map->getGround().size())
+    if ((int(posFloat.X) + int((map->getMapSize().X / 2)) < map->getGround().at(0).size())
     && int(posFloat.Z + 2) + int((map->getMapSize().Y / 2)) < map->getGround().size()) {
         map->getGround().at(int(posFloat.Z + 2) + int((map->getMapSize().Y / 2))).
         at(int(posFloat.X) + int((map->getMapSize().X / 2)))->setTexture(asset);
     }
-    if ((int(posFloat.X - 2) + int((map->getMapSize().X / 2)) < map->getGround().size())
+    if ((int(posFloat.X - 2) + int((map->getMapSize().X / 2)) < map->getGround().at(0).size())
 && int(posFloat.Z) + int((map->getMapSize().Y / 2)) < map->getGround().size()) {
     map->getGround().at(int(posFloat.Z) + int((map->getMapSize().Y / 2))).
     at(int(posFloat.X - 2) + int((map->getMapSize().X / 2)))->setTexture(asset);
     }
-    if ((int(posFloat.X) + int((map->getMapSize().X / 2)) < map->getGround().size())
+    if ((int(posFloat.X) + int((map->getMapSize().X / 2)) < map->getGround().at(0).size())
     && int(posFloat.Z - 2) + int((map->getMapSize().Y / 2)) < map->getGround().size()) {
         map->getGround().at(int(posFloat.Z - 2) + int((map->getMapSize().Y / 2))).
         at(int(posFloat.X) + int((map->getMapSize().X / 2)))->setTexture(asset);
@@ -88,7 +88,7 @@ void Bomb::explode(std::shared_ptr<GameMap> map, std::string asset)
     bool checkXMin = false;
     bool checkZPlus = false;
     bool checkZMin = false;
-    if ((int(posFloat.X) + int((map->getMapSize().X / 2)) < map->getGround().size())
+    if ((int(posFloat.X) + int((map->getMapSize().X / 2)) < map->getGround().at(0).size())
     && int(posFloat.Z) + int((map->getMapSize().Y / 2)) < map->getGround().size()) {
         map->getGround().at(int(posFloat.Z) + int((map->getMapSize().Y / 2))).
         at(int(posFloat.X) + int((map->getMapSize().X / 2)))->setTexture(asset);
@@ -100,11 +100,11 @@ void Bomb::explode(std::shared_ptr<GameMap> map, std::string asset)
             }
         }
     }
-    if ((int(posFloat.X + 1) + int((map->getMapSize().X / 2)) < map->getGround().size())
+    if ((int(posFloat.X + 1) + int((map->getMapSize().X / 2)) < map->getGround().at(0).size())
     && int(posFloat.Z) + int((map->getMapSize().Y / 2)) < map->getGround().size()) {
         map->getGround().at(int(posFloat.Z) + int((map->getMapSize().Y / 2))).
         at(int(posFloat.X + 1) + int((map->getMapSize().X / 2)))->setTexture(asset);
-        if ((int(posFloat.X + 1) + int((map->getMapSize().X / 2)) < map->getGround().size())
+        if ((int(posFloat.X + 1) + int((map->getMapSize().X / 2)) < map->getGround().at(0).size())
     && int(posFloat.Z) + int((map->getMapSize().Y / 2)) < map->getMap().size()
     && map->getMap().at(int(posFloat.Z) + int((map->getMapSize().Y / 2))).
         at(int(posFloat.X + 1) + int((map->getMapSize().X / 2))) != NULL && map->getMap().at(int(posFloat.Z) + int((map->getMapSize().Y / 2))).
@@ -129,11 +129,11 @@ void Bomb::explode(std::shared_ptr<GameMap> map, std::string asset)
             }
         }
     }
-    if ((int(posFloat.X) + int((map->getMapSize().X / 2)) < map->getGround().size())
+    if ((int(posFloat.X) + int((map->getMapSize().X / 2)) < map->getGround().at(0).size())
     && int(posFloat.Z + 1) + int((map->getMapSize().Y / 2)) < map->getGround().size()) {
         map->getGround().at(int(posFloat.Z + 1) + int((map->getMapSize().Y / 2))).
         at(int(posFloat.X) + int((map->getMapSize().X / 2)))->setTexture(asset);
-        if ((int(posFloat.X) + int((map->getMapSize().X / 2)) < map->getGround().size())
+        if ((int(posFloat.X) + int((map->getMapSize().X / 2)) < map->getGround().at(0).size())
     && int(posFloat.Z + 1) + int((map->getMapSize().Y / 2)) < map->getMap().size()
     && map->getMap().at(int(posFloat.Z + 1) + int((map->getMapSize().Y / 2))).
         at(int(posFloat.X) + int((map->getMapSize().X / 2))) != NULL && map->getMap().at(int(posFloat.Z + 1) + int((map->getMapSize().Y / 2))).
@@ -158,11 +158,11 @@ void Bomb::explode(std::shared_ptr<GameMap> map, std::string asset)
             }
         }
     }
-    if ((int(posFloat.X - 1) + int((map->getMapSize().X / 2)) < map->getGround().size())
+    if ((int(posFloat.X - 1) + int((map->getMapSize().X / 2)) < map->getGround().at(0).size())
     && int(posFloat.Z) + int((map->getMapSize().Y / 2)) < map->getGround().size()) {
         map->getGround().at(int(posFloat.Z) + int((map->getMapSize().Y / 2))).
         at(int(posFloat.X - 1) + int((map->getMapSize().X / 2)))->setTexture(asset);
-        if ((int(posFloat.X - 1) + int((map->getMapSize().X / 2)) < map->getGround().size())
+        if ((int(posFloat.X - 1) + int((map->getMapSize().X / 2)) < map->getGround().at(0).size())
     && int(posFloat.Z) + int((map->getMapSize().Y / 2)) < map->getMap().size()
     && map->getMap().at(int(posFloat.Z) + int((map->getMapSize().Y / 2))).
         at(int(posFloat.X - 1) + int((map->getMapSize().X / 2))) != NULL && map->getMap().at(int(posFloat.Z) + int((map->getMapSize().Y / 2))).
@@ -186,11 +186,11 @@ void Bomb::explode(std::shared_ptr<GameMap> map, std::string asset)
             }
         }
     }
-    if ((int(posFloat.X) + int((map->getMapSize().X / 2)) < map->getGround().size())
+    if ((int(posFloat.X) + int((map->getMapSize().X / 2)) < map->getGround().at(0).size())
     && int(posFloat.Z - 1) + int((map->getMapSize().Y / 2)) < map->getGround().size()) {
         map->getGround().at(int(posFloat.Z - 1) + int((map->getMapSize().Y / 2))).
         at(int(posFloat.X) + int((map->getMapSize().X / 2)))->setTexture(asset);
-        if ((int(posFloat.X) + int((map->getMapSize().X / 2)) < map->getGround().size())
+        if ((int(posFloat.X) + int((map->getMapSize().X / 2)) < map->getGround().at(0).size())
     && int(posFloat.Z - 1) + int((map->getMapSize().Y / 2)) < map->getMap().size()
     && map->getMap().at(int(posFloat.Z - 1) + int((map->getMapSize().Y / 2))).
         at(int(posFloat.X) + int((map->getMapSize().X / 2))) != NULL && map->getMap().at(int(posFloat.Z - 1) + int((map->getMapSize().Y / 2))).
@@ -215,11 +215,11 @@ void Bomb::explode(std::shared_ptr<GameMap> map, std::string asset)
             }
         }
     }
-    if ((int(posFloat.X + 2) + int((map->getMapSize().X / 2)) < map->getGround().size())
+    if ((int(posFloat.X + 2) + int((map->getMapSize().X / 2)) < map->getGround().at(0).size())
 && int(posFloat.Z) + int((map->getMapSize().Y / 2)) < map->getGround().size()) {
     map->getGround().at(int(posFloat.Z) + int((map->getMapSize().Y / 2))).
     at(int(posFloat.X + 2) + int((map->getMapSize().X / 2)))->setTexture(asset);
-        if ((int(posFloat.X + 2) + int((map->getMapSize().X / 2)) < map->getGround().size())
+        if ((int(posFloat.X + 2) + int((map->getMapSize().X / 2)) < map->getGround().at(0).size())
     && int(posFloat.Z) + int((map->getMapSize().Y / 2)) < map->getMap().size()
     && map->getMap().at(int(posFloat.Z) + int((map->getMapSize().Y / 2))).
         at(int(posFloat.X + 2) + int((map->getMapSize().X / 2))) != NULL && map->getMap().at(int(posFloat.Z) + int((map->getMapSize().Y / 2))).
@@ -239,11 +239,11 @@ void Bomb::explode(std::shared_ptr<GameMap> map, std::string asset)
             }
         } //salut
     }
-    if ((int(posFloat.X) + int((map->getMapSize().X / 2)) < map->getGround().size())
+    if ((int(posFloat.X) + int((map->getMapSize().X / 2)) < map->getGround().at(0).size())
     && int(posFloat.Z + 2) + int((map->getMapSize().Y / 2)) < map->getGround().size()) {
         map->getGround().at(int(posFloat.Z + 2) + int((map->getMapSize().Y / 2))).
         at(int(posFloat.X) + int((map->getMapSize().X / 2)))->setTexture(asset);
-        if ((int(posFloat.X) + int((map->getMapSize().X / 2)) < map->getGround().size())
+        if ((int(posFloat.X) + int((map->getMapSize().X / 2)) < map->getGround().at(0).size())
     && int(posFloat.Z + 2) + int((map->getMapSize().Y / 2)) < map->getMap().size()
     && map->getMap().at(int(posFloat.Z + 2) + int((map->getMapSize().Y / 2))).
         at(int(posFloat.X) + int((map->getMapSize().X / 2))) != NULL && map->getMap().at(int(posFloat.Z + 2) + int((map->getMapSize().Y / 2))).
@@ -263,11 +263,11 @@ void Bomb::explode(std::shared_ptr<GameMap> map, std::string asset)
             }
         }
     }
-    if ((int(posFloat.X - 2) + int((map->getMapSize().X / 2)) < map->getGround().size())
+    if ((int(posFloat.X - 2) + int((map->getMapSize().X / 2)) < map->getGround().at(0).size())
 && int(posFloat.Z) + int((map->getMapSize().Y / 2)) < map->getGround().size()) {
     map->getGround().at(int(posFloat.Z) + int((map->getMapSize().Y / 2))).
     at(int(posFloat.X - 2) + int((map->getMapSize().X / 2)))->setTexture(asset);
-        if ((int(posFloat.X - 2) + int((map->getMapSize().X / 2)) < map->getGround().size())
+        if ((int(posFloat.X - 2) + int((map->getMapSize().X / 2)) < map->getGround().at(0).size())
     && int(posFloat.Z) + int((map->getMapSize().Y / 2)) < map->getMap().size()
     && map->getMap().at(int(posFloat.Z) + int((map->getMapSize().Y / 2))).
         at(int(posFloat.X - 2) + int((map->getMapSize().X / 2))) != NULL && map->getMap().at(int(posFloat.Z) + int((map->getMapSize().Y / 2))).
@@ -287,11 +287,11 @@ void Bomb::explode(std::shared_ptr<GameMap> map, std::string asset)
             }
         }
     }
-    if ((int(posFloat.X) + int((map->getMapSize().X / 2)) < map->getGround().size())
+    if ((int(posFloat.X) + int((map->getMapSize().X / 2)) < map->getGround().at(0).size())
     && int(posFloat.Z - 2) + int((map->getMapSize().Y / 2)) < map->getGround().size()) {
         map->getGround().at(int(posFloat.Z - 2) + int((map->getMapSize().Y / 2))).
         at(int(posFloat.X) + int((map->getMapSize().X / 2)))->setTexture(asset);
-        if ((int(posFloat.X) + int((map->getMapSize().X / 2)) < map->getGround().size())
+        if ((int(posFloat.X) + int((map->getMapSize().X / 2)) < map->getGround().at(0).size())
     && int(posFloat.Z - 2) + int((map->getMapSize().Y / 2)) < map->getMap().size()
     && map->getMap().at(int(posFloat.Z - 2) + int((map->getMapSize().Y / 2))).
         at(int(posFloat.X) + int((map->getMapSize().X / 2))) != NULL && map->getMap().at(int(posFloat.Z - 2) + int((map->getMapSize().Y / 2))).
