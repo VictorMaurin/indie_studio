@@ -140,7 +140,7 @@ void GameMap::removeRandomFromMap(void)
     }
 }
 
-std::vector<std::vector<std::shared_ptr<IEntity>>> GameMap::getMap(void) const
+std::vector<std::vector<std::shared_ptr<IEntity>>> &GameMap::getMap(void)
 {
     return (this->map);
 }

@@ -45,7 +45,6 @@ void Player::initPlayer(std::string meshName, std::string textureName, irr::scen
         PlayerOBJ->setAnimationSpeed(0);
         PlayerOBJ->setMaterialFlag(irr::video::EMF_LIGHTING, false);
         PlayerOBJ->setMaterialTexture(0, driver->getTexture(findAsset(textureName).c_str()));
-        this->PlayerOBJ->setPosition(vector3df(-8.0f, 0.0f, -5.0f));//tmp
     }
 }
 
@@ -247,14 +246,28 @@ void Player::movementPlayerJoystick(std::shared_ptr<GameMap> map, irr::core::arr
 
 void Player::movementPlayer(std::shared_ptr<GameMap> map, irr::core::array<irr::SJoystickInfo> &joystickInfo, MyEventReceiver* receiver, const irr::f32 MOVEMENT_SPEED, const irr::f32 frameDeltaTime)
 {
-    movementPlayerKeyBoard(map, receiver, MOVEMENT_SPEED, frameDeltaTime);
-    movementPlayerJoystick(map, joystickInfo, receiver, MOVEMENT_SPEED, frameDeltaTime);
+    if (!this->isAI) {
+        movementPlayerKeyBoard(map, receiver, MOVEMENT_SPEED, frameDeltaTime);
+        movementPlayerJoystick(map, joystickInfo, receiver, MOVEMENT_SPEED, frameDeltaTime);
+    }
 }
 
-void Player::plantBomb()
+void Player::plantBomb(std::shared_ptr<GameMap> map)
 {
-    if (this->_receiver->IsKeyDown(this->_plantBomb) || this->_receiver->GetJoystickState().ButtonStates == 2)
-        this->_core->getEntities()->push_back(std::make_shared<Bomb>(this->_core, this->getPosition()));
+    if (this->_receiver->IsKeyDown(this->_plantBomb)) {
+        if (map->getMap().at((int)getPosition().Z + int((map->getMapSize().Y / 2))).
+        at((int)getPosition().X + int((map->getMapSize().X / 2))) == NULL)
+            this->_core->getEntities()->push_back(std::make_shared<Bomb>(this->_core, this->getPosition()));
+    }
+    if (this->joysticActivated == 1) {
+        if (this->_receiver->GetJoystickState().ButtonStates == 2) {
+            if (map->getMap().at((int)getPosition().Z + int((map->getMapSize().Y / 2))).
+        at((int)getPosition().X + int((map->getMapSize().X / 2))) == NULL) {
+                this->_core->getEntities()->push_back(std::make_shared<Bomb>(this->_core, this->getPosition()));
+            }
+        }
+    }
+
 }
 
 void Player::canCollide(bool b)
@@ -305,7 +318,7 @@ void Player::update(std::shared_ptr<GameMap> map)
         const irr::f32 frameDeltaTime = (irr::f32)(now - this->then) / 1000.f;
         this->then = now;
         this->movementPlayer(map, this->_joystickInfo, this->_receiver, this->MOVEMENT_SPEED, frameDeltaTime);
-        this->plantBomb();
+        this->plantBomb(map);
     }
 }
 
@@ -338,6 +351,8 @@ irr::core::vector3df Player::getScale(void) const
         return (this->PlayerOBJ->getScale());
     return(irr::core::vector3df(-1, -1, -1));
 }
-/*
-That's it. Compile and run.
-**/
+
+void Player::SetIsAI(bool isAI)
+{
+    this->isAI = isAI;
+}

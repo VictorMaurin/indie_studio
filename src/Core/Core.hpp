@@ -6,6 +6,9 @@
 #include <cmath>
 #include <iostream>
 #include <irrlicht.h>
+#include <string>
+
+class Player;
 
 #include "../Event/Event.hpp"
 #include "../Entity/IEntity.hpp"
@@ -21,7 +24,8 @@ enum class State : int
 {
     NOTHING,
     GAME,
-    MENU
+    MENU,
+    GAME_OVER
 };
 
 class Core
@@ -39,19 +43,26 @@ private:
     std::shared_ptr<GameMap> map;
     std::shared_ptr<std::vector<std::shared_ptr<IEntity>>> players;
     ISceneCollisionManager *collMan;
+    IGUIFont *font;
+    std::wstring gameOverStr;
+    u32 gameOverTimerBgn;
 
 public : 
     Core(/* args */);
     ~Core();
     void run();
     void init();
+    void initAssets();
+    void deleteAssets();
     const std::shared_ptr<std::vector<std::shared_ptr<IEntity>>> &getEntities() const;
     void set_menu();
     void set_game();
     void update_menu();
     void update_game();
+    void update_gameOver();
     void setstatement(State is);
-    void set_ia(bool ia);
+    void set_ia(int player_index, bool ia);
+    void isGameOver();
     State getstatement();
     ISceneCollisionManager *getCollMan() const;
     IVideoDriver *getDriver() const;

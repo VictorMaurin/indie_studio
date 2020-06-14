@@ -28,7 +28,7 @@ public:
 	void initJoystic(irr::core::array<irr::SJoystickInfo> &joystickInfo, irr::IrrlichtDevice* device);
 	void movementPlayerJoystick(std::shared_ptr<GameMap> map, irr::core::array<irr::SJoystickInfo> &joystickInfo, MyEventReceiver* receiver, const irr::f32 MOVEMENT_SPEED, const irr::f32 frameDeltaTime);
 	void movementPlayerKeyBoard(std::shared_ptr<GameMap> map, MyEventReceiver* receiver, const irr::f32 MOVEMENT_SPEED, const irr::f32 frameDeltaTime);
-	void plantBomb();
+	void plantBomb(std::shared_ptr<GameMap> map);
 
 	void update(std::shared_ptr<GameMap> map);
 	void draw(void) const;
@@ -40,6 +40,7 @@ public:
 	void setScale(const irr::core::vector3df& scale);
 	irr::core::vector3df getScale(void) const;
 	void setTexture(std::string assets) {};
+	void SetIsAI(bool isAI);
 private:
 	MyEventReceiver* _receiver;
 	Core* _core;
@@ -55,5 +56,6 @@ private:
 	irr::EKEY_CODE _right;
 	irr::EKEY_CODE _plantBomb;
 	bool isRemove = false;
+	bool isAI = false;
 };
 #endif

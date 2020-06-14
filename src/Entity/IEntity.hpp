@@ -26,6 +26,7 @@ public:
     virtual void remove(void)=0;
     virtual bool isBreakable(void)=0;
     virtual void canCollide(bool)=0;
+    virtual void SetIsAI(bool isAI)=0;
 
     virtual void setPosition(const irr::core::vector3df &pos)=0;
     virtual irr::core::vector3df getPosition(void) const = 0;
