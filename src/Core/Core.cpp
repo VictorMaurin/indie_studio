@@ -26,8 +26,7 @@ void Core::init()
     this->eventReceiver = new MyEventReceiver();
     statement = State::MENU;
     //create device
-    device = createDevice(driverType,
-    dimension2d<u32>(640, 480), 16, false, false, false, eventReceiver);
+    device = createDevice(driverType, dimension2d<u32>(640, 480), 16, false, false, false, eventReceiver);
     if (!device)
         throw("Problem in device");
     device->setResizable(true);
@@ -35,6 +34,7 @@ void Core::init()
     driver = device->getVideoDriver();
     smgr = device->getSceneManager();
     guienv = device->getGUIEnvironment();
+    font = this->guienv->getBuiltInFont();
     set_menu();
     
     //tmp light source
@@ -47,11 +47,64 @@ void Core::init()
     entities = std::make_shared<std::vector<std::shared_ptr<IEntity>>>();
     players = std::make_shared<std::vector<std::shared_ptr<IEntity>>>();
     this->map = std::make_shared<GameMap>(entities, 19, 13, this, smgr, driver, device);
-    entities->push_back(std::make_shared<Player>("Bomberman.MD3", "BlackBombermanTextures.png", this, irr::KEY_KEY_Z, irr::KEY_KEY_S, irr::KEY_KEY_Q, irr::KEY_KEY_D, irr::KEY_SPACE));
     Menu *menu = new Menu(this);
+    this->gameOverStr.clear();
+
+    entities->push_back(std::make_shared<Player>("Bomberman.MD3", "BlackBombermanTextures.png", this, irr::KEY_KEY_Z, irr::KEY_KEY_S, irr::KEY_KEY_Q, irr::KEY_KEY_D, irr::KEY_SPACE));
     players->push_back(entities->back());
     entities->push_back(std::make_shared<Player>("Bomberman.MD3", "BlackBombermanTextures.png", this, irr::KEY_KEY_Y, irr::KEY_KEY_H, irr::KEY_KEY_G, irr::KEY_KEY_J, irr::KEY_KEY_L));
     players->push_back(entities->back());
+}
+
+void Core::isGameOver()
+{
+    int playersLeft = 0;
+    int indexPlayer = -1;
+
+    for (size_t i = 0; i < this->players->size(); i++) {
+        if (this->players->at(i) != 0) {
+            playersLeft++;
+            indexPlayer = i;
+        }
+    }
+    if (playersLeft == 1) {
+        this->statement = State::GAME_OVER;
+        if (this->gameOverStr.empty()) {
+            if (indexPlayer == 0)
+                gameOverStr += L"Black";
+            if (indexPlayer == 1)
+                gameOverStr += L"White";
+            if (indexPlayer == 2)
+                gameOverStr += L"Red";
+            if (indexPlayer == 3)
+                gameOverStr += L"Pink";
+            gameOverStr += L" player WINS !";
+            gameOverTimerBgn = device->getTimer()->getRealTime();
+        } else if ((device->getTimer()->getRealTime() - gameOverTimerBgn) / 100 >= 3) {
+            players->erase(players->begin() + indexPlayer);
+            players->clear();
+            players->shrink_to_fit();
+            for (size_t i = 0; i < entities->size(); i++) {
+                if (entities->at(i)) {
+                    entities->at(i)->remove();
+                    entities->at(i).reset();
+                }
+            }
+            entities->clear();
+            entities->shrink_to_fit();
+            this->map.reset();
+            set_menu();
+            this->map = std::make_shared<GameMap>(entities, 19, 13, this, smgr, driver, device);
+            Menu *menu = new Menu(this);
+            this->gameOverStr.clear();
+
+            entities->push_back(std::make_shared<Player>("Bomberman.MD3", "BlackBombermanTextures.png", this, irr::KEY_KEY_Z, irr::KEY_KEY_S, irr::KEY_KEY_Q, irr::KEY_KEY_D, irr::KEY_SPACE));
+            players->push_back(entities->back());
+            entities->push_back(std::make_shared<Player>("Bomberman.MD3", "BlackBombermanTextures.png", this, irr::KEY_KEY_Y, irr::KEY_KEY_H, irr::KEY_KEY_G, irr::KEY_KEY_J, irr::KEY_KEY_L));
+            players->push_back(entities->back());
+
+        }
+    }
 }
 
 const std::shared_ptr<std::vector<std::shared_ptr<IEntity>>> &Core::getPlayers() const
@@ -127,12 +180,15 @@ void Core::run()
         {
             entities->at(i)->update(this->map);
         }
+        isGameOver();
 
         // draw
         if (this->statement == State::MENU)
             this->update_menu();
         else if (this->statement == State::GAME)
             this->update_game();
+        else if (this->statement == State::GAME_OVER)
+            this->update_gameOver();
         frameEndTime = std::clock();
 
         deltaTime = (frameEndTime - frameBgnTime) / (double)CLOCKS_PER_SEC;
@@ -149,6 +205,7 @@ void Core::run()
                 updates++;
                 for (int i = 0; i < entities->size(); i++)
                     entities->at(i)->update(this->map);
+                isGameOver();
             }
             deltaTime = (std::clock() - frameBgnTime) / (double)CLOCKS_PER_SEC;
             remainingTime -= deltaTime;
@@ -156,8 +213,8 @@ void Core::run()
         // std::cout << totalFrameTime << " " << remainingTime << std::endl;
         totalFrameTime = (std::clock() - totalFpsTime) / (double)CLOCKS_PER_SEC;
         // std::cout << remainingTime << " " << 1.0f / totalFrameTime << std::endl;
-        fpsStr = std::to_wstring((int)(1.0f / totalFrameTime));
-        guienv->addStaticText(fpsStr.c_str(), irr::core::rect<irr::s32>(10, 10, 30, 20), true);
+        // fpsStr = std::to_wstring((int)(1.0f / totalFrameTime));
+        // guienv->addStaticText(fpsStr.c_str(), irr::core::rect<irr::s32>(10, 10, 30, 20), true);
         if (this->eventReceiver->IsKeyDown(irr::KEY_KEY_E) || this->eventReceiver->IsKeyDown(irr::KEY_ESCAPE))
             device->closeDevice();
     }
@@ -172,6 +229,17 @@ void Core::setstatement(State is)
 State Core::getstatement()
 {
     return (this->statement);
+}
+
+void Core::update_gameOver()
+{
+    dimension2du size = driver->getScreenSize();
+    driver->beginScene(true, true, SColor(255, 100, 101, 140));
+    smgr->drawAll();
+    if (this->font)
+        this->font->draw(this->gameOverStr.c_str(), recti(size.Width / 2 - 50, size.Height / 2, 300, 50), SColor(255,230,230,230));
+    guienv->drawAll();
+    driver->endScene();
 }
 
 void Core::update_menu()
