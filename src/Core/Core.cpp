@@ -52,7 +52,11 @@ void Core::init()
 void Core::initAssets()
 {
     this->map = std::make_shared<GameMap>(entities, 19, 13, this, smgr, driver, device);
-    Menu *menu = new Menu(this);
+    entities->push_back(std::make_shared<Player>("Bomberman.MD3", "BlackBombermanTextures.png", this, irr::KEY_KEY_Z, irr::KEY_KEY_S, irr::KEY_KEY_Q, irr::KEY_KEY_D, irr::KEY_SPACE));
+    std::shared_ptr<Menu> menu = std::make_shared<Menu>(this);
+    players->push_back(entities->back());
+    entities->push_back(std::make_shared<Player>("Bomberman.MD3", "BlackBombermanTextures.png", this, irr::KEY_KEY_Y, irr::KEY_KEY_H, irr::KEY_KEY_G, irr::KEY_KEY_J, irr::KEY_KEY_L));
+    players->push_back(entities->back());
     this->gameOverStr.clear();
 
     players->push_back(std::make_shared<Player>("Bomberman.MD3", "BlackBombermanTextures.png", this, irr::KEY_KEY_Z, irr::KEY_KEY_S, irr::KEY_KEY_Q, irr::KEY_KEY_D, irr::KEY_SPACE));

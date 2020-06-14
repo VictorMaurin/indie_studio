@@ -18,13 +18,15 @@ enum
 {
 	QUIT_BUTTON = 101,
 	IA_BUTTON,
-    PLAYER_BUTTON
+    PLAYER_BUTTON,
+    HELP_BUTTON,
+    RETURN_BUTTON
 };
 
 class MyEvent : public IEventReceiver
 {
 public:
-	MyEvent(Core *core, IGUIWindow* window, IGUIButton* quit, IGUIButton* ia, IGUIButton* player, IGUIImage* image) {
+	MyEvent(Core *core, IGUIWindow* window, IGUIButton* quit, IGUIButton* ia, IGUIButton* player, IGUIButton* help, IGUIImage* image, IGUIStaticText* text) {
         _core = core;
         statement = core->getstatement();
         device = core->getDevice();
@@ -33,8 +35,10 @@ public:
         guienv = core->getGUIenv();
         _ia = ia;
         _player = player;
+        _text = text;
         _quit = quit;
         _image = image;
+        _help = help;
         win = window;
     };
 
@@ -62,6 +66,8 @@ public:
                             _ia->remove();
                         if (_player)
                             _player->remove();
+                        if (_help)
+                            _help->remove();
                         _image->remove();
                         _core->setstatement(State::GAME);
                         _core->set_ia(1, true);
@@ -78,11 +84,39 @@ public:
                             _ia->remove();
                         if (_player)
                             _player->remove();
+                        if (_help)
+                            _help->remove();
                         _image->remove();
                         _core->setstatement(State::GAME);
                         _core->set_ia(1, false);
 					}
 					return true;
+                case HELP_BUTTON:
+                    {
+                        _quit->setVisible(false);
+                        _ia->setVisible(false);
+                        _player->setVisible(false);
+                        _image->setVisible(false);
+                        _help->setVisible(false);
+                        _text->setVisible(false);
+                        image_help = guienv->addImage(driver->getTexture(findAsset("help.png").c_str()),
+			position2d<int>(10,10));
+                        _return = guienv->addButton(rect<s32>(490,440,600,440 + 32), 0, RETURN_BUTTON,
+			L"RETURN", L"Return");
+                    }
+                    return (true);
+                case RETURN_BUTTON:
+                    {
+                        _image->setVisible(true);
+                        _quit->setVisible(true);
+                        _ia->setVisible(true);
+                        _player->setVisible(true);
+                        _help->setVisible(true);
+                        _text->setVisible(true);
+                        _return->remove();
+                        image_help->remove();
+                    }
+                    return (true);
 				default:
 					return false;
 				}
@@ -101,9 +135,13 @@ public:
         IGUIEnvironment *guienv;
         IGUIButton* _ia;
         IGUIButton* _player;
+        IGUIButton* _help;
         IGUIButton* _quit;
+        IGUIButton* _return;
         IGUIImage* _image;
+        IGUIImage* image_help;
         IGUIWindow* win;
+        IGUIStaticText* _text;
         State statement;
 };
 

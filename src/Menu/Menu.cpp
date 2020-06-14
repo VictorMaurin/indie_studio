@@ -13,16 +13,18 @@ Menu::Menu(Core *core)
 		false, L"												Menu window");
     IGUIImage* image = guienv->addImage(driver->getTexture(findAsset("bomberman.png").c_str()),
 			position2d<int>(10,10));
-    IGUIButton* quit = guienv->addButton(rect<s32>(370,300,480,300 + 32), 0, QUIT_BUTTON,
-			L"Quit", L"Exits Program");
+    IGUIButton* quit = guienv->addButton(rect<s32>(490,300,600,300 + 32), 0, QUIT_BUTTON,
+			L"QUIT", L"Game Exit");
+	IGUIButton* help = guienv->addButton(rect<s32>(370,300,480,300 + 32), 0, HELP_BUTTON,
+			L"HELP", L"Help");
 	IGUIButton* ia = guienv->addButton(rect<s32>(120,300,240,300 + 32), 0, IA_BUTTON,
-			L"IA", L"Launches a new Window");
+			L"IA", L"Opponent is a player");
 	IGUIButton* player = guienv->addButton(rect<s32>(250,300,360,300 + 32), 0, PLAYER_BUTTON,
-			L"PLAYER", L"Launches a new Window");
-	guienv->addStaticText(L"CHOOSE YOUR OPPONENT",
+			L"PLAYER", L"Opponent is a IA");
+	IGUIStaticText* text = guienv->addStaticText(L"CHOOSE YOUR OPPONENT",
 		rect<s32>(250,360,400,382), true, false, window);
     window->getCloseButton()->setVisible(false);
-    MyEvent *receiver = new MyEvent(core, window, quit, ia, player, image);
+    MyEvent *receiver = new MyEvent(core, window, quit, ia, player, help, image, text);
 	device->setEventReceiver(receiver);
 }
 
