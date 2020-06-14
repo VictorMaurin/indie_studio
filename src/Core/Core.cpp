@@ -72,6 +72,19 @@ void Core::initAssets()
     players->push_back(entities->back());
     entities->back()->setPosition(vector3df(8.0f, 0.0f, -5.0f));
     entities->back()->SetIsAI(true);
+
+    // players->push_back(std::make_shared<Player>("Bomberman.MD3", "BlackBombermanTextures.png", this, irr::KEY_KEY_Z, irr::KEY_KEY_S, irr::KEY_KEY_Q, irr::KEY_KEY_D, irr::KEY_SPACE));
+    // entities->push_back(players->back());
+    // players->back()->setPosition(vector3df(-8.0f, 0.0f, -5.0f));
+    // players->push_back(std::make_shared<Player>("Bomberman.MD3", "WhiteBombermanTextures.png", this, irr::KEY_KEY_Y, irr::KEY_KEY_H, irr::KEY_KEY_G, irr::KEY_KEY_J, irr::KEY_KEY_L));
+    // entities->push_back(players->back());
+    // players->back()->setPosition(vector3df(-8.0f, 0.0f, 5.0f));
+    // players->push_back(std::make_shared<Player>("Bomberman.MD3", "RedBombermanTextures.png", this, irr::KEY_KEY_Y, irr::KEY_KEY_H, irr::KEY_KEY_G, irr::KEY_KEY_J, irr::KEY_KEY_L));
+    // entities->push_back(players->back());
+    // players->back()->setPosition(vector3df(8.0f, 0.0f, 5.0f));
+    // players->push_back(std::make_shared<Player>("Bomberman.MD3", "PinkBombermanTextures.png", this, irr::KEY_KEY_Y, irr::KEY_KEY_H, irr::KEY_KEY_G, irr::KEY_KEY_J, irr::KEY_KEY_L));
+    // entities->push_back(players->back());
+    // players->back()->setPosition(vector3df(8.0f, 0.0f, -5.0f));//check
 }
 
 void Core::deleteAssets()

@@ -237,7 +237,7 @@ void Bomb::explode(std::shared_ptr<GameMap> map, std::string asset)
                 _core->getPlayers()->at(i)->remove();
                 _core->getPlayers()->at(i).reset();
             }
-        }
+        } //salut
     }
     if ((int(posFloat.X) + int((map->getMapSize().X / 2)) < map->getGround().size())
     && int(posFloat.Z + 2) + int((map->getMapSize().Y / 2)) < map->getGround().size()) {
