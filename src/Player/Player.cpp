@@ -193,6 +193,8 @@ void Player::movementPlayerJoystick(std::shared_ptr<GameMap> map, irr::core::arr
             }
             if (!irr::core::equals(moveHorizontal, 0.f) || !irr::core::equals(moveVertical, 0.f))
             {
+                ray.start = nodePosition;
+                ray.start.Y += 0.3;
                 if (moveHorizontal < 0) {
                     ray.end = ray.start + vector3df(-100.0f, 0.0f, 0.0f);
                     this->_core->getCollMan()->getSceneNodeAndCollisionPointFromRay(ray, intersection, hitTriangle, IDFlag_IsPickable, 0);
