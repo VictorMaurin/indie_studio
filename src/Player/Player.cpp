@@ -246,10 +246,8 @@ void Player::movementPlayerJoystick(std::shared_ptr<GameMap> map, irr::core::arr
 
 void Player::movementPlayer(std::shared_ptr<GameMap> map, irr::core::array<irr::SJoystickInfo> &joystickInfo, MyEventReceiver* receiver, const irr::f32 MOVEMENT_SPEED, const irr::f32 frameDeltaTime)
 {
-    if (!this->isAI) {
         movementPlayerKeyBoard(map, receiver, MOVEMENT_SPEED, frameDeltaTime);
         movementPlayerJoystick(map, joystickInfo, receiver, MOVEMENT_SPEED, frameDeltaTime);
-    }
 }
 
 void Player::plantBomb(std::shared_ptr<GameMap> map)
@@ -317,8 +315,10 @@ void Player::update(std::shared_ptr<GameMap> map)
         const irr::u32 now = this->_device->getTimer()->getTime();
         const irr::f32 frameDeltaTime = (irr::f32)(now - this->then) / 1000.f;
         this->then = now;
-        this->movementPlayer(map, this->_joystickInfo, this->_receiver, this->MOVEMENT_SPEED, frameDeltaTime);
-        this->plantBomb(map);
+        if (!this->isAI) {
+            this->movementPlayer(map, this->_joystickInfo, this->_receiver, this->MOVEMENT_SPEED, frameDeltaTime);
+            this->plantBomb(map);
+        }
     }
 }
 
