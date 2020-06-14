@@ -21,7 +21,7 @@ using namespace core;
 class Player : public IEntity
 {
 public:
-	Player(std::string meshName, std::string textureName, Core* core, irr::scene::ISceneManager* smgr, irr::video::IVideoDriver* driver, irr::IrrlichtDevice* device, irr::core::array<irr::SJoystickInfo> joystickInfo, MyEventReceiver* receiver, irr::EKEY_CODE advance, irr::EKEY_CODE behind, irr::EKEY_CODE left, irr::EKEY_CODE right);
+	Player(std::string meshName, std::string textureName, Core* core, irr::EKEY_CODE advance, irr::EKEY_CODE behind, irr::EKEY_CODE left, irr::EKEY_CODE right, irr::EKEY_CODE plantBomb);
 	~Player();
 	void initPlayer(std::string meshName, std::string textureName, irr::scene::ISceneManager* sceneManager, irr::video::IVideoDriver* driver);
 	void movementPlayer(std::shared_ptr<GameMap> map, irr::core::array<irr::SJoystickInfo>& joystickInfo, MyEventReceiver* receiver, const irr::f32 MOVEMENT_SPEED, const irr::f32 frameDeltaTime);
@@ -53,6 +53,7 @@ private:
 	irr::EKEY_CODE _behind;
 	irr::EKEY_CODE _left;
 	irr::EKEY_CODE _right;
+	irr::EKEY_CODE _plantBomb;
 	bool isRemove = false;
 };
 #endif

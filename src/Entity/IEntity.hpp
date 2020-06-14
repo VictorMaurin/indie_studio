@@ -5,6 +5,7 @@ class GameMap;
 
 #include <vector>
 #include <irrlicht.h>
+#include <string>
 
 #include "../Map/Map.hpp"
 

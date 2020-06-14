@@ -90,7 +90,7 @@ vector3df Explosion::getScale() const
     return (ps->getScale());
 }
 
-void Explosion::canCollide(__attribute__((unused)) bool b)
+void Explosion::canCollide(bool b)
 {
 
 }

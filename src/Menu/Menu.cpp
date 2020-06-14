@@ -1,4 +1,5 @@
 #include "Menu.hpp"
+#include "../../assets/assets.hpp"
 
 Menu::Menu(Core *core)
 {
@@ -10,7 +11,7 @@ Menu::Menu(Core *core)
 	window = guienv->addWindow(
 		rect<s32>(0, 0, 640, 480),
 		false, L"												Menu window");
-    IGUIImage* image = guienv->addImage(driver->getTexture("./assets/bomberman.png"),
+    IGUIImage* image = guienv->addImage(driver->getTexture(findAsset("bomberman.png").c_str()),
 			position2d<int>(10,10));
     IGUIButton* quit = guienv->addButton(rect<s32>(370,300,480,300 + 32), 0, QUIT_BUTTON,
 			L"Quit", L"Exits Program");
@@ -23,9 +24,6 @@ Menu::Menu(Core *core)
     window->getCloseButton()->setVisible(false);
     MyEvent *receiver = new MyEvent(core, window, quit, ia, player, image);
 	device->setEventReceiver(receiver);
-	if (core->getstatement() == State::GAME) {
-		std::cout << "test" << std::endl;
-	}
 }
 
 Menu::~Menu()

@@ -47,10 +47,10 @@ void Core::init()
     entities = std::make_shared<std::vector<std::shared_ptr<IEntity>>>();
     players = std::make_shared<std::vector<std::shared_ptr<IEntity>>>();
     this->map = std::make_shared<GameMap>(entities, 19, 13, this, smgr, driver, device);
-    entities->push_back(std::make_shared<Player>("Bomberman.MD3", "BlackBombermanTextures.png", this, smgr, driver, device, joystickInfo, eventReceiver, irr::KEY_KEY_Z, irr::KEY_KEY_S, irr::KEY_KEY_Q, irr::KEY_KEY_D));
+    entities->push_back(std::make_shared<Player>("Bomberman.MD3", "BlackBombermanTextures.png", this, irr::KEY_KEY_Z, irr::KEY_KEY_S, irr::KEY_KEY_Q, irr::KEY_KEY_D, irr::KEY_SPACE));
     Menu *menu = new Menu(this);
     players->push_back(entities->back());
-    entities->push_back(std::make_shared<Player>("Bomberman.MD3", "BlackBombermanTextures.png", this, smgr, driver, device, joystickInfo, eventReceiver, irr::KEY_KEY_T, irr::KEY_KEY_Y, irr::KEY_KEY_U, irr::KEY_KEY_I));
+    entities->push_back(std::make_shared<Player>("Bomberman.MD3", "BlackBombermanTextures.png", this, irr::KEY_KEY_Y, irr::KEY_KEY_H, irr::KEY_KEY_G, irr::KEY_KEY_J, irr::KEY_KEY_L));
     players->push_back(entities->back());
 }
 
