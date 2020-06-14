@@ -288,11 +288,13 @@ void Player::canCollide(bool b)
 
 void Player::update(std::shared_ptr<GameMap> map)
 {
-    const irr::u32 now = this->_device->getTimer()->getTime();
-    const irr::f32 frameDeltaTime = (irr::f32)(now - this->then) / 1000.f;
-    this->then = now;
-    this->movementPlayer(map, this->_joystickInfo, this->_receiver, this->MOVEMENT_SPEED, frameDeltaTime);
-    this->plantBomb();
+    if (isRemove == false) {
+        const irr::u32 now = this->_device->getTimer()->getTime();
+        const irr::f32 frameDeltaTime = (irr::f32)(now - this->then) / 1000.f;
+        this->then = now;
+        this->movementPlayer(map, this->_joystickInfo, this->_receiver, this->MOVEMENT_SPEED, frameDeltaTime);
+        this->plantBomb();
+    }
 }
 
 void Player::draw(void) const
