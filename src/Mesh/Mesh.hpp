@@ -50,6 +50,7 @@ class Mesh : public IEntity
         void setScale(const vector3df &scale);
         vector3df getScale(void) const;
         IMesh *getMesh() const;
+        void SetIsAI(bool isAI) {};
         IMeshSceneNode *getNode() const;
         bool isRemove = false;
 

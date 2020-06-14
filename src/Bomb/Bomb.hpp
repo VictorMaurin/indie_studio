@@ -9,7 +9,6 @@ class Explosion;
 
 #include "../Core/Core.hpp"
 #include "../Mesh/Mesh.hpp"
-#include "../Explosion/Explosion.hpp"
 
 using namespace irr;
 using namespace scene;
@@ -36,6 +35,7 @@ private:
 public : 
     Bomb(Core *core, vector3df pos);
     ~Bomb();
+    void SetIsAI(bool isAI){};
     void returnToGreen(std::shared_ptr<GameMap> map, std::string asset);
     void createExplodeCube();
     void update(std::shared_ptr<GameMap> map);
