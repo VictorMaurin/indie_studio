@@ -253,11 +253,20 @@ void Player::movementPlayer(std::shared_ptr<GameMap> map, irr::core::array<irr::
 
 void Player::plantBomb(std::shared_ptr<GameMap> map)
 {
-    if (this->_receiver->IsKeyDown(this->_plantBomb) || this->_receiver->GetJoystickState().ButtonStates == 2) {
+    if (this->_receiver->IsKeyDown(this->_plantBomb)) {
         if (map->getMap().at((int)getPosition().Z + int((map->getMapSize().Y / 2))).
         at((int)getPosition().X + int((map->getMapSize().X / 2))) == NULL)
             this->_core->getEntities()->push_back(std::make_shared<Bomb>(this->_core, this->getPosition()));
     }
+    if (this->joysticActivated == 1) {
+        if (this->_receiver->GetJoystickState().ButtonStates == 2) {
+            if (map->getMap().at((int)getPosition().Z + int((map->getMapSize().Y / 2))).
+        at((int)getPosition().X + int((map->getMapSize().X / 2))) == NULL) {
+                this->_core->getEntities()->push_back(std::make_shared<Bomb>(this->_core, this->getPosition()));
+            }
+        }
+    }
+
 }
 
 void Player::canCollide(bool b)

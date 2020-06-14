@@ -80,7 +80,7 @@ void Core::isGameOver()
                 gameOverStr += L"Pink";
             gameOverStr += L" player WINS !";
             gameOverTimerBgn = device->getTimer()->getRealTime();
-        } else if ((device->getTimer()->getRealTime() - gameOverTimerBgn) / 100 >= 3) {
+        } else if ((device->getTimer()->getRealTime() - gameOverTimerBgn) / 1000 >= 3) {
             players->erase(players->begin() + indexPlayer);
             players->clear();
             players->shrink_to_fit();
@@ -103,6 +103,34 @@ void Core::isGameOver()
             entities->push_back(std::make_shared<Player>("Bomberman.MD3", "BlackBombermanTextures.png", this, irr::KEY_KEY_Y, irr::KEY_KEY_H, irr::KEY_KEY_G, irr::KEY_KEY_J, irr::KEY_KEY_L));
             players->push_back(entities->back());
 
+        }
+    }
+    else if (playersLeft == 0) {
+        this->statement = State::GAME_OVER;
+        if (this->gameOverStr.empty()) {
+            gameOverStr += L" Nobody win !";
+            gameOverTimerBgn = device->getTimer()->getRealTime();
+        } else if ((device->getTimer()->getRealTime() - gameOverTimerBgn) / 1000 >= 3) {
+            players->clear();
+            players->shrink_to_fit();
+            for (size_t i = 0; i < entities->size(); i++) {
+                if (entities->at(i)) {
+                    entities->at(i)->remove();
+                    entities->at(i).reset();
+                }
+            }
+            entities->clear();
+            entities->shrink_to_fit();
+            this->map.reset();
+            set_menu();
+            this->map = std::make_shared<GameMap>(entities, 19, 13, this, smgr, driver, device);
+            Menu *menu = new Menu(this);
+            this->gameOverStr.clear();
+
+            entities->push_back(std::make_shared<Player>("Bomberman.MD3", "BlackBombermanTextures.png", this, irr::KEY_KEY_Z, irr::KEY_KEY_S, irr::KEY_KEY_Q, irr::KEY_KEY_D, irr::KEY_SPACE));
+            players->push_back(entities->back());
+            entities->push_back(std::make_shared<Player>("Bomberman.MD3", "BlackBombermanTextures.png", this, irr::KEY_KEY_Y, irr::KEY_KEY_H, irr::KEY_KEY_G, irr::KEY_KEY_J, irr::KEY_KEY_L));
+            players->push_back(entities->back());
         }
     }
 }
