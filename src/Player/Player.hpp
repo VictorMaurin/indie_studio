@@ -40,6 +40,7 @@ public:
 	void setScale(const irr::core::vector3df& scale);
 	irr::core::vector3df getScale(void) const;
 	void setTexture(std::string assets) {};
+	void SetIsAI(bool isAI);
 private:
 	MyEventReceiver* _receiver;
 	Core* _core;
@@ -55,5 +56,6 @@ private:
 	irr::EKEY_CODE _right;
 	irr::EKEY_CODE _plantBomb;
 	bool isRemove = false;
+	bool isAI = false;
 };
 #endif

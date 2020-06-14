@@ -341,6 +341,11 @@ irr::core::vector3df Player::getScale(void) const
         return (this->PlayerOBJ->getScale());
     return(irr::core::vector3df(-1, -1, -1));
 }
-/*
+
+void Player::SetIsAI(bool isAI)
+{
+    isAI = isAI;
+}
+    /*
 That's it. Compile and run.
 **/
