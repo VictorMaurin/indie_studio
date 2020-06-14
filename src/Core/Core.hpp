@@ -41,7 +41,7 @@ private:
     irr::core::array<irr::SJoystickInfo> joystickInfo;
     bool is_ia;
     std::shared_ptr<GameMap> map;
-    std::shared_ptr<std::vector<std::shared_ptr<Player>>> players;
+    std::shared_ptr<std::vector<std::shared_ptr<IEntity>>> players;
     ISceneCollisionManager *collMan;
     IGUIFont *font;
     std::wstring gameOverStr;
@@ -71,7 +71,7 @@ public :
     IGUIEnvironment *getGUIenv() const;
     MyEventReceiver* getEventreceiver();
     irr::core::array<irr::SJoystickInfo> getJoystickinfo();
-    const std::shared_ptr<std::vector<std::shared_ptr<Player>>> &getPlayers() const;
+    const std::shared_ptr<std::vector<std::shared_ptr<IEntity>>> &getPlayers() const;
 };
 
 #endif

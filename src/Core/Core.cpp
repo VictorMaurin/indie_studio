@@ -45,7 +45,7 @@ void Core::init()
     this->collMan = smgr->getSceneCollisionManager();
 
     entities = std::make_shared<std::vector<std::shared_ptr<IEntity>>>();
-    players = std::make_shared<std::vector<std::shared_ptr<Player>>>();
+    players = std::make_shared<std::vector<std::shared_ptr<IEntity>>>();
     this->initAssets();
 }
 
@@ -130,7 +130,7 @@ void Core::isGameOver()
     }
 }
 
-const std::shared_ptr<std::vector<std::shared_ptr<Player>>> &Core::getPlayers() const
+const std::shared_ptr<std::vector<std::shared_ptr<IEntity>>> &Core::getPlayers() const
 {
     return (players);
 }
