@@ -32,7 +32,7 @@ class GameMap {
 
         void removeRandomFromMap();
         int removeNeighbour(int &i, int &j, int &missing);
-        std::vector<std::vector<std::shared_ptr<IEntity>>> getMap(void) const;
+        std::vector<std::vector<std::shared_ptr<IEntity>>> &getMap(void);
         vector2di getMapSize(void) const;
         const std::vector<std::vector<std::shared_ptr<IEntity>>> &getGround() const;
     protected:
