@@ -45,15 +45,15 @@ void Core::init()
     this->collMan = smgr->getSceneCollisionManager();
 
     entities = std::make_shared<std::vector<std::shared_ptr<IEntity>>>();
-    players = std::make_shared<std::vector<std::shared_ptr<IEntity>>>();
+    players = std::make_shared<std::vector<std::shared_ptr<Player>>>();
     this->map = std::make_shared<GameMap>(entities, 19, 13, this, smgr, driver, device);
     Menu *menu = new Menu(this);
     this->gameOverStr.clear();
 
-    entities->push_back(std::make_shared<Player>("Bomberman.MD3", "BlackBombermanTextures.png", this, irr::KEY_KEY_Z, irr::KEY_KEY_S, irr::KEY_KEY_Q, irr::KEY_KEY_D, irr::KEY_SPACE));
-    players->push_back(entities->back());
-    entities->push_back(std::make_shared<Player>("Bomberman.MD3", "BlackBombermanTextures.png", this, irr::KEY_KEY_Y, irr::KEY_KEY_H, irr::KEY_KEY_G, irr::KEY_KEY_J, irr::KEY_KEY_L));
-    players->push_back(entities->back());
+    players->push_back(std::make_shared<Player>("Bomberman.MD3", "BlackBombermanTextures.png", this, irr::KEY_KEY_Z, irr::KEY_KEY_S, irr::KEY_KEY_Q, irr::KEY_KEY_D, irr::KEY_SPACE));
+    entities->push_back(players->back());
+    players->push_back(std::make_shared<Player>("Bomberman.MD3", "BlackBombermanTextures.png", this, irr::KEY_KEY_Y, irr::KEY_KEY_H, irr::KEY_KEY_G, irr::KEY_KEY_J, irr::KEY_KEY_L));
+    entities->push_back(players->back());
 }
 
 void Core::isGameOver()
@@ -98,10 +98,10 @@ void Core::isGameOver()
             Menu *menu = new Menu(this);
             this->gameOverStr.clear();
 
-            entities->push_back(std::make_shared<Player>("Bomberman.MD3", "BlackBombermanTextures.png", this, irr::KEY_KEY_Z, irr::KEY_KEY_S, irr::KEY_KEY_Q, irr::KEY_KEY_D, irr::KEY_SPACE));
-            players->push_back(entities->back());
-            entities->push_back(std::make_shared<Player>("Bomberman.MD3", "BlackBombermanTextures.png", this, irr::KEY_KEY_Y, irr::KEY_KEY_H, irr::KEY_KEY_G, irr::KEY_KEY_J, irr::KEY_KEY_L));
-            players->push_back(entities->back());
+            players->push_back(std::make_shared<Player>("Bomberman.MD3", "BlackBombermanTextures.png", this, irr::KEY_KEY_Z, irr::KEY_KEY_S, irr::KEY_KEY_Q, irr::KEY_KEY_D, irr::KEY_SPACE));
+            entities->push_back(players->back());
+            players->push_back(std::make_shared<Player>("Bomberman.MD3", "BlackBombermanTextures.png", this, irr::KEY_KEY_Y, irr::KEY_KEY_H, irr::KEY_KEY_G, irr::KEY_KEY_J, irr::KEY_KEY_L));
+            entities->push_back(players->back());
 
         }
     }
@@ -127,15 +127,15 @@ void Core::isGameOver()
             Menu *menu = new Menu(this);
             this->gameOverStr.clear();
 
-            entities->push_back(std::make_shared<Player>("Bomberman.MD3", "BlackBombermanTextures.png", this, irr::KEY_KEY_Z, irr::KEY_KEY_S, irr::KEY_KEY_Q, irr::KEY_KEY_D, irr::KEY_SPACE));
-            players->push_back(entities->back());
-            entities->push_back(std::make_shared<Player>("Bomberman.MD3", "BlackBombermanTextures.png", this, irr::KEY_KEY_Y, irr::KEY_KEY_H, irr::KEY_KEY_G, irr::KEY_KEY_J, irr::KEY_KEY_L));
-            players->push_back(entities->back());
+            players->push_back(std::make_shared<Player>("Bomberman.MD3", "BlackBombermanTextures.png", this, irr::KEY_KEY_Z, irr::KEY_KEY_S, irr::KEY_KEY_Q, irr::KEY_KEY_D, irr::KEY_SPACE));
+            entities->push_back(players->back());
+            players->push_back(std::make_shared<Player>("Bomberman.MD3", "BlackBombermanTextures.png", this, irr::KEY_KEY_Y, irr::KEY_KEY_H, irr::KEY_KEY_G, irr::KEY_KEY_J, irr::KEY_KEY_L));
+            entities->push_back(players->back());
         }
     }
 }
 
-const std::shared_ptr<std::vector<std::shared_ptr<IEntity>>> &Core::getPlayers() const
+const std::shared_ptr<std::vector<std::shared_ptr<Player>>> &Core::getPlayers() const
 {
     return (players);
 }
@@ -165,9 +165,9 @@ IGUIEnvironment *Core::getGUIenv() const
     return (guienv);
 }
 
-void Core::set_ia(bool ia)
+void Core::set_ia(int player_index, bool ia)
 {
-    this->is_ia = ia;
+    this->players->at(player_index)->SetIsAI(ia);
 }
 
 void Core::set_menu()

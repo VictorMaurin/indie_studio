@@ -8,6 +8,8 @@
 #include <irrlicht.h>
 #include <string>
 
+class Player;
+
 #include "../Event/Event.hpp"
 #include "../Entity/IEntity.hpp"
 #include "../Player/Player.hpp"
@@ -39,7 +41,7 @@ private:
     irr::core::array<irr::SJoystickInfo> joystickInfo;
     bool is_ia;
     std::shared_ptr<GameMap> map;
-    std::shared_ptr<std::vector<std::shared_ptr<IEntity>>> players;
+    std::shared_ptr<std::vector<std::shared_ptr<Player>>> players;
     ISceneCollisionManager *collMan;
     IGUIFont *font;
     std::wstring gameOverStr;
@@ -57,7 +59,7 @@ public :
     void update_game();
     void update_gameOver();
     void setstatement(State is);
-    void set_ia(bool ia);
+    void set_ia(int player_index, bool ia);
     void isGameOver();
     State getstatement();
     ISceneCollisionManager *getCollMan() const;
@@ -67,7 +69,7 @@ public :
     IGUIEnvironment *getGUIenv() const;
     MyEventReceiver* getEventreceiver();
     irr::core::array<irr::SJoystickInfo> getJoystickinfo();
-    const std::shared_ptr<std::vector<std::shared_ptr<IEntity>>> &getPlayers() const;
+    const std::shared_ptr<std::vector<std::shared_ptr<Player>>> &getPlayers() const;
 };
 
 #endif

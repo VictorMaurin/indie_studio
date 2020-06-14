@@ -64,7 +64,7 @@ public:
                             _player->remove();
                         _image->remove();
                         _core->setstatement(State::GAME);
-                        _core->set_ia(true);
+                        _core->set_ia(1, true);
 					}
 					return true;
                 
@@ -80,7 +80,7 @@ public:
                             _player->remove();
                         _image->remove();
                         _core->setstatement(State::GAME);
-                        _core->set_ia(false);
+                        _core->set_ia(1, false);
 					}
 					return true;
 				default:

@@ -247,8 +247,10 @@ void Player::movementPlayerJoystick(std::shared_ptr<GameMap> map, irr::core::arr
 
 void Player::movementPlayer(std::shared_ptr<GameMap> map, irr::core::array<irr::SJoystickInfo> &joystickInfo, MyEventReceiver* receiver, const irr::f32 MOVEMENT_SPEED, const irr::f32 frameDeltaTime)
 {
-    movementPlayerKeyBoard(map, receiver, MOVEMENT_SPEED, frameDeltaTime);
-    movementPlayerJoystick(map, joystickInfo, receiver, MOVEMENT_SPEED, frameDeltaTime);
+    if (!this->isAI) {
+        movementPlayerKeyBoard(map, receiver, MOVEMENT_SPEED, frameDeltaTime);
+        movementPlayerJoystick(map, joystickInfo, receiver, MOVEMENT_SPEED, frameDeltaTime);
+    }
 }
 
 void Player::plantBomb(std::shared_ptr<GameMap> map)
@@ -353,8 +355,5 @@ irr::core::vector3df Player::getScale(void) const
 
 void Player::SetIsAI(bool isAI)
 {
-    isAI = isAI;
+    this->isAI = isAI;
 }
-    /*
-That's it. Compile and run.
-**/
