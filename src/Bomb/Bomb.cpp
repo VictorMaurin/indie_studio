@@ -361,7 +361,7 @@ irr::core::vector3df Bomb::getScale() const
 
 void Bomb::remove()
 {
-
+    node->remove();
 }
 
 bool Bomb::isBreakable()
