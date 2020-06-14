@@ -28,7 +28,7 @@ public:
 	void initJoystic(irr::core::array<irr::SJoystickInfo> &joystickInfo, irr::IrrlichtDevice* device);
 	void movementPlayerJoystick(std::shared_ptr<GameMap> map, irr::core::array<irr::SJoystickInfo> &joystickInfo, MyEventReceiver* receiver, const irr::f32 MOVEMENT_SPEED, const irr::f32 frameDeltaTime);
 	void movementPlayerKeyBoard(std::shared_ptr<GameMap> map, MyEventReceiver* receiver, const irr::f32 MOVEMENT_SPEED, const irr::f32 frameDeltaTime);
-	void plantBomb();
+	void plantBomb(std::shared_ptr<GameMap> map);
 
 	void update(std::shared_ptr<GameMap> map);
 	void draw(void) const;

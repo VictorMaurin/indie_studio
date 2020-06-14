@@ -251,10 +251,13 @@ void Player::movementPlayer(std::shared_ptr<GameMap> map, irr::core::array<irr::
     movementPlayerJoystick(map, joystickInfo, receiver, MOVEMENT_SPEED, frameDeltaTime);
 }
 
-void Player::plantBomb()
+void Player::plantBomb(std::shared_ptr<GameMap> map)
 {
-    if (this->_receiver->IsKeyDown(this->_plantBomb) || this->_receiver->GetJoystickState().ButtonStates == 2)
-        this->_core->getEntities()->push_back(std::make_shared<Bomb>(this->_core, this->getPosition()));
+    if (this->_receiver->IsKeyDown(this->_plantBomb) || this->_receiver->GetJoystickState().ButtonStates == 2) {
+        if (map->getMap().at((int)getPosition().Z + int((map->getMapSize().Y / 2))).
+        at((int)getPosition().X + int((map->getMapSize().X / 2))) == NULL)
+            this->_core->getEntities()->push_back(std::make_shared<Bomb>(this->_core, this->getPosition()));
+    }
 }
 
 void Player::canCollide(bool b)
@@ -305,7 +308,7 @@ void Player::update(std::shared_ptr<GameMap> map)
         const irr::f32 frameDeltaTime = (irr::f32)(now - this->then) / 1000.f;
         this->then = now;
         this->movementPlayer(map, this->_joystickInfo, this->_receiver, this->MOVEMENT_SPEED, frameDeltaTime);
-        this->plantBomb();
+        this->plantBomb(map);
     }
 }
 
