@@ -299,7 +299,7 @@ void Bomb::update(std::shared_ptr<GameMap> map)
         passed = true;
         mesh->remove();
     }
-    else if ((now - then) / 1000 >= 3) {
+    else if ((now - then) / 1000 >= 3 && (now - then) / 1000 < 5) {
         explode(map, "grasseRed.jpg");
     }
     if ((now - then) / 1000 >= 5) {
