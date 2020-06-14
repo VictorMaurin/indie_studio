@@ -52,6 +52,8 @@ public :
     ~Core();
     void run();
     void init();
+    void initAssets();
+    void deleteAssets();
     const std::shared_ptr<std::vector<std::shared_ptr<IEntity>>> &getEntities() const;
     void set_menu();
     void set_game();

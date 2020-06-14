@@ -46,14 +46,42 @@ void Core::init()
 
     entities = std::make_shared<std::vector<std::shared_ptr<IEntity>>>();
     players = std::make_shared<std::vector<std::shared_ptr<Player>>>();
+    this->initAssets();
+}
+
+void Core::initAssets()
+{
     this->map = std::make_shared<GameMap>(entities, 19, 13, this, smgr, driver, device);
     Menu *menu = new Menu(this);
     this->gameOverStr.clear();
 
     players->push_back(std::make_shared<Player>("Bomberman.MD3", "BlackBombermanTextures.png", this, irr::KEY_KEY_Z, irr::KEY_KEY_S, irr::KEY_KEY_Q, irr::KEY_KEY_D, irr::KEY_SPACE));
     entities->push_back(players->back());
-    players->push_back(std::make_shared<Player>("Bomberman.MD3", "BlackBombermanTextures.png", this, irr::KEY_KEY_Y, irr::KEY_KEY_H, irr::KEY_KEY_G, irr::KEY_KEY_J, irr::KEY_KEY_L));
+    players->back()->setPosition(vector3df(-8.0f, 0.0f, -5.0f));
+    players->push_back(std::make_shared<Player>("Bomberman.MD3", "WhiteBombermanTextures.png", this, irr::KEY_KEY_Y, irr::KEY_KEY_H, irr::KEY_KEY_G, irr::KEY_KEY_J, irr::KEY_KEY_L));
     entities->push_back(players->back());
+    players->back()->setPosition(vector3df(-8.0f, 0.0f, 5.0f));
+    players->push_back(std::make_shared<Player>("Bomberman.MD3", "RedBombermanTextures.png", this, irr::KEY_KEY_Y, irr::KEY_KEY_H, irr::KEY_KEY_G, irr::KEY_KEY_J, irr::KEY_KEY_L));
+    entities->push_back(players->back());
+    players->back()->setPosition(vector3df(8.0f, 0.0f, 5.0f));
+    players->push_back(std::make_shared<Player>("Bomberman.MD3", "PinkBombermanTextures.png", this, irr::KEY_KEY_Y, irr::KEY_KEY_H, irr::KEY_KEY_G, irr::KEY_KEY_J, irr::KEY_KEY_L));
+    entities->push_back(players->back());
+    players->back()->setPosition(vector3df(8.0f, 0.0f, -5.0f));
+}
+
+void Core::deleteAssets()
+{
+    players->clear();
+    players->shrink_to_fit();
+    for (size_t i = 0; i < entities->size(); i++) {
+        if (entities->at(i)) {
+            entities->at(i)->remove();
+            entities->at(i).reset();
+        }
+    }
+    entities->clear();
+    entities->shrink_to_fit();
+    this->map.reset();
 }
 
 void Core::isGameOver()
@@ -82,27 +110,10 @@ void Core::isGameOver()
             gameOverTimerBgn = device->getTimer()->getRealTime();
         } else if ((device->getTimer()->getRealTime() - gameOverTimerBgn) / 1000 >= 3) {
             players->erase(players->begin() + indexPlayer);
-            players->clear();
-            players->shrink_to_fit();
-            for (size_t i = 0; i < entities->size(); i++) {
-                if (entities->at(i)) {
-                    entities->at(i)->remove();
-                    entities->at(i).reset();
-                }
-            }
-            entities->clear();
-            entities->shrink_to_fit();
-            this->map.reset();
+            this->deleteAssets();
             set_menu();
-            this->map = std::make_shared<GameMap>(entities, 19, 13, this, smgr, driver, device);
-            Menu *menu = new Menu(this);
-            this->gameOverStr.clear();
 
-            players->push_back(std::make_shared<Player>("Bomberman.MD3", "BlackBombermanTextures.png", this, irr::KEY_KEY_Z, irr::KEY_KEY_S, irr::KEY_KEY_Q, irr::KEY_KEY_D, irr::KEY_SPACE));
-            entities->push_back(players->back());
-            players->push_back(std::make_shared<Player>("Bomberman.MD3", "BlackBombermanTextures.png", this, irr::KEY_KEY_Y, irr::KEY_KEY_H, irr::KEY_KEY_G, irr::KEY_KEY_J, irr::KEY_KEY_L));
-            entities->push_back(players->back());
-
+            this->initAssets();
         }
     }
     else if (playersLeft == 0) {
@@ -111,26 +122,10 @@ void Core::isGameOver()
             gameOverStr += L" Nobody win !";
             gameOverTimerBgn = device->getTimer()->getRealTime();
         } else if ((device->getTimer()->getRealTime() - gameOverTimerBgn) / 1000 >= 3) {
-            players->clear();
-            players->shrink_to_fit();
-            for (size_t i = 0; i < entities->size(); i++) {
-                if (entities->at(i)) {
-                    entities->at(i)->remove();
-                    entities->at(i).reset();
-                }
-            }
-            entities->clear();
-            entities->shrink_to_fit();
-            this->map.reset();
+            this->deleteAssets();
             set_menu();
-            this->map = std::make_shared<GameMap>(entities, 19, 13, this, smgr, driver, device);
-            Menu *menu = new Menu(this);
-            this->gameOverStr.clear();
 
-            players->push_back(std::make_shared<Player>("Bomberman.MD3", "BlackBombermanTextures.png", this, irr::KEY_KEY_Z, irr::KEY_KEY_S, irr::KEY_KEY_Q, irr::KEY_KEY_D, irr::KEY_SPACE));
-            entities->push_back(players->back());
-            players->push_back(std::make_shared<Player>("Bomberman.MD3", "BlackBombermanTextures.png", this, irr::KEY_KEY_Y, irr::KEY_KEY_H, irr::KEY_KEY_G, irr::KEY_KEY_J, irr::KEY_KEY_L));
-            entities->push_back(players->back());
+            this->initAssets();
         }
     }
 }

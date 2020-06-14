@@ -45,7 +45,6 @@ void Player::initPlayer(std::string meshName, std::string textureName, irr::scen
         PlayerOBJ->setAnimationSpeed(0);
         PlayerOBJ->setMaterialFlag(irr::video::EMF_LIGHTING, false);
         PlayerOBJ->setMaterialTexture(0, driver->getTexture(findAsset(textureName).c_str()));
-        this->PlayerOBJ->setPosition(vector3df(-8.0f, 0.0f, -5.0f));//tmp
     }
 }
 
