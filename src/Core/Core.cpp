@@ -70,7 +70,7 @@ void Core::initAssets()
     players->back()->setPosition(vector3df(8.0f, 0.0f, 5.0f));
     players->push_back(std::make_shared<Player>("Bomberman.MD3", "PinkBombermanTextures.png", this, irr::KEY_KEY_Y, irr::KEY_KEY_H, irr::KEY_KEY_G, irr::KEY_KEY_J, irr::KEY_KEY_L));
     entities->push_back(players->back());
-    players->back()->setPosition(vector3df(8.0f, 0.0f, -5.0f));
+    players->back()->setPosition(vector3df(8.0f, 0.0f, -5.0f));//check
 }
 
 void Core::deleteAssets()
