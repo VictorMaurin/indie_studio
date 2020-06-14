@@ -1,13 +1,13 @@
 #include "Player.hpp"
 
-Player::Player(std::string meshName, std::string textureName, Core *core, irr::scene::ISceneManager* smgr, irr::video::IVideoDriver* driver, irr::IrrlichtDevice* device, irr::core::array<irr::SJoystickInfo> joystickInfo, MyEventReceiver* receiver, irr::EKEY_CODE advance, irr::EKEY_CODE behind, irr::EKEY_CODE left, irr::EKEY_CODE right)
+Player::Player(std::string meshName, std::string textureName, Core *core, irr::EKEY_CODE advance, irr::EKEY_CODE behind, irr::EKEY_CODE left, irr::EKEY_CODE right, irr::EKEY_CODE plantBomb)
 {
     this->_core = core;
-    this->_device = device;
+    this->_device = core->getDevice();
     this->MOVEMENT_SPEED = 5.f;
-    this->then = device->getTimer()->getTime();
-    this->_joystickInfo = joystickInfo;
-    this->_receiver = receiver;
+    this->then = core->getDevice()->getTimer()->getTime();
+    this->_joystickInfo = core->getJoystickinfo();
+    this->_receiver = core->getEventreceiver();
     this->joysticActivated = 0;
 
     //SetKeyboard
@@ -15,8 +15,9 @@ Player::Player(std::string meshName, std::string textureName, Core *core, irr::s
     this->_behind = behind;
     this->_left = left;
     this->_right = right;
+    this->_plantBomb = plantBomb;
 
-    this->initPlayer(meshName, textureName, smgr, driver);
+    this->initPlayer(meshName, textureName, core->getSmgr(), core->getDriver());
     this->initJoystic(this->_joystickInfo, this->_device);
 }
 
@@ -240,7 +241,7 @@ void Player::movementPlayer(std::shared_ptr<GameMap> map, irr::core::array<irr::
 
 void Player::plantBomb()
 {
-    if (this->_receiver->IsKeyDown(irr::KEY_SPACE) || this->_receiver->GetJoystickState().ButtonStates == 2)
+    if (this->_receiver->IsKeyDown(this->_plantBomb) || this->_receiver->GetJoystickState().ButtonStates == 2)
         this->_core->getEntities()->push_back(std::make_shared<Bomb>(this->_core, this->getPosition()));
 }
 
