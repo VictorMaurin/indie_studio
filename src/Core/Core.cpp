@@ -37,9 +37,9 @@ void Core::init()
     font = this->guienv->getBuiltInFont();
     set_menu();
     
-    //tmp light source
+    //light source
     ILightSceneNode* light = smgr->addLightSceneNode( 0, vector3df(0.0f,50.0f,2.0f), SColorf(1.0f,1.0f,1.0f,1.0f), 35.0f );
-    //tmp camera
+    //camera
     smgr->addCameraSceneNode(0, vector3df(0,11,-2), vector3df(0,0,0));
 
     this->collMan = smgr->getSceneCollisionManager();
@@ -72,19 +72,6 @@ void Core::initAssets()
     players->push_back(entities->back());
     entities->back()->setPosition(vector3df(8.0f, 0.0f, -5.0f));
     entities->back()->SetIsAI(true);
-
-    // players->push_back(std::make_shared<Player>("Bomberman.MD3", "BlackBombermanTextures.png", this, irr::KEY_KEY_Z, irr::KEY_KEY_S, irr::KEY_KEY_Q, irr::KEY_KEY_D, irr::KEY_SPACE));
-    // entities->push_back(players->back());
-    // players->back()->setPosition(vector3df(-8.0f, 0.0f, -5.0f));
-    // players->push_back(std::make_shared<Player>("Bomberman.MD3", "WhiteBombermanTextures.png", this, irr::KEY_KEY_Y, irr::KEY_KEY_H, irr::KEY_KEY_G, irr::KEY_KEY_J, irr::KEY_KEY_L));
-    // entities->push_back(players->back());
-    // players->back()->setPosition(vector3df(-8.0f, 0.0f, 5.0f));
-    // players->push_back(std::make_shared<Player>("Bomberman.MD3", "RedBombermanTextures.png", this, irr::KEY_KEY_Y, irr::KEY_KEY_H, irr::KEY_KEY_G, irr::KEY_KEY_J, irr::KEY_KEY_L));
-    // entities->push_back(players->back());
-    // players->back()->setPosition(vector3df(8.0f, 0.0f, 5.0f));
-    // players->push_back(std::make_shared<Player>("Bomberman.MD3", "PinkBombermanTextures.png", this, irr::KEY_KEY_Y, irr::KEY_KEY_H, irr::KEY_KEY_G, irr::KEY_KEY_J, irr::KEY_KEY_L));
-    // entities->push_back(players->back());
-    // players->back()->setPosition(vector3df(8.0f, 0.0f, -5.0f));//check
 }
 
 void Core::deleteAssets()
@@ -251,11 +238,7 @@ void Core::run()
             deltaTime = (std::clock() - frameBgnTime) / (double)CLOCKS_PER_SEC;
             remainingTime -= deltaTime;
         }
-        // std::cout << totalFrameTime << " " << remainingTime << std::endl;
         totalFrameTime = (std::clock() - totalFpsTime) / (double)CLOCKS_PER_SEC;
-        // std::cout << remainingTime << " " << 1.0f / totalFrameTime << std::endl;
-        // fpsStr = std::to_wstring((int)(1.0f / totalFrameTime));
-        // guienv->addStaticText(fpsStr.c_str(), irr::core::rect<irr::s32>(10, 10, 30, 20), true);
         if (this->eventReceiver->IsKeyDown(irr::KEY_KEY_E) || this->eventReceiver->IsKeyDown(irr::KEY_ESCAPE))
             device->closeDevice();
     }

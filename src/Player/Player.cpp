@@ -273,42 +273,6 @@ void Player::canCollide(bool b)
 
 }
 
-//int main(void) {
-//
-//    MyEventReceiver receiver; //Pour g�r� les event keyboard
-//    irr::IrrlichtDevice* device =
-//    irr::createDevice(irr::video::EDT_SOFTWARE, irr::core::dimension2d<irr::u32>(640, 480), 16,
-//        false, false, false, &receiver);
-//    irr::core::array<irr::SJoystickInfo> joystickInfo;
-//    std::unique_ptr<Player> BOT = std::make_unique<Player>();
-//    BOT->initJoystic(joystickInfo, device);
-//    irr::video::IVideoDriver* driver =                  // creation du driver video
-//        device->getVideoDriver();
-//    irr::scene::ISceneManager* sceneManager =           // creation du scene manager
-//        device->getSceneManager();
-//    device->getCursorControl()->setVisible(false);   // rend le curseur invisible
-//    irr::SEvent event;
-//    BOT->initPlayer(sceneManager, driver);
-//
-//    sceneManager->addCameraSceneNode(0, irr::core::vector3df(0, 5, 10), irr::core::vector3df(0, 0, 0));
-//    irr::u32 then = device->getTimer()->getTime();
-//
-//    while (device->run())
-//    {
-//        const irr::u32 now = device->getTimer()->getTime();
-//        const irr::f32 frameDeltaTime = (irr::f32)(now - then) / 1000.f;
-//        then = now;
-//        BOT->movementPlayer(joystickInfo, receiver, MOVEMENT_SPEED, frameDeltaTime);
-//        driver->beginScene(true, true, irr::video::SColor(255, 100, 101, 140));
-//
-//        sceneManager->drawAll();
-//        driver->endScene();
-//    }
-//    device->drop();
-//
-//    return 0;
-//}
-
 void Player::update(std::shared_ptr<GameMap> map)
 {
     if (isRemove == false) {

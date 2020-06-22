@@ -15,11 +15,9 @@ Bomb::Bomb(Core *core, vector3df pos)
     posInt.X = (int)pos.X;
     posInt.Y = (int)pos.Y;
     posInt.Z = (int)pos.Z;
-    // posInt.X -= 2;
     posFloat.X = (float)posInt.X;
     posFloat.Y = (float)posInt.Y;
     posFloat.Z = (float)posInt.Z;
-    // mesh->setScale(scale);
     then = device->getTimer()->getRealTime();
     mesh->setPosition(posFloat);
 }
@@ -30,7 +28,7 @@ Bomb::~Bomb()
 
 void Bomb::createExplodeCube()
 {
-    // _core->getEntities()->push_back(std::make_shared<Explosion>(this->_core, mesh->getPosition()));
+    
 }
 
 void Bomb::returnToGreen(std::shared_ptr<GameMap> map, std::string asset)
@@ -237,7 +235,7 @@ void Bomb::explode(std::shared_ptr<GameMap> map, std::string asset)
                 _core->getPlayers()->at(i)->remove();
                 _core->getPlayers()->at(i).reset();
             }
-        } //salut
+        }
     }
     if ((int(posFloat.X) + int((map->getMapSize().X / 2)) < map->getGround().at(0).size())
     && int(posFloat.Z + 2) + int((map->getMapSize().Y / 2)) < map->getGround().size()) {
@@ -317,7 +315,6 @@ void Bomb::explode(std::shared_ptr<GameMap> map, std::string asset)
 void Bomb::update(std::shared_ptr<GameMap> map)
 {
     now = device->getTimer()->getRealTime();
-    // node->setScale(vector3df(0.01f, 0.01f, 0.01f));
     if ((now - then) / 1000 >= 3 && passed == false) {
         passed = true;
         mesh->remove();

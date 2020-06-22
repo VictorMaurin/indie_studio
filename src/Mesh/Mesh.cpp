@@ -11,19 +11,13 @@ Mesh::Mesh(std::string meshName, std::string textureName, Core *core_param, ISce
 {
     this->core = core_param;
     mesh = core->getSmgr()->getMesh(findAsset(meshName).c_str());
-    if (!mesh)
-    {
+    if (!mesh) {
         core->getDevice()->drop();
         throw "couldnt create wall mesh";
     }
     node = core->getSmgr()->addMeshSceneNode(mesh, 0, IDFlag_IsPickable);
-    if (node)
-    {
+    if (node) {
         node->setMaterialTexture( 0, driver->getTexture(findAsset(textureName).c_str()) );
-        // node->setScale(vector3d<float>(30.0f, 30.0f, 30.0f));
-        // ISceneNodeAnimator* anim = smgr->createRotationAnimator(vector3df(0,0.1f,0));
-        // node->addAnimator(anim);
-        // anim->drop();
     }
 }
 
