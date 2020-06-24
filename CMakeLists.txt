@@ -52,13 +52,13 @@ if (WIN32)
 add_library(Irrlicht STATIC IMPORTED)
 set_property(TARGET Irrlicht PROPERTY IMPORTED_LOCATION ${CMAKE_CURRENT_SOURCE_DIR}/cmake/Irrlicht.lib)
 add_executable(bomberman
-./src/Map/Map.cpp
+./src/Breakable/Breakable.cpp
+        ./src/Map/GameMap.cpp
         ./src/Bomb/Bomb.cpp
         ./src/Player/Player.cpp
         ./src/Core/Core.cpp
         ./src/Menu/Menu.cpp
         ./assets/find_asset.cpp
-        ./src/Breakable/Breakable.cpp
         ./src/Mesh/Mesh.cpp
  ./src/main.cpp)
 target_link_libraries(bomberman Irrlicht)
