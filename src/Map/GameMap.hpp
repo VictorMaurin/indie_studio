@@ -5,6 +5,7 @@
 ** Map
 */
 
+
 #ifndef MAP_HPP_
 #define MAP_HPP_
 
@@ -27,7 +28,7 @@ using namespace core;
 class GameMap {
     public:
         GameMap(std::shared_ptr<std::vector<std::shared_ptr<IEntity>>> entities, int width, int height,
-            Core *core, ISceneManager *smgr, IVideoDriver *driver, IrrlichtDevice *device);
+            std::shared_ptr<Core> core, std::shared_ptr<ISceneManager> smgr, std::shared_ptr<IVideoDriver> driver, std::shared_ptr<IrrlichtDevice> device);
         ~GameMap();
 
         void removeRandomFromMap();

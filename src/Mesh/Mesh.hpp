@@ -8,11 +8,12 @@
 #ifndef MESH_HPP_
 #define MESH_HPP_
 
+class Mesh;
+
 #include <memory>
 #include <irrlicht.h>
 
 #include "../assets/assets.hpp"
-#include "../Map/Map.hpp"
 #include "../Core/Core.hpp"
 
 using namespace irr;
@@ -35,9 +36,9 @@ enum
 class Mesh : public IEntity
 {
     public:
-        Mesh(std::string meshName, std::string textureName, Core *core, ISceneManager *smgr, IVideoDriver *driver, IrrlichtDevice *device);
+        Mesh(std::string meshName, std::string textureName, std::shared_ptr<Core> core, std::shared_ptr<ISceneManager> smgr, std::shared_ptr<IVideoDriver> driver, std::shared_ptr<IrrlichtDevice> device);
         ~Mesh();
-        void update(std::shared_ptr<GameMap> map);
+        void update();
         void draw(void) const;
 
         void remove(void);
@@ -49,15 +50,15 @@ class Mesh : public IEntity
         vector3df getPosition(void) const;
         void setScale(const vector3df &scale);
         vector3df getScale(void) const;
-        IMesh *getMesh() const;
+        std::shared_ptr<IMesh> getMesh() const;
         void SetIsAI(bool isAI) {};
-        IMeshSceneNode *getNode() const;
+        std::shared_ptr<IMeshSceneNode> getNode() const;
         bool isRemove = false;
 
     protected:
-        Core *core;
-        IMesh *mesh;
-        IMeshSceneNode *node;
+        std::shared_ptr<Core> core;
+        std::shared_ptr<IMesh> mesh;
+        std::shared_ptr<IMeshSceneNode> node;
 };
 
 #endif /* !MESH_HPP_ */

@@ -2,7 +2,7 @@
 #define WALLPASS_HPP
 
 #include "IPowerUp.hpp"
-#include "../Map/Map.hpp"
+#include "../Map/GameMap.hpp"
 
 class WallPass : public IEntity, public IPowerUp
 {
@@ -11,7 +11,7 @@ private:
 public:
     WallPass(/* args */);
     ~WallPass();
-    void update(std::shared_ptr<GameMap> map);
+    void update();
     void draw(void) const;
 
     void setPosition(const vector3df &pos);

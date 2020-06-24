@@ -2,7 +2,7 @@
 #define FIREUP_HPP
 
 #include "IPowerUp.hpp"
-#include "../Map/Map.hpp"
+#include "../Map/GameMap.hpp"
 
 class FireUp : public IEntity, public IPowerUp
 {
@@ -12,7 +12,7 @@ private:
 public:
     FireUp(/* args */);
     ~FireUp();
-    void update(std::shared_ptr<GameMap> map);
+    void update();
     void draw(void) const;
 
     void setPosition(const vector3df &pos);

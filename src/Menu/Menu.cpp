@@ -1,7 +1,7 @@
 #include "Menu.hpp"
 #include "../../assets/assets.hpp"
 
-Menu::Menu(Core *core)
+Menu::Menu(std::shared_ptr<Core> core)
 {
     driver = core->getDriver();
     device = core->getDevice();

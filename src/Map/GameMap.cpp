@@ -5,12 +5,12 @@
 ** Map
 */
 
-#include "Map.hpp"
+#include "GameMap.hpp"
 #include "../Mesh/Mesh.hpp"
 #include "../Breakable/Breakable.hpp"
 
 GameMap::GameMap(std::shared_ptr<std::vector<std::shared_ptr<IEntity>>> entities, int width, int height,
-        Core *core, ISceneManager *smgr, IVideoDriver *driver, IrrlichtDevice *device)
+        std::shared_ptr<Core> core, std::shared_ptr<ISceneManager> smgr, std::shared_ptr<IVideoDriver> driver, std::shared_ptr<IrrlichtDevice> device)
 {
     this->height = height;
     this->width = width;
@@ -105,6 +105,9 @@ int GameMap::removeNeighbour(int &i, int &j, int &missing)
     }
     i += dir.X;
     j += dir.Y;
+    // vector3df meshPos = this->map[i][j]->getPosition();
+    // meshPos.Y -= 2;
+    // this->map[i][j]->setPosition(meshPos);
     this->map[i][j]->remove();
     this->map[i][j].reset();
     missing--;
@@ -126,6 +129,9 @@ void GameMap::removeRandomFromMap(void)
         if (this->map[i][j] != 0 && ((i > 2 && i < height - 3) || (j > 2 && j < width - 3)) &&    //avoid spawn points
             (i % 2 != 0 && j % 2 != 0) &&                               //avoid inner unbreakable blocks
             i != 0 && i != height - 1 && j != 0 && j != width - 1) {    //avoid walls
+            // vector3df meshPos = this->map[i][j]->getPosition();
+            // meshPos.Y -= 2;
+            // this->map[i][j]->setPosition(meshPos);
             this->map[i][j]->remove();
             this->map[i][j].reset();
             remove--;
@@ -135,7 +141,6 @@ void GameMap::removeRandomFromMap(void)
                 if (!this->removeNeighbour(x, y, remove))
                     break;
             }
-            //remove from entities TODO
         }
     }
 }

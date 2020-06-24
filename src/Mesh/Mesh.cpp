@@ -7,15 +7,15 @@
 
 #include "Mesh.hpp"
 
-Mesh::Mesh(std::string meshName, std::string textureName, Core *core_param, ISceneManager *smgr, IVideoDriver *driver, IrrlichtDevice *device)
+Mesh::Mesh(std::string meshName, std::string textureName, std::shared_ptr<Core> core_param, std::shared_ptr<ISceneManager> smgr, std::shared_ptr<IVideoDriver> driver, std::shared_ptr<IrrlichtDevice> device)
 {
     this->core = core_param;
-    mesh = core->getSmgr()->getMesh(findAsset(meshName).c_str());
+    mesh = std::shared_ptr<IMesh>(smgr->getMesh(findAsset(meshName).c_str()));
     if (!mesh) {
-        core->getDevice()->drop();
+        device->drop();
         throw "couldnt create wall mesh";
     }
-    node = core->getSmgr()->addMeshSceneNode(mesh, 0, IDFlag_IsPickable);
+    node = std::shared_ptr<IMeshSceneNode>(smgr->addMeshSceneNode(mesh.get(), 0, IDFlag_IsPickable));
     if (node) {
         node->setMaterialTexture( 0, driver->getTexture(findAsset(textureName).c_str()) );
     }
@@ -30,7 +30,7 @@ Mesh::~Mesh()
     // delete mesh;
 }
 
-void Mesh::update(std::shared_ptr<GameMap> map)
+void Mesh::update()
 {
 }
 
@@ -45,18 +45,19 @@ bool Mesh::isBreakable(void)
 
 void Mesh::remove(void)
 {
-    if (isRemove == false) {
-        isRemove = true;
-        node->remove();
-    }
+    // if (isRemove == false) {
+    //     isRemove = true;
+    node->remove();
+    node.reset();
+    // }
 }
 
-void Mesh::canCollide(bool b)
+void Mesh::canCollide(bool canMeshCollide)
 {
-    ITriangleSelector *selector = 0;
-    if (b) {
-        selector = core->getSmgr()->createTriangleSelector(this->mesh, this->node);
-        this->node->setTriangleSelector(selector);
+    std::unique_ptr<ITriangleSelector> selector = 0;
+    if (canMeshCollide) {
+        selector = std::unique_ptr<ITriangleSelector>(core->getSmgr()->createTriangleSelector(this->mesh.get(), this->node.get()));
+        this->node->setTriangleSelector(selector.get());
         selector->drop();
     }
 }
@@ -87,12 +88,12 @@ vector3df Mesh::getScale(void) const
     return(vector3df(-1, -1, -1));
 }
 
-irr::scene::IMesh *Mesh::getMesh() const
+std::shared_ptr<IMesh> Mesh::getMesh() const
 {
     return (mesh);
 }
 
-IMeshSceneNode *Mesh::getNode() const
+std::shared_ptr<IMeshSceneNode> Mesh::getNode() const
 {
     return (node);
 }

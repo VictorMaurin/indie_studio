@@ -31,13 +31,13 @@ if (UNIX)
         link_libraries(Irrlicht)
 	link_directories(Irrlicht) #link vers le .a
 	add_executable(bomberman
-        ./src/Map/Map.cpp
+        ./src/Breakable/Breakable.cpp
+        ./src/Map/GameMap.cpp
         ./src/Bomb/Bomb.cpp
         ./src/Player/Player.cpp
         ./src/Core/Core.cpp
         ./src/Menu/Menu.cpp
         ./assets/find_asset.cpp
-        ./src/Breakable/Breakable.cpp
         ./src/Mesh/Mesh.cpp
  ./src/main.cpp)
 

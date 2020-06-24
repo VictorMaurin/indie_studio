@@ -26,7 +26,7 @@ enum
 class MyEvent : public IEventReceiver
 {
 public:
-	MyEvent(Core *core, IGUIWindow* window, IGUIButton* quit, IGUIButton* ia, IGUIButton* player, IGUIButton* help, IGUIImage* image, IGUIStaticText* text) {
+	MyEvent(std::shared_ptr<Core> core, IGUIWindow* window, IGUIButton* quit, IGUIButton* ia, IGUIButton* player, IGUIButton* help, IGUIImage* image, IGUIStaticText* text) {
         _core = core;
         statement = core->getstatement();
         device = core->getDevice();
@@ -73,7 +73,6 @@ public:
                         _core->set_ia(1, true);
 					}
 					return true;
-                
                 case PLAYER_BUTTON:
 					{
 					    if (win)
@@ -128,11 +127,11 @@ public:
 	}
 
     private:
-        Core *_core;
-        IVideoDriver *driver;
-        IrrlichtDevice *device;
-        ISceneManager *smgr;
-        IGUIEnvironment *guienv;
+        std::shared_ptr<Core> _core;
+        std::shared_ptr<IVideoDriver> driver;
+        std::shared_ptr<IrrlichtDevice> device;
+        std::shared_ptr<ISceneManager> smgr;
+        std::shared_ptr<IGUIEnvironment> guienv;
         IGUIButton* _ia;
         IGUIButton* _player;
         IGUIButton* _help;
@@ -148,16 +147,16 @@ public:
 class Menu
 {
     private:
-        IVideoDriver *driver;
-        IrrlichtDevice *device;
-        ISceneManager *smgr;
-        IGUIEnvironment *guienv;
+        std::shared_ptr<IVideoDriver> driver;
+        std::shared_ptr<IrrlichtDevice> device;
+        std::shared_ptr<ISceneManager> smgr;
+        std::shared_ptr<IGUIEnvironment> guienv;
         IGUIListBox *listbox;
         IGUISkin* skin;
         IGUIWindow* window;
         s32	counter;
     public :
-        Menu(Core *core);
+        Menu(std::shared_ptr<Core> core);
         ~Menu();
 };
 
