@@ -12,6 +12,7 @@
 #include <ctime>
 #include <cmath>
 #include <iostream>
+#include <map>
 #include "../Core/Core.hpp"
 #include "../Event/Event.hpp"
 
@@ -33,19 +34,20 @@ enum
 class MyEvent : public IEventReceiver
 {
 public:
+<<<<<<< HEAD
 	MyEvent(Core *core, IGUIWindow* window, IGUIButton* quit, IGUIButton* ia, IGUIButton* player, IGUIButton* help, IGUIImage* image, IGUIStaticText* text) {
+=======
+	MyEvent(std::shared_ptr<Core> core, IGUIWindow* window, std::map<std::string, IGUIButton*> button, IGUIImage* image, IGUIStaticText* text) {
+>>>>>>> ADD- map for management of buttons and different method to create
         _core = core;
         statement = core->getstatement();
         device = core->getDevice();
         driver = core->getDriver();
         smgr = core->getSmgr();
         guienv = core->getGUIenv();
-        _ia = ia;
-        _player = player;
+        _button = button;
         _text = text;
-        _quit = quit;
         _image = image;
-        _help = help;
         win = window;
     };
 
@@ -67,14 +69,14 @@ public:
 					{
 					    if (win)
                             win->remove();
-                        if (_quit)
-                            _quit->remove();
-                        if (_ia)
-                            _ia->remove();
-                        if (_player)
-                            _player->remove();
-                        if (_help)
-                            _help->remove();
+                        if (_button["quit"])
+                            _button["quit"]->remove();
+                        if (_button["ia"])
+                            _button["ia"]->remove();
+                        if (_button["player"])
+                            _button["player"]->remove();
+                        if (_button["help"])
+                            _button["help"]->remove();
                         _image->remove();
                         _core->setstatement(State::GAME);
                         _core->set_ia(1, true);
@@ -85,14 +87,14 @@ public:
 					{
 					    if (win)
                             win->remove();
-                        if (_quit)
-                            _quit->remove();
-                        if (_ia)
-                            _ia->remove();
-                        if (_player)
-                            _player->remove();
-                        if (_help)
-                            _help->remove();
+                        if (_button["quit"])
+                            _button["quit"]->remove();
+                        if (_button["ia"])
+                            _button["ia"]->remove();
+                        if (_button["player"])
+                            _button["player"]->remove();
+                        if (_button["help"])
+                            _button["help"]->remove();
                         _image->remove();
                         _core->setstatement(State::GAME);
                         _core->set_ia(1, false);
@@ -100,11 +102,11 @@ public:
 					return true;
                 case HELP_BUTTON:
                     {
-                        _quit->setVisible(false);
-                        _ia->setVisible(false);
-                        _player->setVisible(false);
+                        _button["quit"]->setVisible(false);
+                        _button["ia"]->setVisible(false);
+                        _button["player"]->setVisible(false);
                         _image->setVisible(false);
-                        _help->setVisible(false);
+                        _button["help"]->setVisible(false);
                         _text->setVisible(false);
                         image_help = guienv->addImage(driver->getTexture(findAsset("help.png").c_str()),
 			position2d<int>(10,10));
@@ -115,10 +117,10 @@ public:
                 case RETURN_BUTTON:
                     {
                         _image->setVisible(true);
-                        _quit->setVisible(true);
-                        _ia->setVisible(true);
-                        _player->setVisible(true);
-                        _help->setVisible(true);
+                        _button["quit"]->setVisible(true);
+                        _button["ia"]->setVisible(true);
+                        _button["player"]->setVisible(true);
+                        _button["help"]->setVisible(true);
                         _text->setVisible(true);
                         _return->remove();
                         image_help->remove();
@@ -138,8 +140,14 @@ public:
         Core *_core;
         IVideoDriver *driver;
         std::shared_ptr<IrrlichtDevice> device;
+<<<<<<< HEAD
         ISceneManager *smgr;
         IGUIEnvironment *guienv;
+=======
+        std::shared_ptr<ISceneManager> smgr;
+        std::shared_ptr<IGUIEnvironment> guienv;
+        std::map<std::string, IGUIButton*> _button;
+>>>>>>> ADD- map for management of buttons and different method to create
         IGUIButton* _ia;
         IGUIButton* _player;
         IGUIButton* _help;
@@ -157,13 +165,26 @@ class Menu
     private:
         IVideoDriver *driver;
         std::shared_ptr<IrrlichtDevice> device;
+<<<<<<< HEAD
         ISceneManager *smgr;
         IGUIEnvironment *guienv;
+=======
+        std::shared_ptr<ISceneManager> smgr;
+        std::shared_ptr<IGUIEnvironment> guienv;
+        std::map<std::string, IGUIButton*> button;
+        IGUIImage* image;
+>>>>>>> ADD- map for management of buttons and different method to create
         IGUIWindow* window;
+        IGUIStaticText* text;
         s32	counter;
     public :
         Menu(Core *core);
         ~Menu();
+        void create();
+        void create_window();
+        void create_buttons();
+        void create_image();
+        void create_text();
 };
 
 #endif
