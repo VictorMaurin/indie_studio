@@ -14,6 +14,7 @@ class Mesh;
 #include <irrlicht.h>
 
 #include "../assets/assets.hpp"
+#include "../Map/GameMap.hpp"
 #include "../Core/Core.hpp"
 
 using namespace irr;

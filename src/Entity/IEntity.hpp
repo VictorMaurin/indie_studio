@@ -14,7 +14,7 @@ class GameMap;
 #include <irrlicht.h>
 #include <string>
 
-#include "../Map/Map.hpp"
+#include "../Map/GameMap.hpp"
 
 using namespace irr;
 using namespace scene;

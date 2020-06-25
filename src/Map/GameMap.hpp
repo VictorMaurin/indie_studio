@@ -5,7 +5,6 @@
 ** Map
 */
 
-
 #ifndef MAP_HPP_
 #define MAP_HPP_
 

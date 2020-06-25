@@ -1,3 +1,10 @@
+/*
+** EPITECH PROJECT, 2020
+** OOP_indie_studio_2019
+** File description:
+** Menu
+*/
+
 #ifndef MENU_HPP
 #define MENU_HPP
 

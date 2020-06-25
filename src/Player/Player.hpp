@@ -1,3 +1,10 @@
+/*
+** EPITECH PROJECT, 2020
+** OOP_indie_studio_2019
+** File description:
+** Player
+*/
+
 #ifndef PLAYER_HPP
 #define PLAYER_HPP
 
@@ -12,7 +19,7 @@ class Mesh;
 
 #include "../Event/Event.hpp"
 #include "../assets/assets.hpp"
-#include "../Map/GameMap.hpp"
+#include "../Bomb/Bomb.hpp"
 
 using namespace irr;
 using namespace scene;
@@ -23,17 +30,10 @@ using namespace core;
 class Player : public IEntity
 {
 public:
-<<<<<<< HEAD
-	Player(std::string meshName, std::string textureName, std::shared_ptr<Core> core, irr::EKEY_CODE advance, irr::EKEY_CODE behind, irr::EKEY_CODE left, irr::EKEY_CODE right, irr::EKEY_CODE plantBomb);
-	~Player();
-	void initPlayer(std::string meshName, std::string textureName, std::shared_ptr<ISceneManager> sceneManager, std::shared_ptr<IVideoDriver> driver);
-	void movementPlayer(std::shared_ptr<GameMap> map, irr::core::array<irr::SJoystickInfo>& joystickInfo, MyEventReceiver* receiver, const irr::f32 MOVEMENT_SPEED, const irr::f32 frameDeltaTime);
-=======
 	Player(std::string meshName, std::string textureName, Core *core, irr::EKEY_CODE advance, irr::EKEY_CODE behind, irr::EKEY_CODE left, irr::EKEY_CODE right, irr::EKEY_CODE plantBomb);
 	~Player();
 	void initPlayer(std::string meshName, std::string textureName, irr::scene::ISceneManager* sceneManager, irr::video::IVideoDriver* driver);
 	void movementPlayer(std::shared_ptr<GameMap> map, irr::core::array<irr::SJoystickInfo>& joystickInfo, std::shared_ptr<MyEventReceiver> receiver, const irr::f32 MOVEMENT_SPEED, const irr::f32 frameDeltaTime);
->>>>>>> FIX - more smart ptr to replace classic pointers
 	void initJoystic(irr::core::array<irr::SJoystickInfo> &joystickInfo, std::shared_ptr<irr::IrrlichtDevice> device);
 	void movementPlayerJoystick(std::shared_ptr<GameMap> map, irr::core::array<irr::SJoystickInfo> &joystickInfo, std::shared_ptr<MyEventReceiver> receiver, const irr::f32 MOVEMENT_SPEED, const irr::f32 frameDeltaTime);
 	void movementPlayerKeyBoard(std::shared_ptr<GameMap> map, std::shared_ptr<MyEventReceiver> receiver, const irr::f32 MOVEMENT_SPEED, const irr::f32 frameDeltaTime);
@@ -51,15 +51,9 @@ public:
 	void setTexture(std::string assets) {};
 	void SetIsAI(bool isAI);
 private:
-<<<<<<< HEAD
-	MyEventReceiver* _receiver;
-	std::shared_ptr<Core> _core;
-	scene::IAnimatedMeshSceneNode* PlayerOBJ;
-=======
 	std::shared_ptr<MyEventReceiver> _receiver;
 	Core *_core;
 	irr::scene::IAnimatedMeshSceneNode* PlayerOBJ;
->>>>>>> FIX - more smart ptr to replace classic pointers
 	int joysticActivated;
 	std::shared_ptr<irr::IrrlichtDevice> _device;
 	irr::f32 MOVEMENT_SPEED;

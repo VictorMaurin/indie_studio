@@ -5,11 +5,8 @@
 ** Breakable
 */
 
-
 #ifndef BREAKABLE_HPP_
 #define BREAKABLE_HPP_
-
-class Mesh;
 
 #include <memory>
 #include <irrlicht.h>
