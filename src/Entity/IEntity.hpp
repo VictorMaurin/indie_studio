@@ -1,9 +1,20 @@
+/*
+** EPITECH PROJECT, 2020
+** OOP_indie_studio_2019
+** File description:
+** IEntity
+*/
+
 #ifndef IENTITY_HPP
 #define IENTITY_HPP
+
+class GameMap;
 
 #include <vector>
 #include <irrlicht.h>
 #include <string>
+
+#include "../Map/Map.hpp"
 
 using namespace irr;
 using namespace scene;
@@ -16,7 +27,7 @@ class IEntity
 public:
     virtual ~IEntity() = default;
 
-    virtual void update()=0;
+    virtual void update(std::shared_ptr<GameMap> map)=0;
     virtual void draw(void) const = 0;
 
     virtual void remove(void)=0;

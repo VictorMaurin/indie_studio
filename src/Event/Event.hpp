@@ -1,3 +1,10 @@
+/*
+** EPITECH PROJECT, 2020
+** OOP_indie_studio_2019
+** File description:
+** Event
+*/
+
 #ifndef EVT_RECEIVER_HPP
 #define EVT_RECEIVER_HPP
 

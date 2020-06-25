@@ -127,11 +127,11 @@ public:
 	}
 
     private:
-        std::shared_ptr<Core> _core;
-        std::shared_ptr<IVideoDriver> driver;
+        Core *_core;
+        IVideoDriver *driver;
         std::shared_ptr<IrrlichtDevice> device;
-        std::shared_ptr<ISceneManager> smgr;
-        std::shared_ptr<IGUIEnvironment> guienv;
+        ISceneManager *smgr;
+        IGUIEnvironment *guienv;
         IGUIButton* _ia;
         IGUIButton* _player;
         IGUIButton* _help;
@@ -147,10 +147,10 @@ public:
 class Menu
 {
     private:
-        std::shared_ptr<IVideoDriver> driver;
+        IVideoDriver *driver;
         std::shared_ptr<IrrlichtDevice> device;
-        std::shared_ptr<ISceneManager> smgr;
-        std::shared_ptr<IGUIEnvironment> guienv;
+        ISceneManager *smgr;
+        IGUIEnvironment *guienv;
         IGUIListBox *listbox;
         IGUISkin* skin;
         IGUIWindow* window;

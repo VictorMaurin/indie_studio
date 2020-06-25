@@ -49,7 +49,7 @@ void Player::initPlayer(std::string meshName, std::string textureName, std::shar
     }
 }
 
-void Player::initJoystic(irr::core::array<irr::SJoystickInfo> &joystickInfo, std::shared_ptr<IrrlichtDevice> device)
+void Player::initJoystic(irr::core::array<irr::SJoystickInfo> &joystickInfo, std::shared_ptr<irr::IrrlichtDevice> device)
 {
     if (device->activateJoysticks(joystickInfo))
     {

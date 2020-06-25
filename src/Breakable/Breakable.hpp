@@ -25,7 +25,7 @@ using namespace core;
 
 class Breakable : public Mesh {
     public:
-        Breakable(std::shared_ptr<Core> core, std::shared_ptr<ISceneManager> smgr, std::shared_ptr<IVideoDriver> driver, std::shared_ptr<IrrlichtDevice> device);
+        Breakable(Core *core, ISceneManager *smgr, IVideoDriver *driver, std::shared_ptr<IrrlichtDevice> device);
         ~Breakable();
 
         void spawnPowerUp();

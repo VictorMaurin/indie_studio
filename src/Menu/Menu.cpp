@@ -1,7 +1,14 @@
+/*
+** EPITECH PROJECT, 2020
+** OOP_indie_studio_2019
+** File description:
+** Menu
+*/
+
 #include "Menu.hpp"
 #include "../../assets/assets.hpp"
 
-Menu::Menu(std::shared_ptr<Core> core)
+Menu::Menu(Core *core)
 {
     driver = core->getDriver();
     device = core->getDevice();

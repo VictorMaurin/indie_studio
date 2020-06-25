@@ -27,7 +27,7 @@ public:
 	~Player();
 	void initPlayer(std::string meshName, std::string textureName, std::shared_ptr<ISceneManager> sceneManager, std::shared_ptr<IVideoDriver> driver);
 	void movementPlayer(std::shared_ptr<GameMap> map, irr::core::array<irr::SJoystickInfo>& joystickInfo, MyEventReceiver* receiver, const irr::f32 MOVEMENT_SPEED, const irr::f32 frameDeltaTime);
-	void initJoystic(irr::core::array<irr::SJoystickInfo> &joystickInfo, std::shared_ptr<IrrlichtDevice> device);
+	void initJoystic(irr::core::array<irr::SJoystickInfo> &joystickInfo, std::shared_ptr<irr::IrrlichtDevice> device);
 	void movementPlayerJoystick(std::shared_ptr<GameMap> map, irr::core::array<irr::SJoystickInfo> &joystickInfo, MyEventReceiver* receiver, const irr::f32 MOVEMENT_SPEED, const irr::f32 frameDeltaTime);
 	void movementPlayerKeyBoard(std::shared_ptr<GameMap> map, MyEventReceiver* receiver, const irr::f32 MOVEMENT_SPEED, const irr::f32 frameDeltaTime);
 	void plantBomb(std::shared_ptr<GameMap> map);
@@ -48,9 +48,9 @@ private:
 	std::shared_ptr<Core> _core;
 	scene::IAnimatedMeshSceneNode* PlayerOBJ;
 	int joysticActivated;
-	std::shared_ptr<IrrlichtDevice> _device;
-	f32 MOVEMENT_SPEED;
-	u32 then;
+	std::shared_ptr<irr::IrrlichtDevice> _device;
+	irr::f32 MOVEMENT_SPEED;
+	irr::u32 then;
 	irr::core::array<irr::SJoystickInfo> _joystickInfo;
 	EKEY_CODE _advance;
 	EKEY_CODE _behind;

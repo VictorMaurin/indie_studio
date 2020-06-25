@@ -7,7 +7,7 @@
 
 #include "Mesh.hpp"
 
-Mesh::Mesh(std::string meshName, std::string textureName, std::shared_ptr<Core> core_param, std::shared_ptr<ISceneManager> smgr, std::shared_ptr<IVideoDriver> driver, std::shared_ptr<IrrlichtDevice> device)
+Mesh::Mesh(std::string meshName, std::string textureName, Core *core_param, ISceneManager *smgr, IVideoDriver *driver, std::shared_ptr<IrrlichtDevice> device)
 {
     this->core = core_param;
     mesh = std::shared_ptr<IMesh>(smgr->getMesh(findAsset(meshName).c_str()));
