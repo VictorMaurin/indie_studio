@@ -92,7 +92,7 @@ void Player::initJoystic(irr::core::array<irr::SJoystickInfo> &joystickInfo, std
     //End manette
 }
 
-void Player::movementPlayerKeyBoard(std::shared_ptr<GameMap> map, MyEventReceiver* receiver, const irr::f32 MOVEMENT_SPEED, const irr::f32 frameDeltaTime)
+void Player::movementPlayerKeyBoard(std::shared_ptr<GameMap> map, std::shared_ptr<MyEventReceiver> receiver, const irr::f32 MOVEMENT_SPEED, const irr::f32 frameDeltaTime)
 {
     vector3df nodePosition = this->getPosition();
     line3df ray;
@@ -147,7 +147,7 @@ void Player::movementPlayerKeyBoard(std::shared_ptr<GameMap> map, MyEventReceive
     }
 }
 
-void Player::movementPlayerJoystick(std::shared_ptr<GameMap> map, irr::core::array<irr::SJoystickInfo> &joystickInfo, MyEventReceiver* receiver, const irr::f32 MOVEMENT_SPEED, const irr::f32 frameDeltaTime)
+void Player::movementPlayerJoystick(std::shared_ptr<GameMap> map, irr::core::array<irr::SJoystickInfo> &joystickInfo, std::shared_ptr<MyEventReceiver> receiver, const irr::f32 MOVEMENT_SPEED, const irr::f32 frameDeltaTime)
 {
     // manette
     bool movedWithJoystick = false;
@@ -245,7 +245,7 @@ void Player::movementPlayerJoystick(std::shared_ptr<GameMap> map, irr::core::arr
     }
 }
 
-void Player::movementPlayer(std::shared_ptr<GameMap> map, irr::core::array<irr::SJoystickInfo> &joystickInfo, MyEventReceiver* receiver, const irr::f32 MOVEMENT_SPEED, const irr::f32 frameDeltaTime)
+void Player::movementPlayer(std::shared_ptr<GameMap> map, irr::core::array<irr::SJoystickInfo> &joystickInfo, std::shared_ptr<MyEventReceiver> receiver, const irr::f32 MOVEMENT_SPEED, const irr::f32 frameDeltaTime)
 {
         movementPlayerKeyBoard(map, receiver, MOVEMENT_SPEED, frameDeltaTime);
         movementPlayerJoystick(map, joystickInfo, receiver, MOVEMENT_SPEED, frameDeltaTime);

@@ -39,7 +39,7 @@ private:
     std::shared_ptr<IrrlichtDevice> device;
     std::shared_ptr<std::vector<std::shared_ptr<IEntity>>> entities;
     State statement;
-    MyEventReceiver *eventReceiver;
+    std::shared_ptr<MyEventReceiver> eventReceiver;
     irr::core::array<irr::SJoystickInfo> joystickInfo;
     bool is_ia;
     std::shared_ptr<GameMap> map;
@@ -72,7 +72,7 @@ public :
     ISceneManager *getSmgr() const;
     std::shared_ptr<IrrlichtDevice> getDevice() const;
     IGUIEnvironment *getGUIenv() const;
-    MyEventReceiver* getEventreceiver();
+    std::shared_ptr<MyEventReceiver> getEventreceiver();
     irr::core::array<irr::SJoystickInfo> getJoystickinfo();
     const std::shared_ptr<std::vector<std::shared_ptr<IEntity>>> &getPlayers() const;
 };
