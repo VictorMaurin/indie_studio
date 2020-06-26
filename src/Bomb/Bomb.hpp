@@ -10,11 +10,8 @@
 
 #include <irrlicht.h>
 
-class IEntity;
-class Mesh;
-class Explosion;
-
-#include "../Core/Core.hpp"
+#include "../Irrlicht/Irrlicht.hpp"
+#include "../Assets/Assets.hpp"
 #include "../Mesh/Mesh.hpp"
 
 using namespace irr;
@@ -26,26 +23,25 @@ using namespace core;
 class Bomb : public IEntity
 {
 private:
-    IVideoDriver *driver;
-    std::shared_ptr<IrrlichtDevice> device;
-    ISceneManager *smgr;
-    IMeshSceneNode *node;
+    // IVideoDriver *driver;
+    // std::shared_ptr<IrrlichtDevice> device;
+    // ISceneManager *smgr;
+    // IMeshSceneNode *node;
     u32 now;
     u32 then;
-    Core *_core;
+    std::shared_ptr<Irrlicht> _irr;
     std::unique_ptr<Mesh> mesh;
     bool passed = false;
     vector3df posFloat;
 
 public : 
-    Bomb(Core *core, vector3df pos);
+    Bomb(std::shared_ptr<Irrlicht> irr, vector3df pos);
     ~Bomb();
     void SetIsAI(bool isAI){};
     void returnToGreen(std::shared_ptr<GameMap> map, std::string asset);
     void createExplodeCube();
-    void update(std::shared_ptr<GameMap> map);
-    void draw(void) const;
-    void explode(std::shared_ptr<GameMap> map, std::string asset);
+    void update(std::shared_ptr<GameMap> map, std::shared_ptr<Assets> assets);
+    void explode(std::shared_ptr<GameMap> map, std::shared_ptr<std::vector<std::shared_ptr<IEntity>>> players, std::string asset);
     void remove(void);
     bool isBreakable(void);
     void canCollide(bool);

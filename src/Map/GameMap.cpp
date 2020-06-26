@@ -6,11 +6,10 @@
 */
 
 #include "GameMap.hpp"
-#include "../Mesh/Mesh.hpp"
 #include "../Breakable/Breakable.hpp"
+#include "../Mesh/Mesh.hpp"
 
-GameMap::GameMap(std::shared_ptr<std::vector<std::shared_ptr<IEntity>>> entities, int width, int height,
-        Core *core, ISceneManager *smgr, IVideoDriver *driver, std::shared_ptr<IrrlichtDevice> device)
+GameMap::GameMap(std::shared_ptr<std::vector<std::shared_ptr<IEntity>>> entities, int width, int height, std::shared_ptr<Irrlicht> irr)
 {
     this->height = height;
     this->width = width;
@@ -21,7 +20,7 @@ GameMap::GameMap(std::shared_ptr<std::vector<std::shared_ptr<IEntity>>> entities
     for (size_t i = 0; i < height; i++) {
         xPos = -(int)(width / 2);
         for (size_t j = 0; j < width; j++) {
-            this->ground[i][j] = std::make_shared<Mesh>("tile.obj", "grass.jpg", core, smgr, driver, device);
+            this->ground[i][j] = std::make_shared<Mesh>("tile.obj", "grass.jpg", irr);
             this->ground[i][j]->setPosition(vector3df(xPos, 0.0f, zPos));
             entities->push_back(this->ground[i][j]);
 
@@ -38,7 +37,7 @@ GameMap::GameMap(std::shared_ptr<std::vector<std::shared_ptr<IEntity>>> entities
         for (size_t j = 0; j < width; j++) {
             if (i == 0 || i == height - 1 || j == 0 || j == width - 1 || //borders
             (i % 2 == 0 && j % 2 == 0)) {//inside map
-                this->map[i][j] = std::make_shared<Mesh>("block.obj", "block.png", core, smgr, driver, device);
+                this->map[i][j] = std::make_shared<Mesh>("block.obj", "block.png", irr);
                 this->map[i][j]->setPosition(vector3df(xPos, 0.0f, zPos));
                 this->map[i][j]->canCollide(true);
                 entities->push_back(this->map[i][j]);
@@ -56,7 +55,7 @@ GameMap::GameMap(std::shared_ptr<std::vector<std::shared_ptr<IEntity>>> entities
             if (this->map[i][j] == 0) {
                 if ((i > 2 && i < height - 3) || (j > 2 && j < width - 3)) {
                     nbCrates++;
-                    this->map[i][j] = std::make_shared<Breakable>(core, smgr, driver, device);
+                    this->map[i][j] = std::make_shared<Breakable>(irr);
                     this->map[i][j]->setScale(vector3df(0.85f, 0.85f, 0.85f));
                     this->map[i][j]->setPosition(vector3df(xPos, -0.15f, zPos));
                     this->map[i][j]->canCollide(true);

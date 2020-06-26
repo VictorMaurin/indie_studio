@@ -7,17 +7,17 @@
 
 #include "Mesh.hpp"
 
-Mesh::Mesh(std::string meshName, std::string textureName, Core *core_param, ISceneManager *smgr, IVideoDriver *driver, std::shared_ptr<IrrlichtDevice> device)
+Mesh::Mesh(std::string meshName, std::string textureName, std::shared_ptr<Irrlicht> irr)
 {
-    this->core = core_param;
-    mesh = core->getSmgr()->getMesh(findAsset(meshName).c_str());
+    this->irr = irr;
+    mesh = irr->getSmgr()->getMesh(findAsset(meshName).c_str());
     if (!mesh) {
-        core->getDevice()->drop();
+        irr->getDevice()->drop();
         throw "couldnt create wall mesh";
     }
-    node = core->getSmgr()->addMeshSceneNode(mesh, 0, IDFlag_IsPickable);
+    node = irr->getSmgr()->addMeshSceneNode(mesh, 0, IDFlag_IsPickable);
     if (node) {
-        node->setMaterialTexture( 0, driver->getTexture(findAsset(textureName).c_str()) );
+        node->setMaterialTexture( 0, irr->getDriver()->getTexture(findAsset(textureName).c_str()) );
     }
 }
 
@@ -25,11 +25,7 @@ Mesh::~Mesh()
 {
 }
 
-void Mesh::update(std::shared_ptr<GameMap> map)
-{
-}
-
-void Mesh::draw(void) const
+void Mesh::update(std::shared_ptr<GameMap> map, std::shared_ptr<Assets> assets)
 {
 }
 
@@ -50,7 +46,7 @@ void Mesh::canCollide(bool canMeshCollide)
 {
     ITriangleSelector *selector = 0;
     if (canMeshCollide) {
-        selector = core->getSmgr()->createTriangleSelector(this->mesh, this->node);
+        selector = irr->getSmgr()->createTriangleSelector(this->mesh, this->node);
         this->node->setTriangleSelector(selector);
         selector->drop();
     }
@@ -96,6 +92,6 @@ void Mesh::setTexture(std::string assets)
 {
     if (node)
     {
-        node->setMaterialTexture(0, core->getDriver()->getTexture(findAsset(assets).c_str()));
+        node->setMaterialTexture(0, irr->getDriver()->getTexture(findAsset(assets).c_str()));
     }
 }

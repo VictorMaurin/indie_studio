@@ -8,9 +8,12 @@
 #ifndef BREAKABLE_HPP_
 #define BREAKABLE_HPP_
 
+class Mesh;
+
 #include <memory>
 #include <irrlicht.h>
 
+#include "../Irrlicht/Irrlicht.hpp"
 #include "../Mesh/Mesh.hpp"
 
 using namespace irr;
@@ -21,7 +24,7 @@ using namespace core;
 
 class Breakable : public Mesh {
     public:
-        Breakable(Core *core, ISceneManager *smgr, IVideoDriver *driver, std::shared_ptr<IrrlichtDevice> device);
+        Breakable(std::shared_ptr<Irrlicht> irr);
         ~Breakable();
 
         void spawnPowerUp();

@@ -7,15 +7,13 @@
 
 #include "Bomb.hpp"
 
-Bomb::Bomb(Core *core, vector3df pos)
+Bomb::Bomb(std::shared_ptr<Irrlicht> irr, vector3df pos)
 {
-    _core = core;
-    device = core->getDevice();
-    driver = core->getDriver();
-    smgr = core->getSmgr();
-    mesh = std::make_unique<Mesh>(
-        "bomb2.obj", "bombbody_BaseColor.png",
-        core, smgr, driver, device);
+    _irr = irr;
+    // device = irr->getDevice();
+    // driver = irr->getDriver();
+    // smgr = irr->getSmgr();
+    mesh = std::make_unique<Mesh>("bomb2.obj", "bombbody_BaseColor.png", irr);
     
     mesh->setPosition(pos);
     vector3di posInt;
@@ -25,7 +23,7 @@ Bomb::Bomb(Core *core, vector3df pos)
     posFloat.X = (float)posInt.X;
     posFloat.Y = (float)posInt.Y;
     posFloat.Z = (float)posInt.Z;
-    then = device->getTimer()->getRealTime();
+    then = _irr->getDevice()->getTimer()->getRealTime();
     mesh->setPosition(posFloat);
 }
 
@@ -87,7 +85,7 @@ void Bomb::returnToGreen(std::shared_ptr<GameMap> map, std::string asset)
     }
 }
 
-void Bomb::explode(std::shared_ptr<GameMap> map, std::string asset)
+void Bomb::explode(std::shared_ptr<GameMap> map, std::shared_ptr<std::vector<std::shared_ptr<IEntity>>> players, std::string asset)
 {
     bool checkXPlus = false;
     bool checkXMin = false;
@@ -97,11 +95,11 @@ void Bomb::explode(std::shared_ptr<GameMap> map, std::string asset)
     && int(posFloat.Z) + int((map->getMapSize().Y / 2)) < map->getGround().size()) {
         map->getGround().at(int(posFloat.Z) + int((map->getMapSize().Y / 2))).
         at(int(posFloat.X) + int((map->getMapSize().X / 2)))->setTexture(asset);
-        for (int i = 0; i < _core->getPlayers()->size(); i++) {
-            if (_core->getPlayers()->at(i) != NULL && (int)posFloat.X == (int)_core->getPlayers()->at(i)->getPosition().X
-            && (int)posFloat.Z == (int)_core->getPlayers()->at(i)->getPosition().Z) {
-                _core->getPlayers()->at(i)->remove();
-                _core->getPlayers()->at(i).reset();
+        for (int i = 0; i < players->size(); i++) {
+            if (players->at(i) != NULL && (int)posFloat.X == (int)players->at(i)->getPosition().X
+            && (int)posFloat.Z == (int)players->at(i)->getPosition().Z) {
+                players->at(i)->remove();
+                players->at(i).reset();
             }
         }
     }
@@ -126,11 +124,11 @@ void Bomb::explode(std::shared_ptr<GameMap> map, std::string asset)
         at(int(posFloat.X + 1) + int((map->getMapSize().X / 2)))->isBreakable() == false) {
             checkXPlus = true;
         }
-        for (int i = 0; i < _core->getPlayers()->size(); i++) {
-            if (_core->getPlayers()->at(i) != NULL && (int)posFloat.X + 1 == (int)_core->getPlayers()->at(i)->getPosition().X
-                && (int)posFloat.Z == (int)_core->getPlayers()->at(i)->getPosition().Z) {
-                    _core->getPlayers()->at(i)->remove();
-                    _core->getPlayers()->at(i).reset();
+        for (int i = 0; i < players->size(); i++) {
+            if (players->at(i) != NULL && (int)posFloat.X + 1 == (int)players->at(i)->getPosition().X
+                && (int)posFloat.Z == (int)players->at(i)->getPosition().Z) {
+                    players->at(i)->remove();
+                    players->at(i).reset();
             }
         }
     }
@@ -154,12 +152,12 @@ void Bomb::explode(std::shared_ptr<GameMap> map, std::string asset)
         {
             checkZPlus = true;
         }
-        for (int i = 0; i < _core->getPlayers()->size(); i++)
+        for (int i = 0; i < players->size(); i++)
         {
-            if (_core->getPlayers()->at(i) != NULL && (int)posFloat.X == (int)_core->getPlayers()->at(i)->getPosition().X && (int)posFloat.Z + 1 == (int)_core->getPlayers()->at(i)->getPosition().Z)
+            if (players->at(i) != NULL && (int)posFloat.X == (int)players->at(i)->getPosition().X && (int)posFloat.Z + 1 == (int)players->at(i)->getPosition().Z)
             {
-                _core->getPlayers()->at(i)->remove();
-                _core->getPlayers()->at(i).reset();
+                players->at(i)->remove();
+                players->at(i).reset();
             }
         }
     }
@@ -183,11 +181,11 @@ void Bomb::explode(std::shared_ptr<GameMap> map, std::string asset)
         {
             checkXMin = true;
         }
-        for (int i = 0; i < _core->getPlayers()->size(); i++) {
-            if (_core->getPlayers()->at(i) != NULL && (int)posFloat.X - 1 == (int)_core->getPlayers()->at(i)->getPosition().X
-                && (int)posFloat.Z == (int)_core->getPlayers()->at(i)->getPosition().Z) {
-                    _core->getPlayers()->at(i)->remove();
-                    _core->getPlayers()->at(i).reset();
+        for (int i = 0; i < players->size(); i++) {
+            if (players->at(i) != NULL && (int)posFloat.X - 1 == (int)players->at(i)->getPosition().X
+                && (int)posFloat.Z == (int)players->at(i)->getPosition().Z) {
+                    players->at(i)->remove();
+                    players->at(i).reset();
             }
         }
     }
@@ -211,12 +209,12 @@ void Bomb::explode(std::shared_ptr<GameMap> map, std::string asset)
         {
             checkZMin = true;
         }
-        for (int i = 0; i < _core->getPlayers()->size(); i++)
+        for (int i = 0; i < players->size(); i++)
         {
-            if (_core->getPlayers()->at(i) != NULL && (int)posFloat.X == (int)_core->getPlayers()->at(i)->getPosition().X && (int)posFloat.Z - 1 == (int)_core->getPlayers()->at(i)->getPosition().Z)
+            if (players->at(i) != NULL && (int)posFloat.X == (int)players->at(i)->getPosition().X && (int)posFloat.Z - 1 == (int)players->at(i)->getPosition().Z)
             {
-                _core->getPlayers()->at(i)->remove();
-                _core->getPlayers()->at(i).reset();
+                players->at(i)->remove();
+                players->at(i).reset();
             }
         }
     }
@@ -235,12 +233,12 @@ void Bomb::explode(std::shared_ptr<GameMap> map, std::string asset)
         map->getMap().at(int(posFloat.Z) + int((map->getMapSize().Y / 2))).
         at(int(posFloat.X + 2) + int((map->getMapSize().X / 2))).reset();
         }
-        for (int i = 0; i < _core->getPlayers()->size(); i++)
+        for (int i = 0; i < players->size(); i++)
         {
-            if (checkXPlus == false && _core->getPlayers()->at(i) != NULL && (int)posFloat.X + 2 == (int)_core->getPlayers()->at(i)->getPosition().X && (int)posFloat.Z == (int)_core->getPlayers()->at(i)->getPosition().Z)
+            if (checkXPlus == false && players->at(i) != NULL && (int)posFloat.X + 2 == (int)players->at(i)->getPosition().X && (int)posFloat.Z == (int)players->at(i)->getPosition().Z)
             {
-                _core->getPlayers()->at(i)->remove();
-                _core->getPlayers()->at(i).reset();
+                players->at(i)->remove();
+                players->at(i).reset();
             }
         }
     }
@@ -259,12 +257,12 @@ void Bomb::explode(std::shared_ptr<GameMap> map, std::string asset)
         map->getMap().at(int(posFloat.Z + 2) + int((map->getMapSize().Y / 2))).
         at(int(posFloat.X) + int((map->getMapSize().X / 2))).reset();
         }
-        for (int i = 0; i < _core->getPlayers()->size(); i++)
+        for (int i = 0; i < players->size(); i++)
         {
-            if (checkZPlus == false && _core->getPlayers()->at(i) != NULL && (int)posFloat.X == (int)_core->getPlayers()->at(i)->getPosition().X && (int)posFloat.Z + 2 == (int)_core->getPlayers()->at(i)->getPosition().Z)
+            if (checkZPlus == false && players->at(i) != NULL && (int)posFloat.X == (int)players->at(i)->getPosition().X && (int)posFloat.Z + 2 == (int)players->at(i)->getPosition().Z)
             {
-                _core->getPlayers()->at(i)->remove();
-                _core->getPlayers()->at(i).reset();
+                players->at(i)->remove();
+                players->at(i).reset();
             }
         }
     }
@@ -283,12 +281,12 @@ void Bomb::explode(std::shared_ptr<GameMap> map, std::string asset)
         map->getMap().at(int(posFloat.Z) + int((map->getMapSize().Y / 2))).
         at(int(posFloat.X - 2) + int((map->getMapSize().X / 2))).reset();
         }
-        for (int i = 0; i < _core->getPlayers()->size(); i++)
+        for (int i = 0; i < players->size(); i++)
         {
-            if (checkXMin == false && _core->getPlayers()->at(i) != NULL && (int)posFloat.X - 2 == (int)_core->getPlayers()->at(i)->getPosition().X && (int)posFloat.Z == (int)_core->getPlayers()->at(i)->getPosition().Z)
+            if (checkXMin == false && players->at(i) != NULL && (int)posFloat.X - 2 == (int)players->at(i)->getPosition().X && (int)posFloat.Z == (int)players->at(i)->getPosition().Z)
             {
-                _core->getPlayers()->at(i)->remove();
-                _core->getPlayers()->at(i).reset();
+                players->at(i)->remove();
+                players->at(i).reset();
             }
         }
     }
@@ -307,35 +305,31 @@ void Bomb::explode(std::shared_ptr<GameMap> map, std::string asset)
         map->getMap().at(int(posFloat.Z - 2) + int((map->getMapSize().Y / 2))).
         at(int(posFloat.X) + int((map->getMapSize().X / 2))).reset();
         }
-        for (int i = 0; i < _core->getPlayers()->size(); i++)
+        for (int i = 0; i < players->size(); i++)
         {
-            if (checkZMin == false && _core->getPlayers()->at(i) != NULL && (int)posFloat.X == (int)_core->getPlayers()->at(i)->getPosition().X && (int)posFloat.Z - 2 == (int)_core->getPlayers()->at(i)->getPosition().Z)
+            if (checkZMin == false && players->at(i) != NULL && (int)posFloat.X == (int)players->at(i)->getPosition().X && (int)posFloat.Z - 2 == (int)players->at(i)->getPosition().Z)
             {
-                _core->getPlayers()->at(i)->remove();
-                _core->getPlayers()->at(i).reset();
+                players->at(i)->remove();
+                players->at(i).reset();
             }
         }
     }
     createExplodeCube();
 }
 
-void Bomb::update(std::shared_ptr<GameMap> map)
+void Bomb::update(std::shared_ptr<GameMap> map, std::shared_ptr<Assets> assets)
 {
-    now = device->getTimer()->getRealTime();
+    now = _irr->getDevice()->getTimer()->getRealTime();
     if ((now - then) / 1000 >= 3 && passed == false) {
         passed = true;
         mesh->remove();
     }
     else if ((now - then) / 1000 >= 3 && (now - then) / 1000 < 5) {
-        explode(map, "grasseRed.jpg");
+        explode(assets->getMap(), assets->getPlayers(), "grasseRed.jpg");
     }
     if ((now - then) / 1000 >= 5) {
         returnToGreen(map, "grass.jpg");
     }
-}
-
-void Bomb::draw(void) const
-{
 }
 
 void Bomb::canCollide(bool b)
@@ -345,22 +339,22 @@ void Bomb::canCollide(bool b)
 
 void Bomb::setPosition(const irr::core::vector3df &pos)
 {
-    node->setPosition(pos);
+    mesh->getNode()->setPosition(pos);
 }
 
 irr::core::vector3df Bomb::getPosition() const
 {
-    return (node->getPosition());
+    return (mesh->getNode()->getPosition());
 }
 
 void Bomb::setScale(const irr::core::vector3df &scale)
 {
-    node->setScale(scale);
+    mesh->getNode()->setScale(scale);
 }
 
 irr::core::vector3df Bomb::getScale() const
 {
-    return (node->getScale());
+    return (mesh->getNode()->getScale());
 }
 
 void Bomb::remove()

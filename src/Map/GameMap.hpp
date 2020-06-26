@@ -8,15 +8,12 @@
 #ifndef MAP_HPP_
 #define MAP_HPP_
 
-class IEntity;
-class Core;
-
 #include <vector>
 #include <memory>
 #include <irrlicht.h>
 
-#include "../Entity/IEntity.hpp"
-#include "../Core/Core.hpp"
+#include "../Assets/Assets.hpp"
+#include "../Irrlicht/Irrlicht.hpp"
 
 using namespace irr;
 using namespace scene;
@@ -26,8 +23,7 @@ using namespace core;
 
 class GameMap {
     public:
-        GameMap(std::shared_ptr<std::vector<std::shared_ptr<IEntity>>> entities, int width, int height,
-            Core *core, ISceneManager *smgr, IVideoDriver *driver, std::shared_ptr<IrrlichtDevice> device);
+        GameMap(std::shared_ptr<std::vector<std::shared_ptr<IEntity>>> entities, int width, int height, std::shared_ptr<Irrlicht> irr);
         ~GameMap();
 
         void removeRandomFromMap();

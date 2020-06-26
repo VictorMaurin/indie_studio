@@ -8,16 +8,14 @@
 #ifndef PLAYER_HPP
 #define PLAYER_HPP
 
-class Core;
-class IEntity;
-
 #include "driverChoice.h"
 #include <irrlicht.h>
 #include <fstream>
 
-#include "../Bomb/Bomb.hpp"
+#include "../Irrlicht/Irrlicht.hpp"
+#include "../Assets/Assets.hpp"
 #include "../Event/Event.hpp"
-#include "../assets/assets.hpp"
+#include "../../assets/assets.hpp"
 
 using namespace irr;
 using namespace scene;
@@ -28,17 +26,16 @@ using namespace core;
 class Player : public IEntity
 {
 public:
-	Player(std::string meshName, std::string textureName, Core *core, irr::EKEY_CODE advance, irr::EKEY_CODE behind, irr::EKEY_CODE left, irr::EKEY_CODE right, irr::EKEY_CODE plantBomb);
+	Player(std::string meshName, std::string textureName, std::shared_ptr<Irrlicht> irr, irr::EKEY_CODE advance, irr::EKEY_CODE behind, irr::EKEY_CODE left, irr::EKEY_CODE right, irr::EKEY_CODE plantBomb);
 	~Player();
 	void initPlayer(std::string meshName, std::string textureName, irr::scene::ISceneManager* sceneManager, irr::video::IVideoDriver* driver);
 	void movementPlayer(std::shared_ptr<GameMap> map, irr::core::array<irr::SJoystickInfo>& joystickInfo, std::shared_ptr<MyEventReceiver> receiver, const irr::f32 MOVEMENT_SPEED, const irr::f32 frameDeltaTime);
 	void initJoystic(irr::core::array<irr::SJoystickInfo> &joystickInfo, std::shared_ptr<irr::IrrlichtDevice> device);
 	void movementPlayerJoystick(std::shared_ptr<GameMap> map, irr::core::array<irr::SJoystickInfo> &joystickInfo, std::shared_ptr<MyEventReceiver> receiver, const irr::f32 MOVEMENT_SPEED, const irr::f32 frameDeltaTime);
 	void movementPlayerKeyBoard(std::shared_ptr<GameMap> map, std::shared_ptr<MyEventReceiver> receiver, const irr::f32 MOVEMENT_SPEED, const irr::f32 frameDeltaTime);
-	void plantBomb(std::shared_ptr<GameMap> map);
+	void plantBomb(std::shared_ptr<GameMap> map, std::shared_ptr<std::vector<std::shared_ptr<IEntity>>> entities);
 
-	void update(std::shared_ptr<GameMap> map);
-	void draw(void) const;
+	void update(std::shared_ptr<GameMap> map, std::shared_ptr<Assets> assets);
 	void remove(void);
 	void canCollide(bool);
     bool isBreakable(void);
@@ -49,14 +46,14 @@ public:
 	void setTexture(std::string assets) {};
 	void SetIsAI(bool isAI);
 private:
-	std::shared_ptr<MyEventReceiver> _receiver;
-	Core *_core;
+	// std::shared_ptr<MyEventReceiver> _receiver;
+	std::shared_ptr<Irrlicht> _irr;
 	irr::scene::IAnimatedMeshSceneNode* PlayerOBJ;
 	int joysticActivated;
-	std::shared_ptr<irr::IrrlichtDevice> _device;
+	// std::shared_ptr<irr::IrrlichtDevice> _device;
 	irr::f32 MOVEMENT_SPEED;
 	irr::u32 then;
-	irr::core::array<irr::SJoystickInfo> _joystickInfo;
+	// irr::core::array<irr::SJoystickInfo> _joystickInfo;
 	irr::EKEY_CODE _advance;
 	irr::EKEY_CODE _behind;
 	irr::EKEY_CODE _left;

@@ -1,5 +1,4 @@
 #include "Core.hpp"
-#include "../Menu/Menu.hpp"
 
 Core::Core()
 {
@@ -11,77 +10,85 @@ Core::~Core()
 
 void Core::init()
 {
-#ifdef __APPLE__
-    video::E_DRIVER_TYPE driverType = EDT_OPENGL;
-#else
-    video::E_DRIVER_TYPE driverType = driverChoiceConsole();
-#endif
-    if (driverType == video::EDT_COUNT)
-        throw("Problem in driver");
-    this->eventReceiver = std::make_shared<MyEventReceiver>();
+// #ifdef __APPLE__
+//     video::E_DRIVER_TYPE driverType = EDT_OPENGL;
+// #else
+//     video::E_DRIVER_TYPE driverType = driverChoiceConsole();
+// #endif
+//     if (driverType == video::EDT_COUNT)
+//         throw("Problem in driver");
+    // this->eventReceiver = std::make_shared<MyEventReceiver>();
     statement = State::MENU;
+    _irr = std::make_shared<Irrlicht>();
+    _irr->init();
+    _irr->getDevice()->setWindowCaption(L"Bomberman");
+    _irr->getGUIenv();
+    _assets = std::make_shared<Assets>(_irr);
     //create device
-    device = std::shared_ptr<IrrlichtDevice>(createDevice(driverType, dimension2d<u32>(640, 480), 16, false, false, false, eventReceiver.get()));
-    if (!device)
-        throw("Problem in device");
-    device->setResizable(true);
-    device->setWindowCaption(L"Hello world! - Irrlicht Engine Demo");
-    driver = device->getVideoDriver();
-    smgr = device->getSceneManager();
-    guienv = device->getGUIEnvironment();
-    font = this->guienv->getBuiltInFont();
+    // device = std::shared_ptr<IrrlichtDevice>(createDevice(driverType, dimension2d<u32>(640, 480), 16, false, false, false, eventReceiver.get()));
+    // if (!device)
+    //     throw("Problem in device");
+    // device->setResizable(true);
+    // device->setWindowCaption(L"Hello world! - Irrlicht Engine Demo");
+    // driver = device->getVideoDriver();
+    // smgr = device->getSceneManager();
+    // guienv = device->getGUIEnvironment();
+    // font = this->guienv->getBuiltInFont();
     set_menu();
     
     //light source
-    ILightSceneNode* light = smgr->addLightSceneNode( 0, vector3df(0.0f,50.0f,2.0f), SColorf(1.0f,1.0f,1.0f,1.0f), 35.0f );
+    // ILightSceneNode* light = smgr->addLightSceneNode( 0, vector3df(0.0f,50.0f,2.0f), SColorf(1.0f,1.0f,1.0f,1.0f), 35.0f );
     //camera
-    smgr->addCameraSceneNode(0, vector3df(0,11,-2), vector3df(0,0,0));
+    _irr->getSmgr()->addCameraSceneNode(0, vector3df(0,11,-2), vector3df(0,0,0));
 
-    this->collMan = smgr->getSceneCollisionManager();
+    // this->collMan = _irr->getSmgr()->getSceneCollisionManager();
 
-    entities = std::make_shared<std::vector<std::shared_ptr<IEntity>>>();
-    players = std::make_shared<std::vector<std::shared_ptr<IEntity>>>();
+    // entities = std::make_shared<std::vector<std::shared_ptr<IEntity>>>();
+    // players = std::make_shared<std::vector<std::shared_ptr<IEntity>>>();
     this->initAssets();
+    _assets->init();
 }
 
 void Core::initAssets()
 {
-    this->map = std::make_shared<GameMap>(entities, 19, 13, this, smgr, driver, device);
-    std::shared_ptr<Menu> menu = std::make_shared<Menu>(this);
+    // this->map = std::make_shared<GameMap>(entities, 19, 13, _irr);
+
+    // -------------- TMP COMMENT --------------
+    // std::shared_ptr<Menu> menu = std::make_shared<Menu>(this);
     this->gameOverStr.clear();
 
-    entities->push_back(std::make_shared<Player>("Bomberman.MD3", "BlackBombermanTextures.png", this, irr::KEY_KEY_Z, irr::KEY_KEY_S, irr::KEY_KEY_Q, irr::KEY_KEY_D, irr::KEY_SPACE));
-    players->push_back(entities->back());
-    entities->back()->setPosition(vector3df(-8.0f, 0.0f, -5.0f));
+    // entities->push_back(std::make_shared<Player>("Bomberman.MD3", "BlackBombermanTextures.png", _irr, irr::KEY_KEY_Z, irr::KEY_KEY_S, irr::KEY_KEY_Q, irr::KEY_KEY_D, irr::KEY_SPACE));
+    // players->push_back(entities->back());
+    // entities->back()->setPosition(vector3df(-8.0f, 0.0f, -5.0f));
     
-    entities->push_back(std::make_shared<Player>("Bomberman.MD3", "WhiteBombermanTextures.png", this, irr::KEY_KEY_Y, irr::KEY_KEY_H, irr::KEY_KEY_G, irr::KEY_KEY_J, irr::KEY_KEY_L));
-    players->push_back(entities->back());
-    entities->back()->setPosition(vector3df(-8.0f, 0.0f, 5.0f));
+    // entities->push_back(std::make_shared<Player>("Bomberman.MD3", "WhiteBombermanTextures.png", _irr, irr::KEY_KEY_Y, irr::KEY_KEY_H, irr::KEY_KEY_G, irr::KEY_KEY_J, irr::KEY_KEY_L));
+    // players->push_back(entities->back());
+    // entities->back()->setPosition(vector3df(-8.0f, 0.0f, 5.0f));
     
-    entities->push_back(std::make_shared<Player>("Bomberman.MD3", "RedBombermanTextures.png", this, irr::KEY_KEY_Y, irr::KEY_KEY_H, irr::KEY_KEY_G, irr::KEY_KEY_J, irr::KEY_KEY_L));
-    players->push_back(entities->back());
-    entities->back()->setPosition(vector3df(8.0f, 0.0f, 5.0f));
-    entities->back()->SetIsAI(true);
+    // entities->push_back(std::make_shared<Player>("Bomberman.MD3", "RedBombermanTextures.png", _irr, irr::KEY_KEY_Y, irr::KEY_KEY_H, irr::KEY_KEY_G, irr::KEY_KEY_J, irr::KEY_KEY_L));
+    // players->push_back(entities->back());
+    // entities->back()->setPosition(vector3df(8.0f, 0.0f, 5.0f));
+    // entities->back()->SetIsAI(true);
     
-    entities->push_back(std::make_shared<Player>("Bomberman.MD3", "PinkBombermanTextures.png", this, irr::KEY_KEY_Y, irr::KEY_KEY_H, irr::KEY_KEY_G, irr::KEY_KEY_J, irr::KEY_KEY_L));
-    players->push_back(entities->back());
-    entities->back()->setPosition(vector3df(8.0f, 0.0f, -5.0f));
-    entities->back()->SetIsAI(true);
+    // entities->push_back(std::make_shared<Player>("Bomberman.MD3", "PinkBombermanTextures.png", _irr, irr::KEY_KEY_Y, irr::KEY_KEY_H, irr::KEY_KEY_G, irr::KEY_KEY_J, irr::KEY_KEY_L));
+    // players->push_back(entities->back());
+    // entities->back()->setPosition(vector3df(8.0f, 0.0f, -5.0f));
+    // entities->back()->SetIsAI(true);
 }
 
 void Core::deleteAssets()
 {
-    players->clear();
-    players->shrink_to_fit();
-    for (size_t i = 0; i < entities->size(); i++) {
-        if (entities->at(i)) {
-            entities->at(i)->remove();
-            entities->at(i).reset();
+    _assets->getPlayers()->clear();
+    _assets->getPlayers()->shrink_to_fit();
+    for (size_t i = 0; i < _assets->getEntities()->size(); i++) {
+        if (_assets->getEntities()->at(i)) {
+            _assets->getEntities()->at(i)->remove();
+            _assets->getEntities()->at(i).reset();
         }
     }
-    entities->clear();
-    entities->shrink_to_fit();
-    this->map.reset();
+    _assets->getEntities()->clear();
+    _assets->getEntities()->shrink_to_fit();
+    _assets->getMap().reset();
 }
 
 void Core::isGameOver()
@@ -89,8 +96,8 @@ void Core::isGameOver()
     int playersLeft = 0;
     int indexPlayer = -1;
 
-    for (size_t i = 0; i < this->players->size(); i++) {
-        if (this->players->at(i) != 0) {
+    for (size_t i = 0; i < _assets->getPlayers()->size(); i++) {
+        if (_assets->getPlayers()->at(i) != 0) {
             playersLeft++;
             indexPlayer = i;
         }
@@ -107,62 +114,67 @@ void Core::isGameOver()
             if (indexPlayer == 3)
                 gameOverStr += L"Pink";
             gameOverStr += L" player WINS !";
-            gameOverTimerBgn = device->getTimer()->getRealTime();
-        } else if ((device->getTimer()->getRealTime() - gameOverTimerBgn) / 1000 >= 3) {
-            players->erase(players->begin() + indexPlayer);
+            gameOverTimerBgn = _irr->getDevice()->getTimer()->getRealTime();
+        } else if ((_irr->getDevice()->getTimer()->getRealTime() - gameOverTimerBgn) / 1000 >= 3) {
+            _assets->getPlayers()->erase(_assets->getPlayers()->begin() + indexPlayer);
             this->deleteAssets();
             set_menu();
+            // -------- TMP --------
+            statement = State::GAME;
 
             this->initAssets();
+            _assets->init();
         }
-    }
-    else if (playersLeft == 0) {
+    } else if (playersLeft == 0) {
         this->statement = State::GAME_OVER;
         if (this->gameOverStr.empty()) {
             gameOverStr += L" Nobody win !";
-            gameOverTimerBgn = device->getTimer()->getRealTime();
-        } else if ((device->getTimer()->getRealTime() - gameOverTimerBgn) / 1000 >= 3) {
+            gameOverTimerBgn = _irr->getDevice()->getTimer()->getRealTime();
+        } else if ((_irr->getDevice()->getTimer()->getRealTime() - gameOverTimerBgn) / 1000 >= 3) {
             this->deleteAssets();
             set_menu();
+            // -------- TMP --------
+            statement = State::GAME;
 
             this->initAssets();
+            _assets->init();
         }
     }
 }
 
-const std::shared_ptr<std::vector<std::shared_ptr<IEntity>>> &Core::getPlayers() const
-{
-    return (players);
-}
+// const std::shared_ptr<std::vector<std::shared_ptr<IEntity>>> &Core::getPlayers() const
+// {
+//     return (players);
+// }
 
-const std::shared_ptr<std::vector<std::shared_ptr<IEntity>>> &Core::getEntities() const
-{
-    return (entities);
-}
+// const std::shared_ptr<std::vector<std::shared_ptr<IEntity>>> &Core::getEntities() const
+// {
+//     return (entities);
+// }
 
-IVideoDriver *Core::getDriver() const
-{
-    return (driver);
-}
+// IVideoDriver *Core::getDriver() const
+// {
+//     return (driver);
+// }
 
-ISceneManager *Core::getSmgr() const
-{
-    return (smgr);
-}
+// ISceneManager *Core::getSmgr() const
+// {
+//     return (smgr);
+// }
 
-std::shared_ptr<IrrlichtDevice> Core::getDevice() const
-{
-    return (device);
-}
+// std::shared_ptr<IrrlichtDevice> Core::getDevice() const
+// {
+//     return (device);
+// }
 
-IGUIEnvironment *Core::getGUIenv() const
-{
-    return (guienv);
-}
+// IGUIEnvironment *Core::getGUIenv() const
+// {
+//     return (guienv);
+// }
 
 void Core::set_ia(int player_index, bool ia)
 {
-    this->players->at(player_index)->SetIsAI(ia);
+    _assets->getPlayers()->at(player_index)->SetIsAI(ia);
 }
 
 void Core::set_menu()
@@ -191,26 +203,27 @@ void Core::run()
     double frameTime = 1.0f / (float)fps;
     double remainingTime = 0.0;
     size_t updates = 0;
-    dimension2du windowSize = driver->getCurrentRenderTargetSize();
+    dimension2du windowSize = _irr->getDriver()->getCurrentRenderTargetSize();
 
-    while (device->run())
+    while (_irr->getDevice()->run())
     {
         totalFpsTime = std::clock();
         frameBgnTime = std::clock();
 
         //update
-        for (int i = 0; i < entities->size(); i++)
+        for (int i = 0; i < _assets->getEntities()->size(); i++)
         {
-            entities->at(i)->update(this->map);
+            _assets->getEntities()->at(i)->update(_assets->getMap(), _assets);
         }
         isGameOver();
 
         // draw
-        if (this->statement == State::MENU)
-            this->update_menu();
-        else if (this->statement == State::GAME)
-            this->update_game();
-        else if (this->statement == State::GAME_OVER)
+        // ---------- TMP COMMENT -----------
+        // if (this->statement == State::MENU)
+        //     this->update_menu();
+        // else if (this->statement == State::GAME)
+        this->update_game();
+        if (this->statement == State::GAME_OVER)
             this->update_gameOver();
         frameEndTime = std::clock();
 
@@ -226,18 +239,18 @@ void Core::run()
             if (updates < 5)
             {
                 updates++;
-                for (int i = 0; i < entities->size(); i++)
-                    entities->at(i)->update(this->map);
+                for (int i = 0; i < _assets->getEntities()->size(); i++)
+                    _assets->getEntities()->at(i)->update(_assets->getMap(), _assets);
                 isGameOver();
             }
             deltaTime = (std::clock() - frameBgnTime) / (double)CLOCKS_PER_SEC;
             remainingTime -= deltaTime;
         }
         totalFrameTime = (std::clock() - totalFpsTime) / (double)CLOCKS_PER_SEC;
-        if (this->eventReceiver->IsKeyDown(irr::KEY_KEY_E) || this->eventReceiver->IsKeyDown(irr::KEY_ESCAPE))
-            device->closeDevice();
+        if (_irr->getEventreceiver()->IsKeyDown(irr::KEY_KEY_E) || _irr->getEventreceiver()->IsKeyDown(irr::KEY_ESCAPE))
+            _irr->getDevice()->closeDevice();
     }
-    device->drop();
+    // _irr->getDevice()->drop(); // CAUSES A SEGFAULT SINCE IN IRRLICHT CLASS
 }
 
 void Core::setstatement(State is)
@@ -252,48 +265,53 @@ State Core::getstatement()
 
 void Core::update_gameOver()
 {
-    dimension2du size = driver->getScreenSize();
-    driver->beginScene(true, true, SColor(255, 100, 101, 140));
-    smgr->drawAll();
-    if (this->font)
-        this->font->draw(this->gameOverStr.c_str(), recti(size.Width / 2 - 50, size.Height / 2, 300, 50), SColor(255,230,230,230));
-    guienv->drawAll();
-    driver->endScene();
+    dimension2du size = _irr->getDriver()->getScreenSize();
+    _irr->getDriver()->beginScene(true, true, SColor(255, 100, 101, 140));
+    _irr->getSmgr()->drawAll();
+    if (_assets->getFont())
+        _assets->getFont()->draw(this->gameOverStr.c_str(), recti(size.Width / 2 - 50, size.Height / 2, 300, 50), SColor(255,230,230,230));
+    _irr->getGUIenv()->drawAll();
+    _irr->getDriver()->endScene();
 }
 
 void Core::update_menu()
 {
-    driver->beginScene(true, true, SColor(255, 100, 101, 140));
-    smgr->drawAll();
-    guienv->drawAll();
-    driver->endScene();
+    _irr->getDriver()->beginScene(true, true, SColor(255, 100, 101, 140));
+    _irr->getSmgr()->drawAll();
+    _irr->getGUIenv()->drawAll();
+    _irr->getDriver()->endScene();
 }
 
 void Core::update_game()
 {
-    device->setEventReceiver(this->eventReceiver.get());
-    driver->beginScene(true, true, SColor(255, 100, 101, 140));
-    smgr->drawAll();
-    guienv->drawAll();
-    driver->endScene();
+    _irr->getDevice()->setEventReceiver(_irr->getEventreceiver().get());
+    _irr->getDriver()->beginScene(true, true, SColor(255, 100, 101, 140));
+    _irr->getSmgr()->drawAll();
+    _irr->getGUIenv()->drawAll();
+    _irr->getDriver()->endScene();
 }
 
-std::shared_ptr<MyEventReceiver> Core::getEventreceiver()
-{
-    return (this->eventReceiver);
-}
+// std::shared_ptr<MyEventReceiver> Core::getEventreceiver()
+// {
+//     return (this->eventReceiver);
+// }
 
-irr::core::array<irr::SJoystickInfo> Core::getJoystickinfo()
-{
-    return (this->joystickInfo);
-}
+// irr::core::array<irr::SJoystickInfo> Core::getJoystickinfo()
+// {
+//     return (this->joystickInfo);
+// }
 
-ISceneCollisionManager *Core::getCollMan() const
-{
-    return (this->collMan);
-}
+// ISceneCollisionManager *Core::getCollMan() const
+// {
+//     return (this->collMan);
+// }
 
-std::shared_ptr<GameMap> Core::getMap() const
+// std::shared_ptr<GameMap> Core::getMap() const
+// {
+//     return (this->map);
+// }
+
+std::shared_ptr<Irrlicht> Core::getLib(void) const
 {
-    return (this->map);
+    return (this->_irr);
 }

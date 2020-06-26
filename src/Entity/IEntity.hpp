@@ -8,13 +8,13 @@
 #ifndef IENTITY_HPP
 #define IENTITY_HPP
 
-class GameMap;
+class Assets;
 
 #include <vector>
 #include <irrlicht.h>
 #include <string>
 
-#include "../Map/GameMap.hpp"
+#include "../Assets/Assets.hpp"
 
 using namespace irr;
 using namespace scene;
@@ -27,8 +27,7 @@ class IEntity
 public:
     virtual ~IEntity() = default;
 
-    virtual void update(std::shared_ptr<GameMap> map)=0;
-    virtual void draw(void) const = 0;
+    virtual void update(std::shared_ptr<GameMap> map, std::shared_ptr<Assets> assets)=0;
 
     virtual void remove(void)=0;
     virtual bool isBreakable(void)=0;

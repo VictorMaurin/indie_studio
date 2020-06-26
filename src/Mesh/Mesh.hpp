@@ -8,12 +8,14 @@
 #ifndef MESH_HPP_
 #define MESH_HPP_
 
+class IEntity;
+
 #include <memory>
 #include <irrlicht.h>
 
-#include "../assets/assets.hpp"
-#include "../Map/GameMap.hpp"
-#include "../Core/Core.hpp"
+#include "../Assets/Assets.hpp"
+#include "../Entity/IEntity.hpp"
+#include "../../assets/assets.hpp"
 
 using namespace irr;
 using namespace scene;
@@ -35,10 +37,9 @@ enum
 class Mesh : public IEntity
 {
     public:
-        Mesh(std::string meshName, std::string textureName, Core *core, ISceneManager *smgr, IVideoDriver *driver, std::shared_ptr<IrrlichtDevice> device);
+        Mesh(std::string meshName, std::string textureName, std::shared_ptr<Irrlicht> irr);
         ~Mesh();
-        void update(std::shared_ptr<GameMap> map);
-        void draw(void) const;
+        void update(std::shared_ptr<GameMap> map, std::shared_ptr<Assets> assets);
 
         void remove(void);
         bool isBreakable(void);
@@ -55,7 +56,7 @@ class Mesh : public IEntity
         bool isRemove = false;
 
     protected:
-        Core *core;
+        std::shared_ptr<Irrlicht> irr;
         IMesh *mesh;
         IMeshSceneNode *node;
 };

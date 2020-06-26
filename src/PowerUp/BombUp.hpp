@@ -13,7 +13,6 @@ public:
     BombUp(/* args */);
     ~BombUp();
     void update();
-    void draw(void) const;
 
     void setPosition(const vector3df &pos);
     vector3df getPosition(void) const;
