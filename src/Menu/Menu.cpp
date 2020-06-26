@@ -14,29 +14,20 @@ Menu::Menu(Core *core)
     device = core->getDevice();
     smgr = core->getSmgr();
     guienv = core->getGUIenv();
-    
-    IGUIButton* quit = guienv->addButton(rect<s32>(490,300,600,300 + 32), 0, QUIT_BUTTON,
-			L"QUIT", L"Game Exit");
-	IGUIButton* help = guienv->addButton(rect<s32>(370,300,480,300 + 32), 0, HELP_BUTTON,
-			L"HELP", L"Help");
-	IGUIButton* ia = guienv->addButton(rect<s32>(120,300,240,300 + 32), 0, IA_BUTTON,
-			L"IA", L"Opponent is a player");
-	IGUIButton* player = guienv->addButton(rect<s32>(250,300,360,300 + 32), 0, PLAYER_BUTTON,
-			L"PLAYER", L"Opponent is a IA");
-    MyEvent *receiver = new MyEvent(core, window, button, image, text);
-	device->setEventReceiver(receiver);
 }
 
 Menu::~Menu()
 {
 }
 
-void Menu::create()
+void Menu::create(std::shared_ptr<Core> core)
 {
 	this->create_window();
 	this->create_buttons();
 	this->create_image();
 	this->create_text();
+	MyEvent *receiver = new MyEvent(core, window, button, image, text);
+	device->setEventReceiver(receiver);
 }
 
 void Menu::create_window()

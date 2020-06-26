@@ -34,11 +34,7 @@ enum
 class MyEvent : public IEventReceiver
 {
 public:
-<<<<<<< HEAD
-	MyEvent(Core *core, IGUIWindow* window, IGUIButton* quit, IGUIButton* ia, IGUIButton* player, IGUIButton* help, IGUIImage* image, IGUIStaticText* text) {
-=======
 	MyEvent(std::shared_ptr<Core> core, IGUIWindow* window, std::map<std::string, IGUIButton*> button, IGUIImage* image, IGUIStaticText* text) {
->>>>>>> ADD- map for management of buttons and different method to create
         _core = core;
         statement = core->getstatement();
         device = core->getDevice();
@@ -140,14 +136,9 @@ public:
         Core *_core;
         IVideoDriver *driver;
         std::shared_ptr<IrrlichtDevice> device;
-<<<<<<< HEAD
-        ISceneManager *smgr;
-        IGUIEnvironment *guienv;
-=======
         std::shared_ptr<ISceneManager> smgr;
         std::shared_ptr<IGUIEnvironment> guienv;
         std::map<std::string, IGUIButton*> _button;
->>>>>>> ADD- map for management of buttons and different method to create
         IGUIButton* _ia;
         IGUIButton* _player;
         IGUIButton* _help;
@@ -165,22 +156,17 @@ class Menu
     private:
         IVideoDriver *driver;
         std::shared_ptr<IrrlichtDevice> device;
-<<<<<<< HEAD
-        ISceneManager *smgr;
-        IGUIEnvironment *guienv;
-=======
         std::shared_ptr<ISceneManager> smgr;
         std::shared_ptr<IGUIEnvironment> guienv;
         std::map<std::string, IGUIButton*> button;
         IGUIImage* image;
->>>>>>> ADD- map for management of buttons and different method to create
         IGUIWindow* window;
         IGUIStaticText* text;
         s32	counter;
     public :
         Menu(Core *core);
         ~Menu();
-        void create();
+        void create(std::shared_ptr<Core> core);
         void create_window();
         void create_buttons();
         void create_image();

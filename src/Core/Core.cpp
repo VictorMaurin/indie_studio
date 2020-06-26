@@ -28,7 +28,7 @@ void Core::initAssets()
     // set_menu();
     // this->map = std::make_shared<GameMap>(entities, 19, 13, std::shared_ptr<Core>(this), smgr, driver, device);
     std::shared_ptr<Menu> menu = std::make_shared<Menu>(std::shared_ptr<Core>(this));
-    menu->create();
+    menu->create(std::shared_ptr<Core>(this));
     // this->gameOverStr.clear();
 
     // this->gameOverStr.clear();
