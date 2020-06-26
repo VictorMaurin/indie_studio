@@ -8,9 +8,6 @@
 #ifndef CORE_HPP
 #define CORE_HPP
 
-class Player;
-class Mesh;
-
 #include <vector>
 #include <ctime>
 #include <cmath>
@@ -18,6 +15,8 @@ class Mesh;
 #include <irrlicht.h>
 #include <string>
 #include <memory>
+
+class Player;
 
 #include "../Event/Event.hpp"
 #include "../Entity/IEntity.hpp"
@@ -52,7 +51,7 @@ private:
     std::shared_ptr<GameMap> map;
     std::shared_ptr<std::vector<std::shared_ptr<IEntity>>> players;
     ISceneCollisionManager *collMan;
-    std::shared_ptr<IGUIFont> font;
+    IGUIFont *font;
     std::wstring gameOverStr;
     u32 gameOverTimerBgn;
 

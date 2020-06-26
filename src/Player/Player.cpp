@@ -6,9 +6,8 @@
 */
 
 #include "Player.hpp"
-#include "../Bomb/Bomb.hpp"
 
-Player::Player(std::string meshName, std::string textureName, std::shared_ptr<Core> core, irr::EKEY_CODE advance, irr::EKEY_CODE behind, irr::EKEY_CODE left, irr::EKEY_CODE right, irr::EKEY_CODE plantBomb)
+Player::Player(std::string meshName, std::string textureName, Core *core, irr::EKEY_CODE advance, irr::EKEY_CODE behind, irr::EKEY_CODE left, irr::EKEY_CODE right, irr::EKEY_CODE plantBomb)
 {
     this->_core = core;
     this->_device = core->getDevice();
@@ -43,7 +42,7 @@ irr::core::vector3df Player::getPosition() const
     return (this->PlayerOBJ->getPosition());
 }
 
-void Player::initPlayer(std::string meshName, std::string textureName, std::shared_ptr<ISceneManager> sceneManager, std::shared_ptr<IVideoDriver> driver)
+void Player::initPlayer(std::string meshName, std::string textureName, irr::scene::ISceneManager* sceneManager, irr::video::IVideoDriver* driver)
 {
     this->PlayerOBJ =
         sceneManager->addAnimatedMeshSceneNode(sceneManager->getMesh(findAsset(meshName).c_str()));
@@ -281,15 +280,15 @@ void Player::canCollide(bool b)
 
 }
 
-void Player::update()
+void Player::update(std::shared_ptr<GameMap> map)
 {
     if (isRemove == false) {
         const irr::u32 now = this->_device->getTimer()->getTime();
         const irr::f32 frameDeltaTime = (irr::f32)(now - this->then) / 1000.f;
         this->then = now;
         if (!this->isAI) {
-            this->movementPlayer(_core->getMap(), this->_joystickInfo, this->_receiver, this->MOVEMENT_SPEED, frameDeltaTime);
-            this->plantBomb(_core->getMap());
+            this->movementPlayer(map, this->_joystickInfo, this->_receiver, this->MOVEMENT_SPEED, frameDeltaTime);
+            this->plantBomb(map);
         }
     }
 }

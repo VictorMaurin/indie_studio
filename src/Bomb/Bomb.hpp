@@ -8,9 +8,11 @@
 #ifndef BOMB_HPP
 #define BOMB_HPP
 
-class Mesh;
-
 #include <irrlicht.h>
+
+class IEntity;
+class Mesh;
+class Explosion;
 
 #include "../Core/Core.hpp"
 #include "../Mesh/Mesh.hpp"

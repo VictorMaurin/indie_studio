@@ -10,12 +10,12 @@
 Mesh::Mesh(std::string meshName, std::string textureName, Core *core_param, ISceneManager *smgr, IVideoDriver *driver, std::shared_ptr<IrrlichtDevice> device)
 {
     this->core = core_param;
-    mesh = std::shared_ptr<IMesh>(smgr->getMesh(findAsset(meshName).c_str()));
+    mesh = core->getSmgr()->getMesh(findAsset(meshName).c_str());
     if (!mesh) {
-        device->drop();
+        core->getDevice()->drop();
         throw "couldnt create wall mesh";
     }
-    node = std::shared_ptr<IMeshSceneNode>(smgr->addMeshSceneNode(mesh.get(), 0, IDFlag_IsPickable));
+    node = core->getSmgr()->addMeshSceneNode(mesh, 0, IDFlag_IsPickable);
     if (node) {
         node->setMaterialTexture( 0, driver->getTexture(findAsset(textureName).c_str()) );
     }
@@ -30,7 +30,7 @@ Mesh::~Mesh()
     // delete mesh;
 }
 
-void Mesh::update()
+void Mesh::update(std::shared_ptr<GameMap> map)
 {
 }
 
@@ -45,19 +45,18 @@ bool Mesh::isBreakable(void)
 
 void Mesh::remove(void)
 {
-    // if (isRemove == false) {
-    //     isRemove = true;
-    node->remove();
-    node.reset();
-    // }
+    if (isRemove == false) {
+        isRemove = true;
+        node->remove();
+    }
 }
 
 void Mesh::canCollide(bool canMeshCollide)
 {
-    std::unique_ptr<ITriangleSelector> selector = 0;
+    ITriangleSelector *selector = 0;
     if (canMeshCollide) {
-        selector = std::unique_ptr<ITriangleSelector>(core->getSmgr()->createTriangleSelector(this->mesh.get(), this->node.get()));
-        this->node->setTriangleSelector(selector.get());
+        selector = core->getSmgr()->createTriangleSelector(this->mesh, this->node);
+        this->node->setTriangleSelector(selector);
         selector->drop();
     }
 }
@@ -88,12 +87,12 @@ vector3df Mesh::getScale(void) const
     return(vector3df(-1, -1, -1));
 }
 
-std::shared_ptr<IMesh> Mesh::getMesh() const
+irr::scene::IMesh *Mesh::getMesh() const
 {
     return (mesh);
 }
 
-std::shared_ptr<IMeshSceneNode> Mesh::getNode() const
+IMeshSceneNode *Mesh::getNode() const
 {
     return (node);
 }

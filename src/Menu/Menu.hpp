@@ -33,7 +33,7 @@ enum
 class MyEvent : public IEventReceiver
 {
 public:
-	MyEvent(std::shared_ptr<Core> core, IGUIWindow* window, IGUIButton* quit, IGUIButton* ia, IGUIButton* player, IGUIButton* help, IGUIImage* image, IGUIStaticText* text) {
+	MyEvent(Core *core, IGUIWindow* window, IGUIButton* quit, IGUIButton* ia, IGUIButton* player, IGUIButton* help, IGUIImage* image, IGUIStaticText* text) {
         _core = core;
         statement = core->getstatement();
         device = core->getDevice();
@@ -80,6 +80,7 @@ public:
                         _core->set_ia(1, true);
 					}
 					return true;
+                
                 case PLAYER_BUTTON:
 					{
 					    if (win)
@@ -163,7 +164,7 @@ class Menu
         IGUIWindow* window;
         s32	counter;
     public :
-        Menu(std::shared_ptr<Core> core);
+        Menu(Core *core);
         ~Menu();
 };
 

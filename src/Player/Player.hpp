@@ -10,16 +10,14 @@
 
 class Core;
 class IEntity;
-class GameMap;
-class Mesh;
 
 #include "driverChoice.h"
 #include <irrlicht.h>
 #include <fstream>
 
+#include "../Bomb/Bomb.hpp"
 #include "../Event/Event.hpp"
 #include "../assets/assets.hpp"
-#include "../Bomb/Bomb.hpp"
 
 using namespace irr;
 using namespace scene;
@@ -39,7 +37,7 @@ public:
 	void movementPlayerKeyBoard(std::shared_ptr<GameMap> map, std::shared_ptr<MyEventReceiver> receiver, const irr::f32 MOVEMENT_SPEED, const irr::f32 frameDeltaTime);
 	void plantBomb(std::shared_ptr<GameMap> map);
 
-	void update();
+	void update(std::shared_ptr<GameMap> map);
 	void draw(void) const;
 	void remove(void);
 	void canCollide(bool);
@@ -59,11 +57,11 @@ private:
 	irr::f32 MOVEMENT_SPEED;
 	irr::u32 then;
 	irr::core::array<irr::SJoystickInfo> _joystickInfo;
-	EKEY_CODE _advance;
-	EKEY_CODE _behind;
-	EKEY_CODE _left;
-	EKEY_CODE _right;
-	EKEY_CODE _plantBomb;
+	irr::EKEY_CODE _advance;
+	irr::EKEY_CODE _behind;
+	irr::EKEY_CODE _left;
+	irr::EKEY_CODE _right;
+	irr::EKEY_CODE _plantBomb;
 	bool isRemove = false;
 	bool isAI = false;
 };

@@ -12,7 +12,6 @@
 #include <irrlicht.h>
 
 #include "../Mesh/Mesh.hpp"
-#include "../Core/Core.hpp"
 
 using namespace irr;
 using namespace scene;
