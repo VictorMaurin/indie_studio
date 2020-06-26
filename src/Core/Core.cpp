@@ -276,7 +276,6 @@ void Core::update_game()
     smgr->drawAll();
     guienv->drawAll();
     driver->endScene();
-    // if return to menu --> set_menu()
 }
 
 std::shared_ptr<MyEventReceiver> Core::getEventreceiver()

@@ -32,8 +32,6 @@ private:
     IMeshSceneNode *node;
     u32 now;
     u32 then;
-    // IParticleEmitter *em;
-    // IParticleAffector *paf;
     Core *_core;
     std::unique_ptr<Mesh> mesh;
     bool passed = false;

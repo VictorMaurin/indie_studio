@@ -23,11 +23,6 @@ Mesh::Mesh(std::string meshName, std::string textureName, Core *core_param, ISce
 
 Mesh::~Mesh()
 {
-    // node->drop();
-    // mesh->drop();
-    // node->remove();
-    // delete node;
-    // delete mesh;
 }
 
 void Mesh::update(std::shared_ptr<GameMap> map)

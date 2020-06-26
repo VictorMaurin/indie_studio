@@ -159,8 +159,6 @@ class Menu
         std::shared_ptr<IrrlichtDevice> device;
         ISceneManager *smgr;
         IGUIEnvironment *guienv;
-        // IGUIListBox *listbox;
-        // IGUISkin* skin;
         IGUIWindow* window;
         s32	counter;
     public :
