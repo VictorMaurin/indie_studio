@@ -158,6 +158,14 @@ void Player::moveLeftControler(line3df ray, vector3df intersection, triangle3df 
     PlayerOBJ->setPosition(nodePosition);
 }
 
+void Player::plantBomb(std::shared_ptr<GameMap> map, std::shared_ptr<std::vector<std::shared_ptr<IEntity>>> entities)
+{
+    if (map->getMap().at((int)PlayerOBJ->getPosition().Z + int((map->getMapSize().Y / 2))).
+        at((int)PlayerOBJ->getPosition().X + int((map->getMapSize().X / 2))) == NULL) {
+        entities->push_back(std::make_shared<Bomb>(_irr, PlayerOBJ->getPosition()));
+    }
+}
+
 void Player::canCollide(bool b)
 {
 

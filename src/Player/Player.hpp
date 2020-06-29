@@ -43,6 +43,8 @@ public:
 	void moveRightControler(line3df ray, vector3df intersection, triangle3df hitTriangle, vector3df nodePosition, const irr::f32 frameDeltaTime, irr::f32 moveHorizontal);
 	void moveLeftControler(line3df ray, vector3df intersection, triangle3df hitTriangle, vector3df nodePosition, const irr::f32 frameDeltaTime, irr::f32 moveHorizontal);
 
+	void plantBomb(std::shared_ptr<GameMap> map, std::shared_ptr<std::vector<std::shared_ptr<IEntity>>> entities);
+
 
 	void update(std::shared_ptr<GameMap> map, std::shared_ptr<Assets> assets);
 	void remove(void);

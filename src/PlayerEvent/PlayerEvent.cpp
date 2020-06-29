@@ -8,7 +8,7 @@
 #include "PlayerEvent.hpp"
 #include "../Bomb/Bomb.hpp"
 
-PlayerEvent::PlayerEvent(std::shared_ptr<Irrlicht> irr, irr::EKEY_CODE advance, irr::EKEY_CODE behind, irr::EKEY_CODE left, irr::EKEY_CODE right, irr::EKEY_CODE plantBomb, irr::scene::IAnimatedMeshSceneNode* _PlayerOBJ, std::shared_ptr<Player> _player)
+PlayerEvent::PlayerEvent(std::shared_ptr<Irrlicht> irr, irr::EKEY_CODE advance, irr::EKEY_CODE behind, irr::EKEY_CODE left, irr::EKEY_CODE right, irr::EKEY_CODE plantBomb, Player* _player)
 {
     this->joysticActivated = 0;
     this->_irr = irr;
@@ -19,7 +19,6 @@ PlayerEvent::PlayerEvent(std::shared_ptr<Irrlicht> irr, irr::EKEY_CODE advance, 
     this->_right = right;
     this->_plantBomb = plantBomb;
 
-    this->PlayerOBJ = _PlayerOBJ;
     player = _player;
 
     this->initJoystic(_irr->getJoystickinfo(), _irr->getDevice());
@@ -182,16 +181,11 @@ void PlayerEvent::movementPlayerJoystick(std::shared_ptr<GameMap> map, irr::core
 void PlayerEvent::plantBomb(std::shared_ptr<GameMap> map, std::shared_ptr<std::vector<std::shared_ptr<IEntity>>> entities)
 {
     if (_irr->getEventreceiver()->IsKeyDown(this->_plantBomb)) {
-        if (map->getMap().at((int)player->getPlayerOBJ()->getPosition().Z + int((map->getMapSize().Y / 2))).
-            at((int)player->getPlayerOBJ()->getPosition().X + int((map->getMapSize().X / 2))) == NULL)
-            entities->push_back(std::make_shared<Bomb>(_irr, player->getPlayerOBJ()->getPosition()));
+        player->plantBomb(map, entities);
     }
     if (this->joysticActivated == 1) {
         if (_irr->getEventreceiver()->GetJoystickState().ButtonStates == 2) {
-            if (map->getMap().at((int)player->getPlayerOBJ()->getPosition().Z + int((map->getMapSize().Y / 2))).
-                at((int)player->getPlayerOBJ()->getPosition().X + int((map->getMapSize().X / 2))) == NULL) {
-                entities->push_back(std::make_shared<Bomb>(_irr, player->getPlayerOBJ()->getPosition()));
-            }
+            player->plantBomb(map, entities);
         }
     }
 
