@@ -24,7 +24,7 @@ Player::Player(std::string meshName, std::string textureName, std::shared_ptr<Ir
     this->_right = right;
     this->_plantBomb = plantBomb;
 
-    this->event = std::make_unique<PlayerEvent>(_irr, advance, behind, left, right, plantBomb, this->PlayerOBJ, std::shared_ptr<Player>(this));
+    this->event = std::make_unique<PlayerEvent>(_irr, advance, behind, left, right, plantBomb, this);
     this->initPlayer(meshName, textureName, _irr->getSmgr(), _irr->getDriver());
 }
 
