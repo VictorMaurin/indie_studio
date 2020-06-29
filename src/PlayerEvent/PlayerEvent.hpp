@@ -5,6 +5,11 @@
 ** PlayerEvent
 */
 
+#ifndef PLAYEREVENT_HPP
+#define PLAYEREVENT_HPP
+
+class Player;
+
 #include <memory>
 #include "../Player/Player.hpp"
 
@@ -30,4 +35,6 @@ private:
 	std::shared_ptr<Player> player;
 	std::shared_ptr<Irrlicht> _irr;
 	irr::scene::IAnimatedMeshSceneNode* PlayerOBJ;
-}
+};
+
+#endif /* !PLAYEREVENT_HPP */

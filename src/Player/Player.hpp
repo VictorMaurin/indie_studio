@@ -8,6 +8,8 @@
 #ifndef PLAYER_HPP
 #define PLAYER_HPP
 
+class PlayerEvent;
+
 #include "driverChoice.h"
 #include <irrlicht.h>
 #include <fstream>

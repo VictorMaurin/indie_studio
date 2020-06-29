@@ -40,6 +40,7 @@ if (UNIX)
         #./src/Menu/Menu.cpp
         ./src/Breakable/Breakable.cpp
         ./src/Map/GameMap.cpp
+        ./src/PlayerEvent/PlayerEvent.cpp
         ./assets/find_asset.cpp
  ./src/main.cpp)
 
