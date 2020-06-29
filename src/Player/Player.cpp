@@ -32,6 +32,11 @@ Player::~Player()
 {
 }
 
+irr::scene::IAnimatedMeshSceneNode* Player::getPlayerOBJ()
+{
+    return(this->PlayerOBJ);
+}
+
 void Player::setPosition(const irr::core::vector3df &pos)
 {
     this->PlayerOBJ->setPosition(pos);
@@ -65,6 +70,7 @@ void Player::moveUpKeyboard(line3df ray, vector3df intersection, triangle3df hit
         this->PlayerOBJ->setAnimationSpeed(100);
         nodePosition.Z += MOVEMENT_SPEED * frameDeltaTime;
     }
+    PlayerOBJ->setPosition(nodePosition);
 }
 void Player::moveDownKeyboard(line3df ray, vector3df intersection, triangle3df hitTriangle, vector3df nodePosition, const irr::f32 frameDeltaTime)
 {
@@ -76,6 +82,7 @@ void Player::moveDownKeyboard(line3df ray, vector3df intersection, triangle3df h
         this->PlayerOBJ->setAnimationSpeed(100);
         nodePosition.Z -= MOVEMENT_SPEED * frameDeltaTime;
     }
+    PlayerOBJ->setPosition(nodePosition);
 }
 void Player::moveRightKeyboard(line3df ray, vector3df intersection, triangle3df hitTriangle, vector3df nodePosition, const irr::f32 frameDeltaTime)
 {
@@ -87,6 +94,7 @@ void Player::moveRightKeyboard(line3df ray, vector3df intersection, triangle3df 
         this->PlayerOBJ->setAnimationSpeed(100);
         nodePosition.X += MOVEMENT_SPEED * frameDeltaTime;
     }
+    PlayerOBJ->setPosition(nodePosition);
 }
 void Player::moveLeftKeyboard(line3df ray, vector3df intersection, triangle3df hitTriangle, vector3df nodePosition, const irr::f32 frameDeltaTime)
 {
@@ -98,6 +106,7 @@ void Player::moveLeftKeyboard(line3df ray, vector3df intersection, triangle3df h
         this->PlayerOBJ->setAnimationSpeed(100);
         nodePosition.X -= MOVEMENT_SPEED * frameDeltaTime;
     }
+    PlayerOBJ->setPosition(nodePosition);
 }
 
 void Player::moveUpControler(line3df ray, vector3df intersection, triangle3df hitTriangle, vector3df nodePosition, const irr::f32 frameDeltaTime, irr::f32 moveVertical)
@@ -110,6 +119,7 @@ void Player::moveUpControler(line3df ray, vector3df intersection, triangle3df hi
         nodePosition.Z += MOVEMENT_SPEED * frameDeltaTime * moveVertical;
         this->PlayerOBJ->setRotation(irr::core::vector3df(0, 180, 0));
     }
+    PlayerOBJ->setPosition(nodePosition);
 }
 void Player::moveDownControler(line3df ray, vector3df intersection, triangle3df hitTriangle, vector3df nodePosition, const irr::f32 frameDeltaTime, irr::f32 moveVertical)
 {
@@ -121,6 +131,7 @@ void Player::moveDownControler(line3df ray, vector3df intersection, triangle3df 
         nodePosition.Z += MOVEMENT_SPEED * frameDeltaTime * moveVertical;
         this->PlayerOBJ->setRotation(irr::core::vector3df(0, 0, 0));
     }
+    PlayerOBJ->setPosition(nodePosition);
 }
 void Player::moveRightControler(line3df ray, vector3df intersection, triangle3df hitTriangle, vector3df nodePosition, const irr::f32 frameDeltaTime, irr::f32 moveHorizontal)
 {
@@ -132,6 +143,7 @@ void Player::moveRightControler(line3df ray, vector3df intersection, triangle3df
         nodePosition.X += MOVEMENT_SPEED * frameDeltaTime * moveHorizontal;
         this->PlayerOBJ->setRotation(irr::core::vector3df(0, -90, 0));
     }
+    PlayerOBJ->setPosition(nodePosition);
 }
 void Player::moveLeftControler(line3df ray, vector3df intersection, triangle3df hitTriangle, vector3df nodePosition, const irr::f32 frameDeltaTime, irr::f32 moveHorizontal)
 {
@@ -143,6 +155,7 @@ void Player::moveLeftControler(line3df ray, vector3df intersection, triangle3df 
         nodePosition.X += MOVEMENT_SPEED * frameDeltaTime * moveHorizontal;
         this->PlayerOBJ->setRotation(irr::core::vector3df(0, 90, 0));
     }
+    PlayerOBJ->setPosition(nodePosition);
 }
 
 void Player::canCollide(bool b)

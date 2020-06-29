@@ -81,7 +81,7 @@ void PlayerEvent::movementPlayer(std::shared_ptr<GameMap> map, irr::core::array<
 
 void PlayerEvent::movementPlayerKeyBoard(std::shared_ptr<GameMap> map, std::shared_ptr<MyEventReceiver> receiver, const irr::f32 MOVEMENT_SPEED, const irr::f32 frameDeltaTime)
 {
-    vector3df nodePosition = PlayerOBJ->getPosition();
+    vector3df nodePosition = player->getPosition();
     line3df ray;
     vector3df intersection;
     triangle3df hitTriangle;
@@ -105,9 +105,8 @@ void PlayerEvent::movementPlayerKeyBoard(std::shared_ptr<GameMap> map, std::shar
         }
         else {
             if (this->joysticActivated == 0)
-                this->PlayerOBJ->setFrameLoop(0, 25);
+                player->getPlayerOBJ()->setFrameLoop(0, 25);
         }
-        player->setPosition(nodePosition);
     }
 }
 
@@ -161,15 +160,12 @@ void PlayerEvent::movementPlayerJoystick(std::shared_ptr<GameMap> map, irr::core
                 ray.start.Y += 0.3;
                 if (moveHorizontal < 0) {
                     player->moveLeftControler(ray, intersection, hitTriangle, nodePosition, frameDeltaTime, moveHorizontal);
-
                 }
                 else if (moveHorizontal > 0) {
                     player->moveRightControler(ray, intersection, hitTriangle, nodePosition, frameDeltaTime, moveHorizontal);
-
                 }
                 else if (moveVertical > 0) {
                     player->moveUpControler(ray, intersection, hitTriangle, nodePosition, frameDeltaTime, moveVertical);
-
                 }
                 else if (moveVertical < 0) {
                     player->moveDownControler(ray, intersection, hitTriangle, nodePosition, frameDeltaTime, moveVertical);
@@ -177,25 +173,24 @@ void PlayerEvent::movementPlayerJoystick(std::shared_ptr<GameMap> map, irr::core
                 movedWithJoystick = true;
             }
             else {
-                this->PlayerOBJ->setFrameLoop(0, 25);
+                player->getPlayerOBJ()->setFrameLoop(0, 25);
             }
         }
-        this->PlayerOBJ->setPosition(nodePosition);
     }
 }
 
 void PlayerEvent::plantBomb(std::shared_ptr<GameMap> map, std::shared_ptr<std::vector<std::shared_ptr<IEntity>>> entities)
 {
     if (_irr->getEventreceiver()->IsKeyDown(this->_plantBomb)) {
-        if (map->getMap().at((int)player->getPosition().Z + int((map->getMapSize().Y / 2))).
-            at((int)player->getPosition().X + int((map->getMapSize().X / 2))) == NULL)
-            entities->push_back(std::make_shared<Bomb>(_irr, player->getPosition()));
+        if (map->getMap().at((int)player->getPlayerOBJ()->getPosition().Z + int((map->getMapSize().Y / 2))).
+            at((int)player->getPlayerOBJ()->getPosition().X + int((map->getMapSize().X / 2))) == NULL)
+            entities->push_back(std::make_shared<Bomb>(_irr, player->getPlayerOBJ()->getPosition()));
     }
     if (this->joysticActivated == 1) {
         if (_irr->getEventreceiver()->GetJoystickState().ButtonStates == 2) {
-            if (map->getMap().at((int)player->getPosition().Z + int((map->getMapSize().Y / 2))).
-                at((int)player->getPosition().X + int((map->getMapSize().X / 2))) == NULL) {
-                entities->push_back(std::make_shared<Bomb>(_irr, player->getPosition()));
+            if (map->getMap().at((int)player->getPlayerOBJ()->getPosition().Z + int((map->getMapSize().Y / 2))).
+                at((int)player->getPlayerOBJ()->getPosition().X + int((map->getMapSize().X / 2))) == NULL) {
+                entities->push_back(std::make_shared<Bomb>(_irr, player->getPlayerOBJ()->getPosition()));
             }
         }
     }

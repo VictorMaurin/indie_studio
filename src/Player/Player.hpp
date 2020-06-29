@@ -54,6 +54,7 @@ public:
 	irr::core::vector3df getScale(void) const;
 	void setTexture(std::string assets) {};
 	void SetIsAI(bool isAI);
+	irr::scene::IAnimatedMeshSceneNode* getPlayerOBJ();
 private:
 	// std::shared_ptr<MyEventReceiver> _receiver;
 	std::shared_ptr<Irrlicht> _irr;
