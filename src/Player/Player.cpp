@@ -24,8 +24,8 @@ Player::Player(std::string meshName, std::string textureName, std::shared_ptr<Ir
     this->_right = right;
     this->_plantBomb = plantBomb;
 
+    this->event = std::make_unique<PlayerEvent>(_irr, advance, behind, left, right, plantBomb, this->PlayerOBJ, std::shared_ptr<Player>(this));
     this->initPlayer(meshName, textureName, _irr->getSmgr(), _irr->getDriver());
-    this->initJoystic(_irr->getJoystickinfo(), _irr->getDevice());
 }
 
 Player::~Player()
@@ -55,224 +55,94 @@ void Player::initPlayer(std::string meshName, std::string textureName, irr::scen
     }
 }
 
-void Player::initJoystic(irr::core::array<irr::SJoystickInfo> &joystickInfo, std::shared_ptr<irr::IrrlichtDevice> device)
+void Player::moveUpKeyboard(line3df ray, vector3df intersection, triangle3df hitTriangle, vector3df nodePosition, const irr::f32 frameDeltaTime)
 {
-    if (device->activateJoysticks(joystickInfo))
-    {
-        std::cout << "Joystick support is enabled and " << joystickInfo.size() << " joystick(s) are present." << std::endl;
+    this->PlayerOBJ->setRotation(irr::core::vector3df(0, 180, 0));
+    ray.end = ray.start + vector3df(0.0f, 0.0f, 100.0f);
+    _irr->getCollMan()->getSceneNodeAndCollisionPointFromRay(ray, intersection, hitTriangle, IDFlag_IsPickable, 0);
 
-        for (irr::u32 joystick = 0; joystick < joystickInfo.size(); ++joystick)
-        {
-            std::cout << "Joystick " << joystick << ":" << std::endl;
-            std::cout << "\tName: '" << joystickInfo[joystick].Name.c_str() << "'" << std::endl;
-            std::cout << "\tAxes: " << joystickInfo[joystick].Axes << std::endl;
-            std::cout << "\tButtons: " << joystickInfo[joystick].Buttons << std::endl;
-
-            std::cout << "\tHat is: ";
-
-            switch (joystickInfo[joystick].PovHat)
-            {
-            case irr::SJoystickInfo::POV_HAT_PRESENT:
-                std::cout << "present" << std::endl;
-                break;
-
-            case irr::SJoystickInfo::POV_HAT_ABSENT:
-                std::cout << "absent" << std::endl;
-                break;
-
-            case irr::SJoystickInfo::POV_HAT_UNKNOWN:
-            default:
-                std::cout << "unknown" << std::endl;
-                break;
-            }
-        }
+    if ((intersection - nodePosition).getLength() > 0.4f) {
+        this->PlayerOBJ->setAnimationSpeed(100);
+        nodePosition.Z += MOVEMENT_SPEED * frameDeltaTime;
     }
-    else
-    {
-        std::cout << "Joystick support is not enabled." << std::endl;
-    }
-    irr::core::stringw tmp = L"Irrlicht Joystick Example (";
-    tmp += joystickInfo.size();
-    tmp += " joysticks)";
-    device->setWindowCaption(tmp.c_str());
-    //End manette
 }
-
-void Player::movementPlayerKeyBoard(std::shared_ptr<GameMap> map, std::shared_ptr<MyEventReceiver> receiver, const irr::f32 MOVEMENT_SPEED, const irr::f32 frameDeltaTime)
+void Player::moveDownKeyboard(line3df ray, vector3df intersection, triangle3df hitTriangle, vector3df nodePosition, const irr::f32 frameDeltaTime)
 {
-    vector3df nodePosition = this->getPosition();
-    line3df ray;
-    vector3df intersection;
-    triangle3df hitTriangle;
-    
-    if (this->joysticActivated == 0) {
-        ray.start = nodePosition;
-        ray.start.Y += 0.3;
-        
-        if (receiver->IsKeyDown(this->_advance)) {
-            this->PlayerOBJ->setRotation(irr::core::vector3df(0, 180, 0));
-            ray.end = ray.start + vector3df(0.0f, 0.0f, 100.0f);
-            _irr->getCollMan()->getSceneNodeAndCollisionPointFromRay(ray, intersection, hitTriangle, IDFlag_IsPickable, 0);
+    this->PlayerOBJ->setRotation(irr::core::vector3df(0, 0, 0));
+    ray.end = ray.start + vector3df(0.0f, 0.0f, -100.0f);
+    _irr->getCollMan()->getSceneNodeAndCollisionPointFromRay(ray, intersection, hitTriangle, IDFlag_IsPickable, 0);
 
-            if ((intersection - nodePosition).getLength() > 0.4f) {
-                this->PlayerOBJ->setAnimationSpeed(100);
-                nodePosition.Z += MOVEMENT_SPEED * frameDeltaTime;
-            }
-        } else if (receiver->IsKeyDown(this->_behind)) {
-            this->PlayerOBJ->setRotation(irr::core::vector3df(0, 0, 0));
-            ray.end = ray.start + vector3df(0.0f, 0.0f, -100.0f);
-            _irr->getCollMan()->getSceneNodeAndCollisionPointFromRay(ray, intersection, hitTriangle, IDFlag_IsPickable, 0);
+    if ((intersection - nodePosition).getLength() > 0.4f) {
+        this->PlayerOBJ->setAnimationSpeed(100);
+        nodePosition.Z -= MOVEMENT_SPEED * frameDeltaTime;
+    }
+}
+void Player::moveRightKeyboard(line3df ray, vector3df intersection, triangle3df hitTriangle, vector3df nodePosition, const irr::f32 frameDeltaTime)
+{
+    this->PlayerOBJ->setRotation(irr::core::vector3df(0, -90, 0));
+    ray.end = ray.start + vector3df(100.0f, 0.0f, 0.0f);
+    _irr->getCollMan()->getSceneNodeAndCollisionPointFromRay(ray, intersection, hitTriangle, IDFlag_IsPickable, 0);
 
-            if ((intersection - nodePosition).getLength() > 0.4f) {
-                this->PlayerOBJ->setAnimationSpeed(100);
-                nodePosition.Z -= MOVEMENT_SPEED * frameDeltaTime;
-            }
-        } else if (receiver->IsKeyDown(this->_left)) {
-            this->PlayerOBJ->setRotation(irr::core::vector3df(0, 90, 0));
-            ray.end = ray.start + vector3df(-100.0f, 0.0f, 0.0f);
-            _irr->getCollMan()->getSceneNodeAndCollisionPointFromRay(ray, intersection, hitTriangle, IDFlag_IsPickable, 0);
+    if ((intersection - nodePosition).getLength() > 0.4f) {
+        this->PlayerOBJ->setAnimationSpeed(100);
+        nodePosition.X += MOVEMENT_SPEED * frameDeltaTime;
+    }
+}
+void Player::moveLeftKeyboard(line3df ray, vector3df intersection, triangle3df hitTriangle, vector3df nodePosition, const irr::f32 frameDeltaTime)
+{
+    this->PlayerOBJ->setRotation(irr::core::vector3df(0, 90, 0));
+    ray.end = ray.start + vector3df(-100.0f, 0.0f, 0.0f);
+    _irr->getCollMan()->getSceneNodeAndCollisionPointFromRay(ray, intersection, hitTriangle, IDFlag_IsPickable, 0);
 
-            if ((intersection - nodePosition).getLength() > 0.4f) {
-                this->PlayerOBJ->setAnimationSpeed(100);
-                nodePosition.X -= MOVEMENT_SPEED * frameDeltaTime;
-            }
-        } else if (receiver->IsKeyDown(this->_right)) {
-            this->PlayerOBJ->setRotation(irr::core::vector3df(0, -90, 0));
-            ray.end = ray.start + vector3df(100.0f, 0.0f, 0.0f);
-            _irr->getCollMan()->getSceneNodeAndCollisionPointFromRay(ray, intersection, hitTriangle, IDFlag_IsPickable, 0);
-
-            if ((intersection - nodePosition).getLength() > 0.4f) {
-                this->PlayerOBJ->setAnimationSpeed(100);
-                nodePosition.X += MOVEMENT_SPEED * frameDeltaTime;
-            }
-        } else {
-            if (this->joysticActivated == 0)
-                this->PlayerOBJ->setFrameLoop(0, 25);
-        }
-        this->setPosition(nodePosition);
+    if ((intersection - nodePosition).getLength() > 0.4f) {
+        this->PlayerOBJ->setAnimationSpeed(100);
+        nodePosition.X -= MOVEMENT_SPEED * frameDeltaTime;
     }
 }
 
-void Player::movementPlayerJoystick(std::shared_ptr<GameMap> map, irr::core::array<irr::SJoystickInfo> &joystickInfo, std::shared_ptr<MyEventReceiver> receiver, const irr::f32 MOVEMENT_SPEED, const irr::f32 frameDeltaTime)
+void Player::moveUpControler(line3df ray, vector3df intersection, triangle3df hitTriangle, vector3df nodePosition, const irr::f32 frameDeltaTime, irr::f32 moveVertical)
 {
-    // manette
-    bool movedWithJoystick = false;
-    irr::core::vector3df nodePosition = this->getPosition();
-    line3df ray;
-    vector3df intersection;
-    triangle3df hitTriangle;
+    ray.end = ray.start + vector3df(0.0f, 0.0f, 100.0f);
+    _irr->getCollMan()->getSceneNodeAndCollisionPointFromRay(ray, intersection, hitTriangle, IDFlag_IsPickable, 0);
 
-    if (joystickInfo.size() > 0)
-    {
-        irr::f32 moveHorizontal = 0.f; // Range is -1.f for full left to +1.f for full right
-        irr::f32 moveVertical = 0.f; // -1.f for full down to +1.f for full up.
-
-        const irr::SEvent::SJoystickEvent& joystickData = receiver->GetJoystickState();
-        const irr::f32 DEAD_ZONE = 0.05f;
-
-        if (joystickData.ButtonStates == 512)
-            this->joysticActivated = 1;
-        else if (joystickData.ButtonStates == 256)
-            this->joysticActivated = 0;
-
-        if (this->joysticActivated == 1) {
-            moveHorizontal =
-                (irr::f32)joystickData.Axis[irr::SEvent::SJoystickEvent::AXIS_X] / 32767.f;
-            if (fabs(moveHorizontal) < DEAD_ZONE)
-                moveHorizontal = 0.f;
-            moveVertical =
-                (irr::f32)joystickData.Axis[irr::SEvent::SJoystickEvent::AXIS_Y] / -32767.f;
-            if (fabs(moveVertical) < DEAD_ZONE)
-                moveVertical = 0.f;
-            const irr::u16 povDegrees = joystickData.POV / 100;
-            if (povDegrees < 360)
-            {
-                if (povDegrees > 0 && povDegrees < 180)
-                    moveHorizontal = 1.f;
-                else if (povDegrees > 180)
-                    moveHorizontal = -1.f;
-
-                if (povDegrees > 90 && povDegrees < 270)
-                    moveVertical = -1.f;
-                else if (povDegrees > 270 || povDegrees < 90)
-                    moveVertical = +1.f;
-            }
-            if (!irr::core::equals(moveHorizontal, 0.f) || !irr::core::equals(moveVertical, 0.f))
-            {
-                ray.start = nodePosition;
-                ray.start.Y += 0.3;
-                if (moveHorizontal < 0) {
-                    ray.end = ray.start + vector3df(-100.0f, 0.0f, 0.0f);
-                    _irr->getCollMan()->getSceneNodeAndCollisionPointFromRay(ray, intersection, hitTriangle, IDFlag_IsPickable, 0);
-                    
-                    if ((intersection - nodePosition).getLength() > 0.4f) {
-                        this->PlayerOBJ->setAnimationSpeed(100);
-                        nodePosition.X += MOVEMENT_SPEED * frameDeltaTime * moveHorizontal;
-                        this->PlayerOBJ->setRotation(irr::core::vector3df(0, 90, 0));
-                    }
-                }
-                else if (moveHorizontal > 0) {
-                    ray.end = ray.start + vector3df(100.0f, 0.0f, 0.0f);
-                    _irr->getCollMan()->getSceneNodeAndCollisionPointFromRay(ray, intersection, hitTriangle, IDFlag_IsPickable, 0);
-                    
-                    if ((intersection - nodePosition).getLength() > 0.4f) {
-                        this->PlayerOBJ->setAnimationSpeed(100);
-                        nodePosition.X += MOVEMENT_SPEED * frameDeltaTime * moveHorizontal;
-                        this->PlayerOBJ->setRotation(irr::core::vector3df(0, -90, 0));
-                    }
-                }
-                else if (moveVertical > 0) {
-                    ray.end = ray.start + vector3df(0.0f, 0.0f, 100.0f);
-                    _irr->getCollMan()->getSceneNodeAndCollisionPointFromRay(ray, intersection, hitTriangle, IDFlag_IsPickable, 0);
-                    
-                    if ((intersection - nodePosition).getLength() > 0.4f) {
-                        this->PlayerOBJ->setAnimationSpeed(100);
-                        nodePosition.Z += MOVEMENT_SPEED * frameDeltaTime * moveVertical;
-                        this->PlayerOBJ->setRotation(irr::core::vector3df(0, 180, 0));
-                    }
-                }
-                else if (moveVertical < 0) {
-                    ray.end = ray.start + vector3df(0.0f, 0.0f, -100.0f);
-                    _irr->getCollMan()->getSceneNodeAndCollisionPointFromRay(ray, intersection, hitTriangle, IDFlag_IsPickable, 0);
-                    
-                    if ((intersection - nodePosition).getLength() > 0.4f) {
-                        this->PlayerOBJ->setAnimationSpeed(100);
-                        nodePosition.Z += MOVEMENT_SPEED * frameDeltaTime * moveVertical;
-                        this->PlayerOBJ->setRotation(irr::core::vector3df(0, 0, 0));
-                    }
-                }
-                movedWithJoystick = true;
-            }
-            else {
-                this->PlayerOBJ->setFrameLoop(0, 25);
-            }
-        }
-    this->PlayerOBJ->setPosition(nodePosition);
+    if ((intersection - nodePosition).getLength() > 0.4f) {
+        this->PlayerOBJ->setAnimationSpeed(100);
+        nodePosition.Z += MOVEMENT_SPEED * frameDeltaTime * moveVertical;
+        this->PlayerOBJ->setRotation(irr::core::vector3df(0, 180, 0));
     }
 }
-
-void Player::movementPlayer(std::shared_ptr<GameMap> map, irr::core::array<irr::SJoystickInfo> &joystickInfo, std::shared_ptr<MyEventReceiver> receiver, const irr::f32 MOVEMENT_SPEED, const irr::f32 frameDeltaTime)
+void Player::moveDownControler(line3df ray, vector3df intersection, triangle3df hitTriangle, vector3df nodePosition, const irr::f32 frameDeltaTime, irr::f32 moveVertical)
 {
-        movementPlayerKeyBoard(map, receiver, MOVEMENT_SPEED, frameDeltaTime);
-        movementPlayerJoystick(map, joystickInfo, receiver, MOVEMENT_SPEED, frameDeltaTime);
+    ray.end = ray.start + vector3df(0.0f, 0.0f, -100.0f);
+    _irr->getCollMan()->getSceneNodeAndCollisionPointFromRay(ray, intersection, hitTriangle, IDFlag_IsPickable, 0);
+
+    if ((intersection - nodePosition).getLength() > 0.4f) {
+        this->PlayerOBJ->setAnimationSpeed(100);
+        nodePosition.Z += MOVEMENT_SPEED * frameDeltaTime * moveVertical;
+        this->PlayerOBJ->setRotation(irr::core::vector3df(0, 0, 0));
+    }
 }
-
-void Player::plantBomb(std::shared_ptr<GameMap> map, std::shared_ptr<std::vector<std::shared_ptr<IEntity>>> entities)
+void Player::moveRightControler(line3df ray, vector3df intersection, triangle3df hitTriangle, vector3df nodePosition, const irr::f32 frameDeltaTime, irr::f32 moveHorizontal)
 {
-    if (_irr->getEventreceiver()->IsKeyDown(this->_plantBomb)) {
-        if (map->getMap().at((int)getPosition().Z + int((map->getMapSize().Y / 2))).
-        at((int)getPosition().X + int((map->getMapSize().X / 2))) == NULL)
-            entities->push_back(std::make_shared<Bomb>(_irr, this->getPosition()));
-    }
-    if (this->joysticActivated == 1) {
-        if (_irr->getEventreceiver()->GetJoystickState().ButtonStates == 2) {
-            if (map->getMap().at((int)getPosition().Z + int((map->getMapSize().Y / 2))).
-        at((int)getPosition().X + int((map->getMapSize().X / 2))) == NULL) {
-                entities->push_back(std::make_shared<Bomb>(_irr, this->getPosition()));
-            }
-        }
-    }
+    ray.end = ray.start + vector3df(100.0f, 0.0f, 0.0f);
+    _irr->getCollMan()->getSceneNodeAndCollisionPointFromRay(ray, intersection, hitTriangle, IDFlag_IsPickable, 0);
 
+    if ((intersection - nodePosition).getLength() > 0.4f) {
+        this->PlayerOBJ->setAnimationSpeed(100);
+        nodePosition.X += MOVEMENT_SPEED * frameDeltaTime * moveHorizontal;
+        this->PlayerOBJ->setRotation(irr::core::vector3df(0, -90, 0));
+    }
+}
+void Player::moveLeftControler(line3df ray, vector3df intersection, triangle3df hitTriangle, vector3df nodePosition, const irr::f32 frameDeltaTime, irr::f32 moveHorizontal)
+{
+    ray.end = ray.start + vector3df(-100.0f, 0.0f, 0.0f);
+    _irr->getCollMan()->getSceneNodeAndCollisionPointFromRay(ray, intersection, hitTriangle, IDFlag_IsPickable, 0);
+
+    if ((intersection - nodePosition).getLength() > 0.4f) {
+        this->PlayerOBJ->setAnimationSpeed(100);
+        nodePosition.X += MOVEMENT_SPEED * frameDeltaTime * moveHorizontal;
+        this->PlayerOBJ->setRotation(irr::core::vector3df(0, 90, 0));
+    }
 }
 
 void Player::canCollide(bool b)
@@ -287,8 +157,8 @@ void Player::update(std::shared_ptr<GameMap> map, std::shared_ptr<Assets> assets
         const irr::f32 frameDeltaTime = (irr::f32)(now - this->then) / 1000.f;
         this->then = now;
         if (!this->isAI) {
-            this->movementPlayer(map, _irr->getJoystickinfo(), _irr->getEventreceiver(), this->MOVEMENT_SPEED, frameDeltaTime);
-            this->plantBomb(map, assets->getEntities());
+            event->movementPlayer(map, _irr->getJoystickinfo(), _irr->getEventreceiver(), this->MOVEMENT_SPEED, frameDeltaTime);
+            event->plantBomb(map, assets->getEntities());
         }
     }
 }
