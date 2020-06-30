@@ -8,25 +8,25 @@
 #include "Menu.hpp"
 #include "../../assets/assets.hpp"
 
-Menu::Menu(Core *core)
+Menu::Menu(std::shared_ptr<Irrlicht> _irr)
 {
-    driver = core->getDriver();
-    device = core->getDevice();
-    smgr = core->getSmgr();
-    guienv = core->getGUIenv();
+    driver = _irr->getDriver();
+    device = _irr->getDevice();
+    smgr = _irr->getSmgr();
+    guienv = _irr->getGUIenv();
 }
 
 Menu::~Menu()
 {
 }
 
-void Menu::create(std::shared_ptr<Core> core)
+void Menu::create(std::shared_ptr<Core> core, std::shared_ptr<Irrlicht> _irr)
 {
 	this->create_window();
 	this->create_buttons();
 	this->create_image();
 	this->create_text();
-	MyEvent *receiver = new MyEvent(core, window, button, image, text);
+	MyEvent *receiver = new MyEvent(core, window, button, image, text, _irr);
 	device->setEventReceiver(receiver);
 }
 

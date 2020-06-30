@@ -13,8 +13,8 @@
 #include <cmath>
 #include <iostream>
 #include <map>
-#include "../Core/Core.hpp"
 #include "../Event/Event.hpp"
+#include "../Core/Core.hpp"
 
 using namespace irr;
 using namespace scene;
@@ -34,13 +34,14 @@ enum
 class MyEvent : public IEventReceiver
 {
 public:
-	MyEvent(std::shared_ptr<Core> core, IGUIWindow* window, std::map<std::string, IGUIButton*> button, IGUIImage* image, IGUIStaticText* text) {
+	MyEvent(std::shared_ptr<Core> core, IGUIWindow* window, std::map<std::string, IGUIButton*> button, IGUIImage* image, IGUIStaticText* text, std::shared_ptr<Irrlicht> irr) {
         _core = core;
+        _irr = irr;
         statement = core->getstatement();
-        device = core->getDevice();
-        driver = core->getDriver();
-        smgr = core->getSmgr();
-        guienv = core->getGUIenv();
+        device = irr->getDevice();
+        driver = irr->getDriver();
+        smgr = irr->getSmgr();
+        guienv = irr->getGUIenv();
         _button = button;
         _text = text;
         _image = image;
@@ -133,11 +134,15 @@ public:
 	}
 
     private:
-        Core *_core;
+        std::shared_ptr<Core> _core;
+        std::shared_ptr<Irrlicht> _irr;
         IVideoDriver *driver;
+        ISceneManager *smgr;
+        IGUIEnvironment *guienv;
+        //std::shared_ptr<IVideoDriver> driver;
         std::shared_ptr<IrrlichtDevice> device;
-        std::shared_ptr<ISceneManager> smgr;
-        std::shared_ptr<IGUIEnvironment> guienv;
+        // std::shared_ptr<ISceneManager> smgr;
+        // std::shared_ptr<IGUIEnvironment> guienv;
         std::map<std::string, IGUIButton*> _button;
         IGUIButton* _ia;
         IGUIButton* _player;
@@ -154,19 +159,22 @@ public:
 class Menu
 {
     private:
-        IVideoDriver *driver;
+        //std::shared_ptr<IVideoDriver> driver;
         std::shared_ptr<IrrlichtDevice> device;
-        std::shared_ptr<ISceneManager> smgr;
-        std::shared_ptr<IGUIEnvironment> guienv;
+        // std::shared_ptr<ISceneManager> smgr;
+        // std::shared_ptr<IGUIEnvironment> guienv;
+        IVideoDriver *driver;
+        ISceneManager *smgr;
+        IGUIEnvironment *guienv;
         std::map<std::string, IGUIButton*> button;
         IGUIImage* image;
         IGUIWindow* window;
         IGUIStaticText* text;
         s32	counter;
     public :
-        Menu(Core *core);
+        Menu(std::shared_ptr<Irrlicht> _irr);
         ~Menu();
-        void create(std::shared_ptr<Core> core);
+        void create(std::shared_ptr<Core> core, std::shared_ptr<Irrlicht> _irr);
         void create_window();
         void create_buttons();
         void create_image();
