@@ -7,15 +7,17 @@
 
 #include "Bomb.hpp"
 
-Bomb::Bomb(std::shared_ptr<Irrlicht> irr, vector3df pos)
+Bomb::Bomb(std::shared_ptr<Irrlicht> irr, vector3df pos) : Mesh("bomb2.obj", "bombbody_BaseColor.png", irr)
 {
     _irr = irr;
     // device = irr->getDevice();
     // driver = irr->getDriver();
     // smgr = irr->getSmgr();
-    mesh = std::make_unique<Mesh>("bomb2.obj", "bombbody_BaseColor.png", irr);
+
+    // mesh = std::make_unique<Mesh>("bomb2.obj", "bombbody_BaseColor.png", irr);
     
-    mesh->setPosition(pos);
+    // mesh->setPosition(pos);
+    this->setPosition(pos);
     vector3di posInt;
     posInt.X = (int)pos.X;
     posInt.Y = (int)pos.Y;
@@ -24,7 +26,8 @@ Bomb::Bomb(std::shared_ptr<Irrlicht> irr, vector3df pos)
     posFloat.Y = (float)posInt.Y;
     posFloat.Z = (float)posInt.Z;
     then = _irr->getDevice()->getTimer()->getRealTime();
-    mesh->setPosition(posFloat);
+    // mesh->setPosition(posFloat);
+    this->setPosition(posFloat);
 }
 
 Bomb::~Bomb()
@@ -322,7 +325,8 @@ void Bomb::update(std::shared_ptr<GameMap> map, std::shared_ptr<Assets> assets)
     now = _irr->getDevice()->getTimer()->getRealTime();
     if ((now - then) / 1000 >= 3 && passed == false) {
         passed = true;
-        mesh->remove();
+        // mesh->remove();
+        this->remove();
     }
     else if ((now - then) / 1000 >= 3 && (now - then) / 1000 < 5) {
         explode(assets->getMap(), assets->getPlayers(), "grasseRed.jpg");
@@ -337,30 +341,30 @@ void Bomb::canCollide(bool b)
 
 }
 
-void Bomb::setPosition(const irr::core::vector3df &pos)
-{
-    mesh->getNode()->setPosition(pos);
-}
+// void Bomb::setPosition(const irr::core::vector3df &pos)
+// {
+//     mesh->getNode()->setPosition(pos);
+// }
 
-irr::core::vector3df Bomb::getPosition() const
-{
-    return (mesh->getNode()->getPosition());
-}
+// irr::core::vector3df Bomb::getPosition() const
+// {
+//     return (mesh->getNode()->getPosition());
+// }
 
-void Bomb::setScale(const irr::core::vector3df &scale)
-{
-    mesh->getNode()->setScale(scale);
-}
+// void Bomb::setScale(const irr::core::vector3df &scale)
+// {
+//     mesh->getNode()->setScale(scale);
+// }
 
-irr::core::vector3df Bomb::getScale() const
-{
-    return (mesh->getNode()->getScale());
-}
+// irr::core::vector3df Bomb::getScale() const
+// {
+//     return (mesh->getNode()->getScale());
+// }
 
-void Bomb::remove()
-{
-    mesh->remove();
-}
+// void Bomb::remove()
+// {
+//     mesh->remove();
+// }
 
 bool Bomb::isBreakable()
 {

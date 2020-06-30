@@ -20,7 +20,7 @@ using namespace gui;
 using namespace video;
 using namespace core;
 
-class Bomb : public IEntity
+class Bomb : public Mesh
 {
 private:
     // IVideoDriver *driver;
@@ -30,7 +30,7 @@ private:
     u32 now;
     u32 then;
     std::shared_ptr<Irrlicht> _irr;
-    std::unique_ptr<Mesh> mesh;
+    // std::unique_ptr<Mesh> mesh;
     bool passed = false;
     vector3df posFloat;
 
@@ -42,14 +42,14 @@ public :
     void createExplodeCube();
     void update(std::shared_ptr<GameMap> map, std::shared_ptr<Assets> assets);
     void explode(std::shared_ptr<GameMap> map, std::shared_ptr<std::vector<std::shared_ptr<IEntity>>> players, std::string asset);
-    void remove(void);
+    // void remove(void);
     bool isBreakable(void);
     void canCollide(bool);
 
-    void setPosition(const irr::core::vector3df &pos);
-    irr::core::vector3df getPosition(void) const;
-    void setScale(const irr::core::vector3df &scale);
-    irr::core::vector3df getScale(void) const;
+    // void setPosition(const irr::core::vector3df &pos);
+    // irr::core::vector3df getPosition(void) const;
+    // void setScale(const irr::core::vector3df &scale);
+    // irr::core::vector3df getScale(void) const;
     void setTexture(std::string assets) {};
 };
 
