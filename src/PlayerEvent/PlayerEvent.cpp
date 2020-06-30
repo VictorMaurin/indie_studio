@@ -20,6 +20,7 @@ PlayerEvent::PlayerEvent(std::shared_ptr<Irrlicht> irr, irr::EKEY_CODE advance, 
     this->_plantBomb = plantBomb;
 
     player = _player;
+    _irr->getDevice()->activateJoysticks(_irr->getJoystickinfo());
 }
 
 PlayerEvent::~PlayerEvent()
