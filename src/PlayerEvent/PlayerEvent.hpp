@@ -17,12 +17,13 @@ class PlayerEvent
 public:
 	PlayerEvent(std::shared_ptr<Irrlicht> irr, irr::EKEY_CODE advance, irr::EKEY_CODE behind, irr::EKEY_CODE left, irr::EKEY_CODE right, irr::EKEY_CODE plantBomb, Player* _player);
 	~PlayerEvent();
-	void initJoystic(irr::core::array<irr::SJoystickInfo>& joystickInfo, std::shared_ptr<irr::IrrlichtDevice> device);
-	void movementPlayer(std::shared_ptr<GameMap> map, irr::core::array<irr::SJoystickInfo>& joystickInfo, std::shared_ptr<MyEventReceiver> receiver, const irr::f32 MOVEMENT_SPEED, const irr::f32 frameDeltaTime);
-	void movementPlayerJoystick(std::shared_ptr<GameMap> map, irr::core::array<irr::SJoystickInfo>& joystickInfo, std::shared_ptr<MyEventReceiver> receiver, const irr::f32 MOVEMENT_SPEED, const irr::f32 frameDeltaTime);
-	void movementPlayerKeyBoard(std::shared_ptr<GameMap> map, std::shared_ptr<MyEventReceiver> receiver, const irr::f32 MOVEMENT_SPEED, const irr::f32 frameDeltaTime);
+
+	void movementPlayer(std::shared_ptr<GameMap> map, const irr::f32 frameDeltaTime);
+	void movementPlayerJoystick(std::shared_ptr<GameMap> map, const irr::f32 frameDeltaTime);
+	void movementPlayerKeyBoard(std::shared_ptr<GameMap> map, const irr::f32 frameDeltaTime);
 	void plantBomb(std::shared_ptr<GameMap> map, std::shared_ptr<std::vector<std::shared_ptr<IEntity>>> entities);
 
+	bool isJoystickActivated(void) const;
 private:
 	irr::EKEY_CODE _advance;
 	irr::EKEY_CODE _behind;
