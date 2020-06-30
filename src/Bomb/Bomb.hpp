@@ -39,17 +39,14 @@ public :
     ~Bomb();
     void SetIsAI(bool isAI){};
     void returnToGreen(std::shared_ptr<GameMap> map, std::string asset);
-    void createExplodeCube();
     void update(std::shared_ptr<GameMap> map, std::shared_ptr<Assets> assets);
+    void killPlayers(int x, int z, std::shared_ptr<std::vector<std::shared_ptr<IEntity>>> players);
+    int breakMap(int x, int z, std::shared_ptr<GameMap> map);
+    void explosionAnimation(int x, int z, std::shared_ptr<GameMap> map, std::string assetName);
     void explode(std::shared_ptr<GameMap> map, std::shared_ptr<std::vector<std::shared_ptr<IEntity>>> players, std::string asset);
-    // void remove(void);
     bool isBreakable(void);
     void canCollide(bool);
 
-    // void setPosition(const irr::core::vector3df &pos);
-    // irr::core::vector3df getPosition(void) const;
-    // void setScale(const irr::core::vector3df &scale);
-    // irr::core::vector3df getScale(void) const;
     void setTexture(std::string assets) {};
 };
 

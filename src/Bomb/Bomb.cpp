@@ -10,23 +10,11 @@
 Bomb::Bomb(std::shared_ptr<Irrlicht> irr, vector3df pos) : Mesh("bomb2.obj", "bombbody_BaseColor.png", irr)
 {
     _irr = irr;
-    // device = irr->getDevice();
-    // driver = irr->getDriver();
-    // smgr = irr->getSmgr();
-
-    // mesh = std::make_unique<Mesh>("bomb2.obj", "bombbody_BaseColor.png", irr);
-    
-    // mesh->setPosition(pos);
     this->setPosition(pos);
-    vector3di posInt;
-    posInt.X = (int)pos.X;
-    posInt.Y = (int)pos.Y;
-    posInt.Z = (int)pos.Z;
-    posFloat.X = (float)posInt.X;
-    posFloat.Y = (float)posInt.Y;
-    posFloat.Z = (float)posInt.Z;
+    posFloat.X = (int)pos.X;
+    posFloat.Y = (int)pos.Y;
+    posFloat.Z = (int)pos.Z;
     then = _irr->getDevice()->getTimer()->getRealTime();
-    // mesh->setPosition(posFloat);
     this->setPosition(posFloat);
 }
 
@@ -34,290 +22,109 @@ Bomb::~Bomb()
 {
 }
 
-void Bomb::createExplodeCube()
-{
-    
-}
-
 void Bomb::returnToGreen(std::shared_ptr<GameMap> map, std::string asset)
 {
-    if ((int(posFloat.X) + int((map->getMapSize().X / 2)) < map->getGround().at(0).size())
-    && int(posFloat.Z) + int((map->getMapSize().Y / 2)) < map->getGround().size()) {
-        map->getGround().at(int(posFloat.Z) + int((map->getMapSize().Y / 2))).
-        at(int(posFloat.X) + int((map->getMapSize().X / 2)))->setTexture(asset);
+    // X axis
+    for (int x = -2; x <= 2; x++) {
+        if ((int)posFloat.X + x >= -(int)(map->getMapSize().X / 2) && (int)posFloat.X + x <= (int)(map->getMapSize().X / 2)) {
+            // change ground color
+            map->getGround().at((int)posFloat.Z + int(map->getMapSize().Y / 2)).at((int)posFloat.X + x + int(map->getMapSize().X / 2))->setTexture(asset);
+        }
     }
-    if ((int(posFloat.X + 1) + int((map->getMapSize().X / 2)) < map->getGround().at(0).size())
-    && int(posFloat.Z) + int((map->getMapSize().Y / 2)) < map->getGround().size()) {
-        map->getGround().at(int(posFloat.Z) + int((map->getMapSize().Y / 2))).
-        at(int(posFloat.X + 1) + int((map->getMapSize().X / 2)))->setTexture(asset);
+    // Z axis
+    for (int z = -2; z <= 2; z++) {
+        if ((int)posFloat.Z + z >= -(int)(map->getMapSize().Y / 2) && (int)posFloat.Z + z <= (int)(map->getMapSize().Y / 2)) {
+            // change ground color
+            map->getGround().at((int)posFloat.Z + z + int(map->getMapSize().Y / 2)).at((int)posFloat.X + int(map->getMapSize().X / 2))->setTexture(asset);
+        }
     }
-    if ((int(posFloat.X) + int((map->getMapSize().X / 2)) < map->getGround().at(0).size())
-    && int(posFloat.Z + 1) + int((map->getMapSize().Y / 2)) < map->getGround().size()) {
-        map->getGround().at(int(posFloat.Z + 1) + int((map->getMapSize().Y / 2))).
-        at(int(posFloat.X) + int((map->getMapSize().X / 2)))->setTexture(asset);
+}
+
+void Bomb::killPlayers(int x, int z, std::shared_ptr<std::vector<std::shared_ptr<IEntity>>> players)
+{
+    for (int i = 0; i < players->size(); i++) {
+        if (players->at(i) != NULL && x == (int)players->at(i)->getPosition().X && z == (int)players->at(i)->getPosition().Z) {
+            players->at(i)->remove();
+            players->at(i).reset();
+        }
     }
-    if ((int(posFloat.X - 1) + int((map->getMapSize().X / 2)) < map->getGround().at(0).size())
-    && int(posFloat.Z) + int((map->getMapSize().Y / 2)) < map->getGround().size()) {
-        map->getGround().at(int(posFloat.Z) + int((map->getMapSize().Y / 2))).
-        at(int(posFloat.X - 1) + int((map->getMapSize().X / 2)))->setTexture(asset);
-    }
-    if ((int(posFloat.X) + int((map->getMapSize().X / 2)) < map->getGround().at(0).size())
-    && int(posFloat.Z - 1) + int((map->getMapSize().Y / 2)) < map->getGround().size()) {
-        map->getGround().at(int(posFloat.Z - 1) + int((map->getMapSize().Y / 2))).
-        at(int(posFloat.X) + int((map->getMapSize().X / 2)))->setTexture(asset);
-    }
-    if ((int(posFloat.X + 2) + int((map->getMapSize().X / 2)) < map->getGround().at(0).size())
-&& int(posFloat.Z) + int((map->getMapSize().Y / 2)) < map->getGround().size()) {
-    map->getGround().at(int(posFloat.Z) + int((map->getMapSize().Y / 2))).
-    at(int(posFloat.X + 2) + int((map->getMapSize().X / 2)))->setTexture(asset);
-    }
-    if ((int(posFloat.X) + int((map->getMapSize().X / 2)) < map->getGround().at(0).size())
-    && int(posFloat.Z + 2) + int((map->getMapSize().Y / 2)) < map->getGround().size()) {
-        map->getGround().at(int(posFloat.Z + 2) + int((map->getMapSize().Y / 2))).
-        at(int(posFloat.X) + int((map->getMapSize().X / 2)))->setTexture(asset);
-    }
-    if ((int(posFloat.X - 2) + int((map->getMapSize().X / 2)) < map->getGround().at(0).size())
-&& int(posFloat.Z) + int((map->getMapSize().Y / 2)) < map->getGround().size()) {
-    map->getGround().at(int(posFloat.Z) + int((map->getMapSize().Y / 2))).
-    at(int(posFloat.X - 2) + int((map->getMapSize().X / 2)))->setTexture(asset);
-    }
-    if ((int(posFloat.X) + int((map->getMapSize().X / 2)) < map->getGround().at(0).size())
-    && int(posFloat.Z - 2) + int((map->getMapSize().Y / 2)) < map->getGround().size()) {
-        map->getGround().at(int(posFloat.Z - 2) + int((map->getMapSize().Y / 2))).
-        at(int(posFloat.X) + int((map->getMapSize().X / 2)))->setTexture(asset);
-    }
+}
+
+int Bomb::breakMap(int x, int z, std::shared_ptr<GameMap> map)
+{
+    if (map->getMap().at( z + int(map->getMapSize().Y / 2) ).at( x + int(map->getMapSize().X / 2) ) != NULL &&
+        map->getMap().at( z + int(map->getMapSize().Y / 2) ).at( x + int(map->getMapSize().X / 2) )->isBreakable() ) {
+        map->getMap().at( z + int(map->getMapSize().Y / 2) ).at( x + int(map->getMapSize().X / 2) )->remove();
+        map->getMap().at( z + int(map->getMapSize().Y / 2) ).at( x + int(map->getMapSize().X / 2) ).reset();
+        return (1);
+    } else if (map->getMap().at( z + int(map->getMapSize().Y / 2) ).at( x + int(map->getMapSize().X / 2) ) != NULL &&
+               map->getMap().at( z + int(map->getMapSize().Y / 2) ).at( x + int(map->getMapSize().X / 2) )->isBreakable() == false )
+        return (1);
+    return (0);
+}
+
+void Bomb::explosionAnimation(int x, int z, std::shared_ptr<GameMap> map, std::string assetName)
+{
+    map->getGround().at( z + int(map->getMapSize().Y / 2) ).at( x + int(map->getMapSize().X / 2) )->setTexture(assetName);
 }
 
 void Bomb::explode(std::shared_ptr<GameMap> map, std::shared_ptr<std::vector<std::shared_ptr<IEntity>>> players, std::string asset)
 {
-    bool checkXPlus = false;
-    bool checkXMin = false;
-    bool checkZPlus = false;
-    bool checkZMin = false;
-    if ((int(posFloat.X) + int((map->getMapSize().X / 2)) < map->getGround().at(0).size())
-    && int(posFloat.Z) + int((map->getMapSize().Y / 2)) < map->getGround().size()) {
-        map->getGround().at(int(posFloat.Z) + int((map->getMapSize().Y / 2))).
-        at(int(posFloat.X) + int((map->getMapSize().X / 2)))->setTexture(asset);
-        for (int i = 0; i < players->size(); i++) {
-            if (players->at(i) != NULL && (int)posFloat.X == (int)players->at(i)->getPosition().X
-            && (int)posFloat.Z == (int)players->at(i)->getPosition().Z) {
-                players->at(i)->remove();
-                players->at(i).reset();
-            }
+    // It is mandatory to have each axis two times ( one for the negative part and one for the positive part )
+    // to make things easier if we want to avoid exploding the second block if the first one isnt breakable
+
+    // explode on X axis left side
+    for (int x = -1; x >= -2; x--)
+    {
+        if ((int)posFloat.X + x >= -(int)(map->getMapSize().X / 2) && (int)posFloat.X + x <= (int)(map->getMapSize().X / 2)) {
+            // kill player (if any)
+            killPlayers((int)posFloat.X + x, (int)posFloat.Z, players);
+            // destroy breakable, if there is one
+            if (breakMap((int)posFloat.X + x, (int)posFloat.Z, map) == 1)
+                break;
+            // change ground color
+            explosionAnimation((int)posFloat.X + x, (int)posFloat.Z, map, asset);
         }
     }
-    if ((int(posFloat.X + 1) + int((map->getMapSize().X / 2)) < map->getGround().at(0).size())
-    && int(posFloat.Z) + int((map->getMapSize().Y / 2)) < map->getGround().size()) {
-        map->getGround().at(int(posFloat.Z) + int((map->getMapSize().Y / 2))).
-        at(int(posFloat.X + 1) + int((map->getMapSize().X / 2)))->setTexture(asset);
-        if ((int(posFloat.X + 1) + int((map->getMapSize().X / 2)) < map->getGround().at(0).size())
-    && int(posFloat.Z) + int((map->getMapSize().Y / 2)) < map->getMap().size()
-    && map->getMap().at(int(posFloat.Z) + int((map->getMapSize().Y / 2))).
-        at(int(posFloat.X + 1) + int((map->getMapSize().X / 2))) != NULL && map->getMap().at(int(posFloat.Z) + int((map->getMapSize().Y / 2))).
-        at(int(posFloat.X + 1) + int((map->getMapSize().X / 2)))->isBreakable() == true
-        ) {
-            checkXPlus = true;
-            map->getMap().at(int(posFloat.Z) + int((map->getMapSize().Y / 2))).
-        at(int(posFloat.X + 1) + int((map->getMapSize().X / 2)))->remove();
-        map->getMap().at(int(posFloat.Z) + int((map->getMapSize().Y / 2))).
-        at(int(posFloat.X + 1) + int((map->getMapSize().X / 2))).reset();
-        }
-        else if (map->getMap().at(int(posFloat.Z) + int((map->getMapSize().Y / 2))).
-        at(int(posFloat.X + 1) + int((map->getMapSize().X / 2))) != NULL && map->getMap().at(int(posFloat.Z) + int((map->getMapSize().Y / 2))).
-        at(int(posFloat.X + 1) + int((map->getMapSize().X / 2)))->isBreakable() == false) {
-            checkXPlus = true;
-        }
-        for (int i = 0; i < players->size(); i++) {
-            if (players->at(i) != NULL && (int)posFloat.X + 1 == (int)players->at(i)->getPosition().X
-                && (int)posFloat.Z == (int)players->at(i)->getPosition().Z) {
-                    players->at(i)->remove();
-                    players->at(i).reset();
-            }
+    // explode on X axis right side
+    for (int x = 0; x <= 2; x++)
+    {
+        if ((int)posFloat.X + x >= -(int)(map->getMapSize().X / 2) && (int)posFloat.X + x <= (int)(map->getMapSize().X / 2)) {
+            // kill player (if any)
+            killPlayers((int)posFloat.X + x, (int)posFloat.Z, players);
+            // destroy breakable, if there is one
+            if (breakMap((int)posFloat.X + x, (int)posFloat.Z, map))
+                break;
+            // change ground color
+            explosionAnimation((int)posFloat.X + x, (int)posFloat.Z, map, asset);
         }
     }
-    if ((int(posFloat.X) + int((map->getMapSize().X / 2)) < map->getGround().at(0).size())
-    && int(posFloat.Z + 1) + int((map->getMapSize().Y / 2)) < map->getGround().size()) {
-        map->getGround().at(int(posFloat.Z + 1) + int((map->getMapSize().Y / 2))).
-        at(int(posFloat.X) + int((map->getMapSize().X / 2)))->setTexture(asset);
-        if ((int(posFloat.X) + int((map->getMapSize().X / 2)) < map->getGround().at(0).size())
-    && int(posFloat.Z + 1) + int((map->getMapSize().Y / 2)) < map->getMap().size()
-    && map->getMap().at(int(posFloat.Z + 1) + int((map->getMapSize().Y / 2))).
-        at(int(posFloat.X) + int((map->getMapSize().X / 2))) != NULL && map->getMap().at(int(posFloat.Z + 1) + int((map->getMapSize().Y / 2))).
-        at(int(posFloat.X) + int((map->getMapSize().X / 2)))->isBreakable() == true) {
-            checkZPlus = true;
-            map->getMap().at(int(posFloat.Z + 1) + int((map->getMapSize().Y / 2))).
-        at(int(posFloat.X) + int((map->getMapSize().X / 2)))->remove();
-        map->getMap().at(int(posFloat.Z + 1) + int((map->getMapSize().Y / 2))).
-        at(int(posFloat.X) + int((map->getMapSize().X / 2))).reset();
-        }
-        else if (map->getMap().at(int(posFloat.Z + 1) + int((map->getMapSize().Y / 2))).
-        at(int(posFloat.X) + int((map->getMapSize().X / 2))) != NULL && map->getMap().at(int(posFloat.Z + 1) + int((map->getMapSize().Y / 2))).at(int(posFloat.X) + int((map->getMapSize().X / 2)))->isBreakable() == false)
-        {
-            checkZPlus = true;
-        }
-        for (int i = 0; i < players->size(); i++)
-        {
-            if (players->at(i) != NULL && (int)posFloat.X == (int)players->at(i)->getPosition().X && (int)posFloat.Z + 1 == (int)players->at(i)->getPosition().Z)
-            {
-                players->at(i)->remove();
-                players->at(i).reset();
-            }
+    // explode on Z axis up
+    for (int z = 1; z <= 2; z++)
+    {
+        if ((int)posFloat.Z + z >= -(int)(map->getMapSize().Y / 2) && (int)posFloat.Z + z <= (int)(map->getMapSize().Y / 2)) {
+            // kill player (if any)
+            killPlayers((int)posFloat.X, (int)posFloat.Z + z, players);
+            // destroy breakable, if there is one
+            if (breakMap((int)posFloat.X, (int)posFloat.Z + z, map))
+                break;
+            // change ground color
+            explosionAnimation((int)posFloat.X, (int)posFloat.Z + z, map, asset);
         }
     }
-    if ((int(posFloat.X - 1) + int((map->getMapSize().X / 2)) < map->getGround().at(0).size())
-    && int(posFloat.Z) + int((map->getMapSize().Y / 2)) < map->getGround().size()) {
-        map->getGround().at(int(posFloat.Z) + int((map->getMapSize().Y / 2))).
-        at(int(posFloat.X - 1) + int((map->getMapSize().X / 2)))->setTexture(asset);
-        if ((int(posFloat.X - 1) + int((map->getMapSize().X / 2)) < map->getGround().at(0).size())
-    && int(posFloat.Z) + int((map->getMapSize().Y / 2)) < map->getMap().size()
-    && map->getMap().at(int(posFloat.Z) + int((map->getMapSize().Y / 2))).
-        at(int(posFloat.X - 1) + int((map->getMapSize().X / 2))) != NULL && map->getMap().at(int(posFloat.Z) + int((map->getMapSize().Y / 2))).
-        at(int(posFloat.X - 1) + int((map->getMapSize().X / 2)))->isBreakable() == true) {
-            checkXMin = true;
-            map->getMap().at(int(posFloat.Z) + int((map->getMapSize().Y / 2))).
-        at(int(posFloat.X - 1) + int((map->getMapSize().X / 2)))->remove();
-        map->getMap().at(int(posFloat.Z) + int((map->getMapSize().Y / 2))).
-        at(int(posFloat.X - 1) + int((map->getMapSize().X / 2))).reset();
-        }
-        else if (map->getMap().at(int(posFloat.Z) + int((map->getMapSize().Y / 2))).
-        at(int(posFloat.X - 1) + int((map->getMapSize().X / 2))) != NULL && map->getMap().at(int(posFloat.Z) + int((map->getMapSize().Y / 2))).at(int(posFloat.X - 1) + int((map->getMapSize().X / 2)))->isBreakable() == false)
-        {
-            checkXMin = true;
-        }
-        for (int i = 0; i < players->size(); i++) {
-            if (players->at(i) != NULL && (int)posFloat.X - 1 == (int)players->at(i)->getPosition().X
-                && (int)posFloat.Z == (int)players->at(i)->getPosition().Z) {
-                    players->at(i)->remove();
-                    players->at(i).reset();
-            }
+    // explode on Z axis down
+    for (int z = -1; z >= -2; z--)
+    {
+        if ((int)posFloat.Z + z >= -(int)(map->getMapSize().Y / 2) && (int)posFloat.Z + z <= (int)(map->getMapSize().Y / 2)) {
+            // kill player (if any)
+            killPlayers((int)posFloat.X, (int)posFloat.Z + z, players);
+            // destroy breakable, if there is one
+            if (breakMap((int)posFloat.X, (int)posFloat.Z + z, map))
+                break;
+            // change ground color
+            explosionAnimation((int)posFloat.X, (int)posFloat.Z + z, map, asset);
         }
     }
-    if ((int(posFloat.X) + int((map->getMapSize().X / 2)) < map->getGround().at(0).size())
-    && int(posFloat.Z - 1) + int((map->getMapSize().Y / 2)) < map->getGround().size()) {
-        map->getGround().at(int(posFloat.Z - 1) + int((map->getMapSize().Y / 2))).
-        at(int(posFloat.X) + int((map->getMapSize().X / 2)))->setTexture(asset);
-        if ((int(posFloat.X) + int((map->getMapSize().X / 2)) < map->getGround().at(0).size())
-    && int(posFloat.Z - 1) + int((map->getMapSize().Y / 2)) < map->getMap().size()
-    && map->getMap().at(int(posFloat.Z - 1) + int((map->getMapSize().Y / 2))).
-        at(int(posFloat.X) + int((map->getMapSize().X / 2))) != NULL && map->getMap().at(int(posFloat.Z - 1) + int((map->getMapSize().Y / 2))).
-        at(int(posFloat.X) + int((map->getMapSize().X / 2)))->isBreakable() == true) {
-            checkZMin = true;
-            map->getMap().at(int(posFloat.Z - 1) + int((map->getMapSize().Y / 2))).
-        at(int(posFloat.X) + int((map->getMapSize().X / 2)))->remove();
-            map->getMap().at(int(posFloat.Z - 1) + int((map->getMapSize().Y / 2))).
-        at(int(posFloat.X) + int((map->getMapSize().X / 2))).reset();
-        }
-        else if (map->getMap().at(int(posFloat.Z - 1) + int((map->getMapSize().Y / 2))).
-        at(int(posFloat.X) + int((map->getMapSize().X / 2))) != NULL && map->getMap().at(int(posFloat.Z - 1) + int((map->getMapSize().Y / 2))).at(int(posFloat.X) + int((map->getMapSize().X / 2)))->isBreakable() == false)
-        {
-            checkZMin = true;
-        }
-        for (int i = 0; i < players->size(); i++)
-        {
-            if (players->at(i) != NULL && (int)posFloat.X == (int)players->at(i)->getPosition().X && (int)posFloat.Z - 1 == (int)players->at(i)->getPosition().Z)
-            {
-                players->at(i)->remove();
-                players->at(i).reset();
-            }
-        }
-    }
-    if ((int(posFloat.X + 2) + int((map->getMapSize().X / 2)) < map->getGround().at(0).size())
-&& int(posFloat.Z) + int((map->getMapSize().Y / 2)) < map->getGround().size()) {
-    map->getGround().at(int(posFloat.Z) + int((map->getMapSize().Y / 2))).
-    at(int(posFloat.X + 2) + int((map->getMapSize().X / 2)))->setTexture(asset);
-        if ((int(posFloat.X + 2) + int((map->getMapSize().X / 2)) < map->getGround().at(0).size())
-    && int(posFloat.Z) + int((map->getMapSize().Y / 2)) < map->getMap().size()
-    && map->getMap().at(int(posFloat.Z) + int((map->getMapSize().Y / 2))).
-        at(int(posFloat.X + 2) + int((map->getMapSize().X / 2))) != NULL && map->getMap().at(int(posFloat.Z) + int((map->getMapSize().Y / 2))).
-        at(int(posFloat.X + 2) + int((map->getMapSize().X / 2)))->isBreakable() == true
-        && checkXPlus == false) {
-            map->getMap().at(int(posFloat.Z) + int((map->getMapSize().Y / 2))).
-        at(int(posFloat.X + 2) + int((map->getMapSize().X / 2)))->remove();
-        map->getMap().at(int(posFloat.Z) + int((map->getMapSize().Y / 2))).
-        at(int(posFloat.X + 2) + int((map->getMapSize().X / 2))).reset();
-        }
-        for (int i = 0; i < players->size(); i++)
-        {
-            if (checkXPlus == false && players->at(i) != NULL && (int)posFloat.X + 2 == (int)players->at(i)->getPosition().X && (int)posFloat.Z == (int)players->at(i)->getPosition().Z)
-            {
-                players->at(i)->remove();
-                players->at(i).reset();
-            }
-        }
-    }
-    if ((int(posFloat.X) + int((map->getMapSize().X / 2)) < map->getGround().at(0).size())
-    && int(posFloat.Z + 2) + int((map->getMapSize().Y / 2)) < map->getGround().size()) {
-        map->getGround().at(int(posFloat.Z + 2) + int((map->getMapSize().Y / 2))).
-        at(int(posFloat.X) + int((map->getMapSize().X / 2)))->setTexture(asset);
-        if ((int(posFloat.X) + int((map->getMapSize().X / 2)) < map->getGround().at(0).size())
-    && int(posFloat.Z + 2) + int((map->getMapSize().Y / 2)) < map->getMap().size()
-    && map->getMap().at(int(posFloat.Z + 2) + int((map->getMapSize().Y / 2))).
-        at(int(posFloat.X) + int((map->getMapSize().X / 2))) != NULL && map->getMap().at(int(posFloat.Z + 2) + int((map->getMapSize().Y / 2))).
-        at(int(posFloat.X) + int((map->getMapSize().X / 2)))->isBreakable() == true
-        && checkZPlus == false) {
-            map->getMap().at(int(posFloat.Z + 2) + int((map->getMapSize().Y / 2))).
-        at(int(posFloat.X) + int((map->getMapSize().X / 2)))->remove();
-        map->getMap().at(int(posFloat.Z + 2) + int((map->getMapSize().Y / 2))).
-        at(int(posFloat.X) + int((map->getMapSize().X / 2))).reset();
-        }
-        for (int i = 0; i < players->size(); i++)
-        {
-            if (checkZPlus == false && players->at(i) != NULL && (int)posFloat.X == (int)players->at(i)->getPosition().X && (int)posFloat.Z + 2 == (int)players->at(i)->getPosition().Z)
-            {
-                players->at(i)->remove();
-                players->at(i).reset();
-            }
-        }
-    }
-    if ((int(posFloat.X - 2) + int((map->getMapSize().X / 2)) < map->getGround().at(0).size())
-&& int(posFloat.Z) + int((map->getMapSize().Y / 2)) < map->getGround().size()) {
-    map->getGround().at(int(posFloat.Z) + int((map->getMapSize().Y / 2))).
-    at(int(posFloat.X - 2) + int((map->getMapSize().X / 2)))->setTexture(asset);
-        if ((int(posFloat.X - 2) + int((map->getMapSize().X / 2)) < map->getGround().at(0).size())
-    && int(posFloat.Z) + int((map->getMapSize().Y / 2)) < map->getMap().size()
-    && map->getMap().at(int(posFloat.Z) + int((map->getMapSize().Y / 2))).
-        at(int(posFloat.X - 2) + int((map->getMapSize().X / 2))) != NULL && map->getMap().at(int(posFloat.Z) + int((map->getMapSize().Y / 2))).
-        at(int(posFloat.X - 2) + int((map->getMapSize().X / 2)))->isBreakable() == true
-        && checkXMin == false) {
-            map->getMap().at(int(posFloat.Z) + int((map->getMapSize().Y / 2))).
-        at(int(posFloat.X - 2) + int((map->getMapSize().X / 2)))->remove();
-        map->getMap().at(int(posFloat.Z) + int((map->getMapSize().Y / 2))).
-        at(int(posFloat.X - 2) + int((map->getMapSize().X / 2))).reset();
-        }
-        for (int i = 0; i < players->size(); i++)
-        {
-            if (checkXMin == false && players->at(i) != NULL && (int)posFloat.X - 2 == (int)players->at(i)->getPosition().X && (int)posFloat.Z == (int)players->at(i)->getPosition().Z)
-            {
-                players->at(i)->remove();
-                players->at(i).reset();
-            }
-        }
-    }
-    if ((int(posFloat.X) + int((map->getMapSize().X / 2)) < map->getGround().at(0).size())
-    && int(posFloat.Z - 2) + int((map->getMapSize().Y / 2)) < map->getGround().size()) {
-        map->getGround().at(int(posFloat.Z - 2) + int((map->getMapSize().Y / 2))).
-        at(int(posFloat.X) + int((map->getMapSize().X / 2)))->setTexture(asset);
-        if ((int(posFloat.X) + int((map->getMapSize().X / 2)) < map->getGround().at(0).size())
-    && int(posFloat.Z - 2) + int((map->getMapSize().Y / 2)) < map->getMap().size()
-    && map->getMap().at(int(posFloat.Z - 2) + int((map->getMapSize().Y / 2))).
-        at(int(posFloat.X) + int((map->getMapSize().X / 2))) != NULL && map->getMap().at(int(posFloat.Z - 2) + int((map->getMapSize().Y / 2))).
-        at(int(posFloat.X) + int((map->getMapSize().X / 2)))->isBreakable() == true
-        && checkZMin == false) {
-            map->getMap().at(int(posFloat.Z - 2) + int((map->getMapSize().Y / 2))).
-        at(int(posFloat.X) + int((map->getMapSize().X / 2)))->remove();
-        map->getMap().at(int(posFloat.Z - 2) + int((map->getMapSize().Y / 2))).
-        at(int(posFloat.X) + int((map->getMapSize().X / 2))).reset();
-        }
-        for (int i = 0; i < players->size(); i++)
-        {
-            if (checkZMin == false && players->at(i) != NULL && (int)posFloat.X == (int)players->at(i)->getPosition().X && (int)posFloat.Z - 2 == (int)players->at(i)->getPosition().Z)
-            {
-                players->at(i)->remove();
-                players->at(i).reset();
-            }
-        }
-    }
-    createExplodeCube();
 }
 
 void Bomb::update(std::shared_ptr<GameMap> map, std::shared_ptr<Assets> assets)
@@ -327,11 +134,9 @@ void Bomb::update(std::shared_ptr<GameMap> map, std::shared_ptr<Assets> assets)
         passed = true;
         // mesh->remove();
         this->remove();
-    }
-    else if ((now - then) / 1000 >= 3 && (now - then) / 1000 < 5) {
+    } else if ((now - then) / 1000 >= 3 && (now - then) / 1000.0f < 3.4f) {
         explode(assets->getMap(), assets->getPlayers(), "grasseRed.jpg");
-    }
-    if ((now - then) / 1000 >= 5) {
+    } if ((now - then) / 1000.0f >= 3.4f) {
         returnToGreen(map, "grass.jpg");
     }
 }
@@ -340,31 +145,6 @@ void Bomb::canCollide(bool b)
 {
 
 }
-
-// void Bomb::setPosition(const irr::core::vector3df &pos)
-// {
-//     mesh->getNode()->setPosition(pos);
-// }
-
-// irr::core::vector3df Bomb::getPosition() const
-// {
-//     return (mesh->getNode()->getPosition());
-// }
-
-// void Bomb::setScale(const irr::core::vector3df &scale)
-// {
-//     mesh->getNode()->setScale(scale);
-// }
-
-// irr::core::vector3df Bomb::getScale() const
-// {
-//     return (mesh->getNode()->getScale());
-// }
-
-// void Bomb::remove()
-// {
-//     mesh->remove();
-// }
 
 bool Bomb::isBreakable()
 {
