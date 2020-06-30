@@ -19,7 +19,7 @@
 #include "../Irrlicht/Irrlicht.hpp"
 #include "../Assets/Assets.hpp"
 #include "../Scene/Scene.hpp"
-// #include "../Menu/Menu.hpp"
+#include "../Menu/Menu.hpp"
 
 using namespace irr;
 using namespace scene;
@@ -45,6 +45,9 @@ private:
     Scene _gameManager;
     int playersLeft=0;
     int indexLastPlayer=-1;
+
+    std::shared_ptr<Assets> _assets;
+    std::shared_ptr<Irrlicht> _irr;
 
     std::shared_ptr<Assets> _assets;
     std::shared_ptr<Irrlicht> _irr;
