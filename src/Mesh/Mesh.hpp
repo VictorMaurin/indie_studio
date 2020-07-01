@@ -39,7 +39,7 @@ class Mesh : public IEntity
     public:
         Mesh(std::string meshName, std::string textureName, std::shared_ptr<Irrlicht> irr);
         ~Mesh();
-        void update(std::shared_ptr<GameMap> map, std::shared_ptr<Assets> assets);
+        void update(std::shared_ptr<Assets> assets);
 
         void remove(void);
         bool isBreakable(void);

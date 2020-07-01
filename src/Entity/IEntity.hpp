@@ -27,7 +27,7 @@ class IEntity
 public:
     virtual ~IEntity() = default;
 
-    virtual void update(std::shared_ptr<GameMap> map, std::shared_ptr<Assets> assets)=0;
+    virtual void update(std::shared_ptr<Assets> assets)=0;
 
     virtual void remove(void)=0;
     virtual bool isBreakable(void)=0;

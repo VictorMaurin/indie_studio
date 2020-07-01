@@ -42,7 +42,7 @@ bool Core::isGameOver()
 void Core::update()
 {
     for (int i = 0; i < _assets->getEntities()->size(); i++) {
-        _assets->getEntities()->at(i)->update(_assets->getMap(), _assets);
+        _assets->getEntities()->at(i)->update(_assets);
     }
     if (isGameOver())
         _gameManager.initGameOverScene(playersLeft, indexLastPlayer);

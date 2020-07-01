@@ -34,7 +34,7 @@ public :
     ~Bomb();
     void SetIsAI(bool isAI){};
     void returnToGreen(std::shared_ptr<GameMap> map, std::string asset);
-    void update(std::shared_ptr<GameMap> map, std::shared_ptr<Assets> assets);
+    void update(std::shared_ptr<Assets> assets);
     void killPlayers(int x, int z, std::shared_ptr<std::vector<std::shared_ptr<IEntity>>> players);
     int breakMap(int x, int z, std::shared_ptr<GameMap> map);
     void explosionAnimation(int x, int z, std::shared_ptr<GameMap> map, std::string assetName);

@@ -25,7 +25,7 @@ Mesh::~Mesh()
 {
 }
 
-void Mesh::update(std::shared_ptr<GameMap> map, std::shared_ptr<Assets> assets)
+void Mesh::update(std::shared_ptr<Assets> assets)
 {
 }
 

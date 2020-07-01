@@ -127,7 +127,7 @@ void Bomb::explode(std::shared_ptr<GameMap> map, std::shared_ptr<std::vector<std
     }
 }
 
-void Bomb::update(std::shared_ptr<GameMap> map, std::shared_ptr<Assets> assets)
+void Bomb::update(std::shared_ptr<Assets> assets)
 {
     now = _irr->getDevice()->getTimer()->getRealTime();
     if ((now - then) / 1000 >= 3 && passed == false) {
@@ -137,7 +137,7 @@ void Bomb::update(std::shared_ptr<GameMap> map, std::shared_ptr<Assets> assets)
     } else if ((now - then) / 1000 >= 3 && (now - then) / 1000.0f < 3.4f) {
         explode(assets->getMap(), assets->getPlayers(), "grasseRed.jpg");
     } if ((now - then) / 1000.0f >= 3.4f) {
-        returnToGreen(map, "grass.jpg");
+        returnToGreen(assets->getMap(), "grass.jpg");
     }
 }
 

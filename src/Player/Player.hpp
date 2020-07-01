@@ -39,7 +39,7 @@ public:
 	void moveLeft(const irr::f32 frameDeltaTime, irr::f32 moveHorizontal);
 	void plantBomb(std::shared_ptr<GameMap> map, std::shared_ptr<std::vector<std::shared_ptr<IEntity>>> entities);
 
-	void update(std::shared_ptr<GameMap> map, std::shared_ptr<Assets> assets);
+	void update(std::shared_ptr<Assets> assets);
 	void remove(void);
 	void canCollide(bool);
     bool isBreakable(void);

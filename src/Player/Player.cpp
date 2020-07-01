@@ -146,7 +146,7 @@ void Player::canCollide(bool b)
     
 }
 
-void Player::update(std::shared_ptr<GameMap> map, std::shared_ptr<Assets> assets)
+void Player::update(std::shared_ptr<Assets> assets)
 {
     if (isRemove == false) {
         const irr::u32 now = _irr->getDevice()->getTimer()->getTime();
