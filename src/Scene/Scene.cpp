@@ -39,7 +39,10 @@ void Scene::startGame()
 
 void Scene::gameScene()
 {
-
+    _irr->getDriver()->beginScene(true, true, SColor(255, 100, 101, 140));
+    _irr->getSmgr()->drawAll();
+    _irr->getGUIenv()->drawAll();
+    _irr->getDriver()->endScene();
 }
 
 void Scene::initGameOverScene(int playersLeft, int indexLastPlayer)
@@ -60,9 +63,6 @@ void Scene::initGameOverScene(int playersLeft, int indexLastPlayer)
         } else if ((_irr->getDevice()->getTimer()->getRealTime() - gameOverTimerBgn) / 1000 >= 3) {
             _assets->getPlayers()->erase(_assets->getPlayers()->begin() + indexLastPlayer);
             _assets->deleteAll();
-            // -------- TMP --------
-            // _gameState = State::MENU;
-            // _gameState = State::GAME;
             initMenu();
             _assets->init();
         }
@@ -73,9 +73,6 @@ void Scene::initGameOverScene(int playersLeft, int indexLastPlayer)
             gameOverTimerBgn = _irr->getDevice()->getTimer()->getRealTime();
         } else if ((_irr->getDevice()->getTimer()->getRealTime() - gameOverTimerBgn) / 1000 >= 3) {
             _assets->deleteAll();
-            // -------- TMP --------
-            // _gameState = State::MENU;
-            // _gameState = State::GAME;
             initMenu();
             _assets->init();
         }
