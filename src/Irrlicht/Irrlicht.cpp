@@ -27,6 +27,7 @@ void Irrlicht::init()
     smgr = device->getSceneManager();
     guienv = device->getGUIEnvironment();
     collMan = smgr->getSceneCollisionManager();
+    smgr->addCameraSceneNode(0, vector3df(0,11,-2), vector3df(0,0,0));
     eventReceiver = std::make_shared<MyEventReceiver>();
 }
 

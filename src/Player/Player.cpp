@@ -13,8 +13,6 @@ Player::Player(std::string meshName, std::string textureName, std::shared_ptr<Ir
     this->_irr = irr;
     this->_speed = 5.f;
     this->then = _irr->getDevice()->getTimer()->getTime();
-    // this->_joystickInfo = _irr->getJoystickinfo();
-    // this->_receiver = _irr->getEventreceiver();
 
     //SetKeyboard
     this->_advance = advance;

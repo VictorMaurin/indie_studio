@@ -23,14 +23,9 @@ using namespace core;
 class Bomb : public Mesh
 {
 private:
-    // IVideoDriver *driver;
-    // std::shared_ptr<IrrlichtDevice> device;
-    // ISceneManager *smgr;
-    // IMeshSceneNode *node;
     u32 now;
     u32 then;
     std::shared_ptr<Irrlicht> _irr;
-    // std::unique_ptr<Mesh> mesh;
     bool passed = false;
     vector3df posFloat;
 

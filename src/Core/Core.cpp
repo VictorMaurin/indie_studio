@@ -10,70 +10,23 @@ Core::~Core()
 
 void Core::init()
 {
-// #ifdef __APPLE__
-//     video::E_DRIVER_TYPE driverType = EDT_OPENGL;
-// #else
-//     video::E_DRIVER_TYPE driverType = driverChoiceConsole();
-// #endif
-//     if (driverType == video::EDT_COUNT)
-//         throw("Problem in driver");
-    // this->eventReceiver = std::make_shared<MyEventReceiver>();
     statement = State::MENU;
     _irr = std::make_shared<Irrlicht>();
     _irr->init();
     _irr->getDevice()->setWindowCaption(L"Bomberman");
     _irr->getGUIenv();
     _assets = std::make_shared<Assets>(_irr);
-    //create device
-    // device = std::shared_ptr<IrrlichtDevice>(createDevice(driverType, dimension2d<u32>(640, 480), 16, false, false, false, eventReceiver.get()));
-    // if (!device)
-    //     throw("Problem in device");
-    // device->setResizable(true);
-    // device->setWindowCaption(L"Hello world! - Irrlicht Engine Demo");
-    // driver = device->getVideoDriver();
-    // smgr = device->getSceneManager();
-    // guienv = device->getGUIEnvironment();
-    // font = this->guienv->getBuiltInFont();
     set_menu();
-    
-    //light source
-    // ILightSceneNode* light = smgr->addLightSceneNode( 0, vector3df(0.0f,50.0f,2.0f), SColorf(1.0f,1.0f,1.0f,1.0f), 35.0f );
-    //camera
-    _irr->getSmgr()->addCameraSceneNode(0, vector3df(0,11,-2), vector3df(0,0,0));
 
-    // this->collMan = _irr->getSmgr()->getSceneCollisionManager();
-
-    // entities = std::make_shared<std::vector<std::shared_ptr<IEntity>>>();
-    // players = std::make_shared<std::vector<std::shared_ptr<IEntity>>>();
     this->initAssets();
     _assets->init();
 }
 
 void Core::initAssets()
 {
-    // this->map = std::make_shared<GameMap>(entities, 19, 13, _irr);
-
     // -------------- TMP COMMENT --------------
     // std::shared_ptr<Menu> menu = std::make_shared<Menu>(this);
     this->gameOverStr.clear();
-
-    // entities->push_back(std::make_shared<Player>("Bomberman.MD3", "BlackBombermanTextures.png", _irr, irr::KEY_KEY_Z, irr::KEY_KEY_S, irr::KEY_KEY_Q, irr::KEY_KEY_D, irr::KEY_SPACE));
-    // players->push_back(entities->back());
-    // entities->back()->setPosition(vector3df(-8.0f, 0.0f, -5.0f));
-    
-    // entities->push_back(std::make_shared<Player>("Bomberman.MD3", "WhiteBombermanTextures.png", _irr, irr::KEY_KEY_Y, irr::KEY_KEY_H, irr::KEY_KEY_G, irr::KEY_KEY_J, irr::KEY_KEY_L));
-    // players->push_back(entities->back());
-    // entities->back()->setPosition(vector3df(-8.0f, 0.0f, 5.0f));
-    
-    // entities->push_back(std::make_shared<Player>("Bomberman.MD3", "RedBombermanTextures.png", _irr, irr::KEY_KEY_Y, irr::KEY_KEY_H, irr::KEY_KEY_G, irr::KEY_KEY_J, irr::KEY_KEY_L));
-    // players->push_back(entities->back());
-    // entities->back()->setPosition(vector3df(8.0f, 0.0f, 5.0f));
-    // entities->back()->SetIsAI(true);
-    
-    // entities->push_back(std::make_shared<Player>("Bomberman.MD3", "PinkBombermanTextures.png", _irr, irr::KEY_KEY_Y, irr::KEY_KEY_H, irr::KEY_KEY_G, irr::KEY_KEY_J, irr::KEY_KEY_L));
-    // players->push_back(entities->back());
-    // entities->back()->setPosition(vector3df(8.0f, 0.0f, -5.0f));
-    // entities->back()->SetIsAI(true);
 }
 
 void Core::deleteAssets()
@@ -141,36 +94,6 @@ void Core::isGameOver()
         }
     }
 }
-
-// const std::shared_ptr<std::vector<std::shared_ptr<IEntity>>> &Core::getPlayers() const
-// {
-//     return (players);
-// }
-
-// const std::shared_ptr<std::vector<std::shared_ptr<IEntity>>> &Core::getEntities() const
-// {
-//     return (entities);
-// }
-
-// IVideoDriver *Core::getDriver() const
-// {
-//     return (driver);
-// }
-
-// ISceneManager *Core::getSmgr() const
-// {
-//     return (smgr);
-// }
-
-// std::shared_ptr<IrrlichtDevice> Core::getDevice() const
-// {
-//     return (device);
-// }
-
-// IGUIEnvironment *Core::getGUIenv() const
-// {
-//     return (guienv);
-// }
 
 void Core::set_ia(int player_index, bool ia)
 {
@@ -290,26 +213,6 @@ void Core::update_game()
     _irr->getGUIenv()->drawAll();
     _irr->getDriver()->endScene();
 }
-
-// std::shared_ptr<MyEventReceiver> Core::getEventreceiver()
-// {
-//     return (this->eventReceiver);
-// }
-
-// irr::core::array<irr::SJoystickInfo> Core::getJoystickinfo()
-// {
-//     return (this->joystickInfo);
-// }
-
-// ISceneCollisionManager *Core::getCollMan() const
-// {
-//     return (this->collMan);
-// }
-
-// std::shared_ptr<GameMap> Core::getMap() const
-// {
-//     return (this->map);
-// }
 
 std::shared_ptr<Irrlicht> Core::getLib(void) const
 {

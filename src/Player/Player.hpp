@@ -52,14 +52,11 @@ public:
 	void SetIsAI(bool isAI);
 	irr::scene::IAnimatedMeshSceneNode* getPlayerOBJ();
 private:
-	// std::shared_ptr<MyEventReceiver> _receiver;
 	std::shared_ptr<Irrlicht> _irr;
 	irr::scene::IAnimatedMeshSceneNode* PlayerOBJ;
 	std::unique_ptr<PlayerEvent> event;
-	// std::shared_ptr<irr::IrrlichtDevice> _device;
 	irr::f32 _speed;
 	irr::u32 then;
-	// irr::core::array<irr::SJoystickInfo> _joystickInfo;
 	irr::EKEY_CODE _advance;
 	irr::EKEY_CODE _behind;
 	irr::EKEY_CODE _left;
