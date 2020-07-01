@@ -41,6 +41,7 @@ if (UNIX)
         ./src/Breakable/Breakable.cpp
         ./src/Map/GameMap.cpp
         ./src/PlayerEvent/PlayerEvent.cpp
+        ./src/Scene/Scene.cpp
         ./assets/find_asset.cpp
  ./src/main.cpp)
 

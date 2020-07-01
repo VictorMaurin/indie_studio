@@ -10,89 +10,94 @@ Core::~Core()
 
 void Core::init()
 {
-    statement = State::MENU;
+    // statement = State::MENU;
     _irr = std::make_shared<Irrlicht>();
     _irr->init();
     _irr->getDevice()->setWindowCaption(L"Bomberman");
     _irr->getGUIenv();
     _assets = std::make_shared<Assets>(_irr);
-    set_menu();
+    // set_menu();
 
     this->initAssets();
     _assets->init();
+    _gameManager = Scene(_assets, _irr);
 }
 
 void Core::initAssets()
 {
     // -------------- TMP COMMENT --------------
     // std::shared_ptr<Menu> menu = std::make_shared<Menu>(this);
-    this->gameOverStr.clear();
+
+    // this->gameOverStr.clear();
 }
 
-void Core::deleteAssets()
-{
-    _assets->getPlayers()->clear();
-    _assets->getPlayers()->shrink_to_fit();
-    for (size_t i = 0; i < _assets->getEntities()->size(); i++) {
-        if (_assets->getEntities()->at(i)) {
-            _assets->getEntities()->at(i)->remove();
-            _assets->getEntities()->at(i).reset();
-        }
-    }
-    _assets->getEntities()->clear();
-    _assets->getEntities()->shrink_to_fit();
-    _assets->getMap().reset();
-}
+// void Core::deleteAssets()
+// {
+//     _assets->getPlayers()->clear();
+//     _assets->getPlayers()->shrink_to_fit();
+//     for (size_t i = 0; i < _assets->getEntities()->size(); i++) {
+//         if (_assets->getEntities()->at(i)) {
+//             _assets->getEntities()->at(i)->remove();
+//             _assets->getEntities()->at(i).reset();
+//         }
+//     }
+//     _assets->getEntities()->clear();
+//     _assets->getEntities()->shrink_to_fit();
+//     _assets->getMap().reset();
+// }
 
-void Core::isGameOver()
+bool Core::isGameOver()
 {
-    int playersLeft = 0;
-    int indexPlayer = -1;
+    playersLeft = 0;
+    indexLastPlayer = -1;
 
     for (size_t i = 0; i < _assets->getPlayers()->size(); i++) {
         if (_assets->getPlayers()->at(i) != 0) {
             playersLeft++;
-            indexPlayer = i;
+            indexLastPlayer = i;
         }
     }
-    if (playersLeft == 1) {
-        this->statement = State::GAME_OVER;
-        if (this->gameOverStr.empty()) {
-            if (indexPlayer == 0)
-                gameOverStr += L"Black";
-            if (indexPlayer == 1)
-                gameOverStr += L"White";
-            if (indexPlayer == 2)
-                gameOverStr += L"Red";
-            if (indexPlayer == 3)
-                gameOverStr += L"Pink";
-            gameOverStr += L" player WINS !";
-            gameOverTimerBgn = _irr->getDevice()->getTimer()->getRealTime();
-        } else if ((_irr->getDevice()->getTimer()->getRealTime() - gameOverTimerBgn) / 1000 >= 3) {
-            _assets->getPlayers()->erase(_assets->getPlayers()->begin() + indexPlayer);
-            this->deleteAssets();
-            set_menu();
-            // -------- TMP --------
-            statement = State::GAME;
+    if (playersLeft <= 1)
+        return (true);
+    return (false);
+    // if (playersLeft == 1) {
+    //     this->statement = State::GAME_OVER;
+    //     if (this->gameOverStr.empty()) {
+    //         if (indexLastPlayer == 0)
+    //             gameOverStr += L"Black";
+    //         if (indexLastPlayer == 1)
+    //             gameOverStr += L"White";
+    //         if (indexLastPlayer == 2)
+    //             gameOverStr += L"Red";
+    //         if (indexLastPlayer == 3)
+    //             gameOverStr += L"Pink";
+    //         gameOverStr += L" player WINS !";
+    //         gameOverTimerBgn = _irr->getDevice()->getTimer()->getRealTime();
+    //     } else if ((_irr->getDevice()->getTimer()->getRealTime() - gameOverTimerBgn) / 1000 >= 3) {
+    //         _assets->getPlayers()->erase(_assets->getPlayers()->begin() + indexLastPlayer);
+    //         this->deleteAssets();
+    //         set_menu();
+    //         // -------- TMP --------
+    //         statement = State::GAME;
 
-            this->initAssets();
-            _assets->init();
-        }
-    } else if (playersLeft == 0) {
-        this->statement = State::GAME_OVER;
-        if (this->gameOverStr.empty()) {
-            gameOverStr += L" Nobody win !";
-            gameOverTimerBgn = _irr->getDevice()->getTimer()->getRealTime();
-        } else if ((_irr->getDevice()->getTimer()->getRealTime() - gameOverTimerBgn) / 1000 >= 3) {
-            this->deleteAssets();
-            set_menu();
-            // -------- TMP --------
-            statement = State::GAME;
+    //         this->initAssets();
+    //         _assets->init();
+    //     }
+    // } else if (playersLeft == 0) {
+    //     this->statement = State::GAME_OVER;
+    //     if (this->gameOverStr.empty()) {
+    //         gameOverStr += L" Nobody win !";
+    //         gameOverTimerBgn = _irr->getDevice()->getTimer()->getRealTime();
+    //     } else if ((_irr->getDevice()->getTimer()->getRealTime() - gameOverTimerBgn) / 1000 >= 3) {
+    //         this->deleteAssets();
+    //         set_menu();
+    //         // -------- TMP --------
+    //         statement = State::GAME;
 
-            this->initAssets();
-            _assets->init();
-        }
-    }
+    //         this->initAssets();
+    //         _assets->init();
+    //     }
+    // }
 }
 
 void Core::set_ia(int player_index, bool ia)
@@ -100,19 +105,19 @@ void Core::set_ia(int player_index, bool ia)
     _assets->getPlayers()->at(player_index)->SetIsAI(ia);
 }
 
-void Core::set_menu()
-{
-    if (this->statement != State::MENU) {
-        this->statement = State::MENU;
-    }
-}
+// void Core::set_menu()
+// {
+//     if (this->statement != State::MENU) {
+//         this->statement = State::MENU;
+//     }
+// }
 
-void Core::set_game()
-{
-    if (this->statement != State::GAME) {
-        this->statement = State::GAME;
-    }
-}
+// void Core::set_game()
+// {
+//     if (this->statement != State::GAME) {
+//         this->statement = State::GAME;
+//     }
+// }
 
 void Core::run()
 {
@@ -138,16 +143,17 @@ void Core::run()
         {
             _assets->getEntities()->at(i)->update(_assets->getMap(), _assets);
         }
-        isGameOver();
+        if (isGameOver())
+            _gameManager.initGameOverScene(playersLeft, indexLastPlayer);
 
         // draw
         // ---------- TMP COMMENT -----------
-        // if (this->statement == State::MENU)
+        // if (_gameManager.getGameState() == State::MENU)
         //     this->update_menu();
-        // else if (this->statement == State::GAME)
+        // else if (_gameManager.getGameState() == State::GAME)
         this->update_game();
-        if (this->statement == State::GAME_OVER)
-            this->update_gameOver();
+        if (_gameManager.getGameState() == GAME_OVER)
+            _gameManager.gameOverScene();
         frameEndTime = std::clock();
 
         deltaTime = (frameEndTime - frameBgnTime) / (double)CLOCKS_PER_SEC;
@@ -164,7 +170,8 @@ void Core::run()
                 updates++;
                 for (int i = 0; i < _assets->getEntities()->size(); i++)
                     _assets->getEntities()->at(i)->update(_assets->getMap(), _assets);
-                isGameOver();
+                if (isGameOver())
+                    _gameManager.initGameOverScene(playersLeft, indexLastPlayer);
             }
             deltaTime = (std::clock() - frameBgnTime) / (double)CLOCKS_PER_SEC;
             remainingTime -= deltaTime;
@@ -176,26 +183,26 @@ void Core::run()
     // _irr->getDevice()->drop(); // CAUSES A SEGFAULT SINCE IN IRRLICHT CLASS
 }
 
-void Core::setstatement(State is)
-{
-    this->statement = is;
-}
+// void Core::setstatement(State is)
+// {
+//     this->statement = is;
+// }
 
-State Core::getstatement()
-{
-    return (this->statement);
-}
+// State Core::getstatement()
+// {
+//     return (this->statement);
+// }
 
-void Core::update_gameOver()
-{
-    dimension2du size = _irr->getDriver()->getScreenSize();
-    _irr->getDriver()->beginScene(true, true, SColor(255, 100, 101, 140));
-    _irr->getSmgr()->drawAll();
-    if (_assets->getFont())
-        _assets->getFont()->draw(this->gameOverStr.c_str(), recti(size.Width / 2 - 50, size.Height / 2, 300, 50), SColor(255,230,230,230));
-    _irr->getGUIenv()->drawAll();
-    _irr->getDriver()->endScene();
-}
+// void Core::update_gameOver()
+// {
+//     dimension2du size = _irr->getDriver()->getScreenSize();
+//     _irr->getDriver()->beginScene(true, true, SColor(255, 100, 101, 140));
+//     _irr->getSmgr()->drawAll();
+//     if (_assets->getFont())
+//         _assets->getFont()->draw(this->gameOverStr.c_str(), recti(size.Width / 2 - 50, size.Height / 2, 300, 50), SColor(255,230,230,230));
+//     _irr->getGUIenv()->drawAll();
+//     _irr->getDriver()->endScene();
+// }
 
 void Core::update_menu()
 {

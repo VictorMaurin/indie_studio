@@ -18,6 +18,7 @@
 
 #include "../Irrlicht/Irrlicht.hpp"
 #include "../Assets/Assets.hpp"
+#include "../Scene/Scene.hpp"
 // #include "../Menu/Menu.hpp"
 
 using namespace irr;
@@ -26,21 +27,24 @@ using namespace gui;
 using namespace video;
 using namespace core;
 
-enum class State : int
-{
-    NOTHING,
-    GAME,
-    MENU,
-    GAME_OVER
-};
+// enum class State : int
+// {
+//     NOTHING,
+//     GAME,
+//     MENU,
+//     GAME_OVER
+// };
 
 class Core
 {
 private:
-    State statement;
+    // State statement;
     bool is_ia;
-    std::wstring gameOverStr;
-    u32 gameOverTimerBgn;
+    // std::wstring gameOverStr;
+    // u32 gameOverTimerBgn;
+    Scene _gameManager;
+    int playersLeft=0;
+    int indexLastPlayer=-1;
 
     std::shared_ptr<Assets> _assets;
     std::shared_ptr<Irrlicht> _irr;
@@ -51,16 +55,16 @@ public :
     void run();
     void init();
     void initAssets();
-    void deleteAssets();
-    void set_menu();
-    void set_game();
+    // void deleteAssets();
+    // void set_menu();
+    // void set_game();
     void update_menu();
     void update_game();
-    void update_gameOver();
-    void setstatement(State is);
+    // void update_gameOver();
+    bool isGameOver();
+    // void setstatement(State is);
     void set_ia(int player_index, bool ia);
-    void isGameOver();
-    State getstatement();
+    // State getstatement();
     std::shared_ptr<Irrlicht> getLib(void) const;
 };
 

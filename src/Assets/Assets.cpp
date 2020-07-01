@@ -46,6 +46,21 @@ void Assets::init()
     _entities->back()->SetIsAI(true);
 }
 
+void Assets::deleteAll(void)
+{
+    _players->clear();
+    _players->shrink_to_fit();
+    for (size_t i = 0; i < _entities->size(); i++) {
+        if (_entities->at(i)) {
+            _entities->at(i)->remove();
+            _entities->at(i).reset();
+        }
+    }
+    _entities->clear();
+    _entities->shrink_to_fit();
+    _map.reset();
+}
+
 const std::shared_ptr<std::vector<std::shared_ptr<IEntity>>> &Assets::getPlayers() const
 {
     return (this->_players);

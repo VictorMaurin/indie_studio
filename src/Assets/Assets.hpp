@@ -25,6 +25,7 @@ class Assets {
         ~Assets();
 
         void init();
+        void deleteAll(void);
         const std::shared_ptr<std::vector<std::shared_ptr<IEntity>>> &getPlayers() const;
         std::shared_ptr<GameMap> getMap() const;
         const std::shared_ptr<std::vector<std::shared_ptr<IEntity>>> &getEntities() const;
