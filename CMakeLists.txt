@@ -36,12 +36,13 @@ if (UNIX)
         ./src/Mesh/Mesh.cpp
         ./src/Player/Player.cpp
         ./src/Bomb/Bomb.cpp
-        ./src/Core/Core.cpp
-        #./src/Menu/Menu.cpp
+        ./src/Scene/Scene.cpp
+        ./src/Menu/MenuEvtManager.cpp
+        ./src/Menu/Menu.cpp
         ./src/Breakable/Breakable.cpp
         ./src/Map/GameMap.cpp
         ./src/PlayerEvent/PlayerEvent.cpp
-        ./src/Scene/Scene.cpp
+        ./src/Core/Core.cpp
         ./assets/find_asset.cpp
  ./src/main.cpp)
 

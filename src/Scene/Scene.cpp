@@ -15,9 +15,26 @@ Scene::~Scene()
 {
 }
 
+void Scene::initMenu()
+{
+    _gameState = MENU;
+    _menu = std::make_shared<Menu>(_irr, this);
+    _menu->create(_assets, _irr);
+}
+
 void Scene::menuScene()
 {
+    _irr->getDriver()->beginScene(true, true, SColor(255, 100, 101, 140));
+    _irr->getSmgr()->drawAll();
+    _irr->getGUIenv()->drawAll();
+    _irr->getDriver()->endScene();
+}
 
+void Scene::startGame()
+{
+    _gameState = GAME;
+    _menu.reset();
+    _irr->getDevice()->setEventReceiver(_irr->getEventreceiver().get());
 }
 
 void Scene::gameScene()
@@ -45,8 +62,8 @@ void Scene::initGameOverScene(int playersLeft, int indexLastPlayer)
             _assets->deleteAll();
             // -------- TMP --------
             // _gameState = State::MENU;
-            _gameState = State::GAME;
-
+            // _gameState = State::GAME;
+            initMenu();
             _assets->init();
         }
     } else if (playersLeft == 0) {
@@ -58,8 +75,8 @@ void Scene::initGameOverScene(int playersLeft, int indexLastPlayer)
             _assets->deleteAll();
             // -------- TMP --------
             // _gameState = State::MENU;
-            _gameState = State::GAME;
-
+            // _gameState = State::GAME;
+            initMenu();
             _assets->init();
         }
     }

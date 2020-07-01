@@ -18,17 +18,18 @@ void Core::init()
     _assets = std::make_shared<Assets>(_irr);
     // set_menu();
 
-    this->initAssets();
+    // this->initAssets();
     _assets->init();
     _gameManager = Scene(_assets, _irr);
+    _gameManager.initMenu();
 }
 
 void Core::initAssets()
 {
     // set_menu();
     // this->map = std::make_shared<GameMap>(entities, 19, 13, std::shared_ptr<Core>(this), smgr, driver, device);
-    std::shared_ptr<Menu> menu = std::make_shared<Menu>(std::shared_ptr<Core>(this));
-    menu->create(std::shared_ptr<Core>(this));
+    // std::shared_ptr<Menu> menu = std::make_shared<Menu>(std::shared_ptr<Core>(this));
+    // menu->create(std::shared_ptr<Core>(this));
     // this->gameOverStr.clear();
 
     // this->gameOverStr.clear();
@@ -103,10 +104,10 @@ bool Core::isGameOver()
     // }
 }
 
-void Core::set_ia(int player_index, bool ia)
-{
-    _assets->getPlayers()->at(player_index)->SetIsAI(ia);
-}
+// void Core::set_ia(int player_index, bool ia)
+// {
+//     _assets->getPlayers()->at(player_index)->SetIsAI(ia);
+// }
 
 // void Core::set_menu()
 // {
@@ -150,11 +151,10 @@ void Core::run()
             _gameManager.initGameOverScene(playersLeft, indexLastPlayer);
 
         // draw
-        // ---------- TMP COMMENT -----------
-        // if (_gameManager.getGameState() == State::MENU)
-        //     this->update_menu();
-        // else if (_gameManager.getGameState() == State::GAME)
-        this->update_game();
+        if (_gameManager.getGameState() == State::MENU)
+            _gameManager.menuScene();
+        else if (_gameManager.getGameState() == State::GAME)
+            this->update_game(); //tmp à remplacer pas scene.function()
         if (_gameManager.getGameState() == GAME_OVER)
             _gameManager.gameOverScene();
         frameEndTime = std::clock();

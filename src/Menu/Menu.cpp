@@ -6,27 +6,29 @@
 */
 
 #include "Menu.hpp"
+#include "MenuEvtManager.hpp"
 #include "../../assets/assets.hpp"
 
-Menu::Menu(std::shared_ptr<Irrlicht> _irr)
+Menu::Menu(std::shared_ptr<Irrlicht> irr, Scene *gameManager)
 {
-    driver = _irr->getDriver();
-    device = _irr->getDevice();
-    smgr = _irr->getSmgr();
-    guienv = _irr->getGUIenv();
+	_gameManager = gameManager;
+    driver = irr->getDriver();
+    device = irr->getDevice();
+    smgr = irr->getSmgr();
+    guienv = irr->getGUIenv();
 }
 
 Menu::~Menu()
 {
 }
 
-void Menu::create(std::shared_ptr<Core> core, std::shared_ptr<Irrlicht> _irr)
+void Menu::create(std::shared_ptr<Assets> assets, std::shared_ptr<Irrlicht> irr)
 {
 	this->create_window();
 	this->create_buttons();
 	this->create_image();
 	this->create_text();
-	MyEvent *receiver = new MyEvent(core, window, button, image, text, _irr);
+	MyEvent *receiver = new MyEvent(assets, window, button, image, text, irr, this);
 	device->setEventReceiver(receiver);
 }
 
@@ -60,4 +62,9 @@ void Menu::create_text()
 {
 	text = guienv->addStaticText(L"CHOOSE YOUR OPPONENT",
 		rect<s32>(250,360,400,382), true, false, window);
+}
+
+Scene *Menu::getGameManager(void) const
+{
+	return (_gameManager);
 }

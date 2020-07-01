@@ -61,6 +61,11 @@ void Assets::deleteAll(void)
     _map.reset();
 }
 
+void Assets::setAi(int playerIndex, bool isAi)
+{
+    _players->at(playerIndex)->SetIsAI(isAi);
+}
+
 const std::shared_ptr<std::vector<std::shared_ptr<IEntity>>> &Assets::getPlayers() const
 {
     return (this->_players);

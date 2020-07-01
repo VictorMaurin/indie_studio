@@ -19,7 +19,7 @@
 #include "../Irrlicht/Irrlicht.hpp"
 #include "../Assets/Assets.hpp"
 #include "../Scene/Scene.hpp"
-#include "../Menu/Menu.hpp"
+// #include "../Menu/Menu.hpp"
 
 using namespace irr;
 using namespace scene;
@@ -49,9 +49,6 @@ private:
     std::shared_ptr<Assets> _assets;
     std::shared_ptr<Irrlicht> _irr;
 
-    std::shared_ptr<Assets> _assets;
-    std::shared_ptr<Irrlicht> _irr;
-
 public : 
     Core();
     ~Core();
@@ -66,7 +63,7 @@ public :
     // void update_gameOver();
     bool isGameOver();
     // void setstatement(State is);
-    void set_ia(int player_index, bool ia);
+    // void set_ia(int player_index, bool ia);
     // State getstatement();
     std::shared_ptr<Irrlicht> getLib(void) const;
 };
