@@ -1,12 +1,13 @@
 #include "Core.hpp"
 
-Core::Core(int fps=60)
+Core::Core(int fps)
 {
     _fps = fps;
 }
 
 Core::~Core()
 {
+    _assets->deleteAll();
 }
 
 void Core::init()
