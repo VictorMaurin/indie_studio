@@ -61,13 +61,16 @@ add_executable(bomberman
         ./src/Assets/Assets.cpp
         ./src/Irrlicht/Irrlicht.cpp
         ./src/Mesh/Mesh.cpp
-        ./src/PlayerEvent/PlayerEvent.cpp
         ./src/Player/Player.cpp
         ./src/Bomb/Bomb.cpp
-        ./src/Core/Core.cpp
-        #./src/Menu/Menu.cpp
+        ./src/Scene/Scene.cpp
+        ./src/Menu/MenuEvtManager.cpp
+        ./src/Menu/Menu.cpp
         ./src/Breakable/Breakable.cpp
         ./src/Map/GameMap.cpp
+        ./src/PlayerEvent/PlayerEvent.cpp
+        ./src/Core/Core.cpp
+        ./src/Exception/MyException.cpp
         ./assets/find_asset.cpp
  ./src/main.cpp)
 target_link_libraries(bomberman Irrlicht)

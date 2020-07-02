@@ -50,7 +50,7 @@ std::string findAsset( std::string asset ) {
         return current_working_dir;
     else {
         char *err =(char*)malloc(33 + asset.length());
-        bzero(err, 33 + asset.length());
+        memset(err, '\0', 33 + asset.length());
         strcat(err, "requested asset doesn't exits : ");
         strcat(err, asset.c_str());
         throw MyException(err, "find_asset.cpp", 50, "findAsset()");
