@@ -8,6 +8,7 @@
 #ifndef MENU_HPP
 #define MENU_HPP
 
+class MyEvent;
 class Scene;
 
 #include <vector>
@@ -16,7 +17,7 @@ class Scene;
 #include <iostream>
 #include <map>
 #include <memory>
-#include "../Event/Event.hpp"
+#include "MenuEvtManager.hpp"
 #include "../Scene/Scene.hpp"
 
 using namespace irr;
@@ -37,6 +38,7 @@ enum
 class Menu
 {
     private:
+        std::shared_ptr<MyEvent> receiver;
         std::shared_ptr<IrrlichtDevice> device;
         IVideoDriver *driver;
         ISceneManager *smgr;

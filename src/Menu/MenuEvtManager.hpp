@@ -8,8 +8,11 @@
 #ifndef MENUEVTMANAGER_HPP_
 #define MENUEVTMANAGER_HPP_
 
+class Menu;
+
 #include <memory>
 #include "Menu.hpp"
+#include "../Assets/Assets.hpp"
 #include "../Event/Event.hpp"
 
 using namespace irr;

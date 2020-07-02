@@ -6,7 +6,6 @@
 */
 
 #include "Menu.hpp"
-#include "MenuEvtManager.hpp"
 #include "../../assets/assets.hpp"
 
 Menu::Menu(std::shared_ptr<Irrlicht> irr, Scene *gameManager)
@@ -32,10 +31,10 @@ void Menu::create(std::shared_ptr<Assets> assets, std::shared_ptr<Irrlicht> irr)
 	this->create_buttons();
 	this->create_image();
 	this->create_text();
-	MyEvent *receiver = new MyEvent(assets, window, button, image, text, irr, this);
-	if (!receiver)
+	receiver = std::make_shared<MyEvent>(assets, window, button, image, text, irr, this);
+	if (!receiver || !receiver.get())
 		throw MyException("couldn't create menu event receiver", "Menu.cpp", 37, "Menu::create()");
-	device->setEventReceiver(receiver);
+	device->setEventReceiver(receiver.get());
 }
 
 void Menu::create_window()
