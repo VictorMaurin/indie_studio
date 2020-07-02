@@ -39,10 +39,7 @@ class Menu
 {
     private:
         std::shared_ptr<MyEvent> receiver;
-        std::shared_ptr<IrrlichtDevice> device;
-        IVideoDriver *driver;
-        ISceneManager *smgr;
-        IGUIEnvironment *guienv;
+        std::shared_ptr<Irrlicht> _irr;
         std::map<std::string, IGUIButton*> button;
         IGUIImage* image;
         IGUIWindow* window;
@@ -53,10 +50,10 @@ class Menu
         Menu(std::shared_ptr<Irrlicht> irr, Scene *gameManager);
         ~Menu();
         void create(std::shared_ptr<Assets> assets, std::shared_ptr<Irrlicht> irr);
-        void create_window();
-        void create_buttons();
-        void create_image();
-        void create_text();
+        void createWindow();
+        void createButtons();
+        void createImage();
+        void createText();
         Scene *getGameManager(void) const;
 };
 

@@ -30,10 +30,6 @@ public:
     private:
         std::shared_ptr<Assets> _assets;
         std::shared_ptr<Irrlicht> _irr;
-        IVideoDriver *driver;
-        ISceneManager *smgr;
-        IGUIEnvironment *guienv;
-        std::shared_ptr<IrrlichtDevice> device;
         std::map<std::string, IGUIButton*> _button;
         IGUIButton* _ia;
         IGUIButton* _player;

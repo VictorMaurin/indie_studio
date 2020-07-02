@@ -12,10 +12,6 @@ MyEvent::MyEvent(std::shared_ptr<Assets> assets, IGUIWindow* window, std::map<st
     _gameMenu = gameMenu;
     _assets = assets;
     _irr = irr;
-    device = irr->getDevice();
-    driver = irr->getDriver();
-    smgr = irr->getSmgr();
-    guienv = irr->getGUIenv();
     _button = button;
     _text = text;
     _image = image;
@@ -32,7 +28,7 @@ bool MyEvent::OnEvent(const SEvent& event)
 			switch(id)
 			{
 			case QUIT_BUTTON:
-				device->closeDevice();
+				_irr->getDevice()->closeDevice();
 				return true;
 			case IA_BUTTON:
 				{
@@ -77,9 +73,9 @@ bool MyEvent::OnEvent(const SEvent& event)
                     _image->setVisible(false);
                     _button["help"]->setVisible(false);
                     _text->setVisible(false);
-                    image_help = guienv->addImage(driver->getTexture(findAsset("help.png").c_str()),
+                    image_help = _irr->getGUIenv()->addImage(_irr->getDriver()->getTexture(findAsset("help.png").c_str()),
 		position2d<int>(10,10));
-                    _return = guienv->addButton(rect<s32>(490,440,600,440 + 32), 0, RETURN_BUTTON,
+                    _return = _irr->getGUIenv()->addButton(rect<s32>(490,440,600,440 + 32), 0, RETURN_BUTTON,
 		L"RETURN", L"Return");
                 }
                 return (true);
