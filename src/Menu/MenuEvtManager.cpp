@@ -6,6 +6,7 @@
 */
 
 #include "MenuEvtManager.hpp"
+#include "assets.hpp"
 
 MyEvent::MyEvent(std::shared_ptr<Assets> assets, IGUIWindow* window, std::map<std::string, IGUIButton*> button, IGUIImage* image, IGUIStaticText* text, std::shared_ptr<Irrlicht> irr, Menu *gameMenu)
 {
