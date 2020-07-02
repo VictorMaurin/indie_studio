@@ -26,7 +26,7 @@ private:
     u32 now;
     u32 then;
     std::shared_ptr<Irrlicht> _irr;
-    bool passed = false;
+    bool passed=false;
     vector3df posFloat;
 
 public : 
@@ -40,7 +40,6 @@ public :
     void explosionAnimation(int x, int z, std::shared_ptr<GameMap> map, std::string assetName);
     void explode(std::shared_ptr<GameMap> map, std::shared_ptr<std::vector<std::shared_ptr<IEntity>>> players, std::string asset);
     bool isBreakable(void);
-    void canCollide(bool);
 
     void setTexture(std::string assets) {};
 };

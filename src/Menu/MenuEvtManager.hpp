@@ -30,10 +30,7 @@ public:
         IVideoDriver *driver;
         ISceneManager *smgr;
         IGUIEnvironment *guienv;
-        //std::shared_ptr<IVideoDriver> driver;
         std::shared_ptr<IrrlichtDevice> device;
-        // std::shared_ptr<ISceneManager> smgr;
-        // std::shared_ptr<IGUIEnvironment> guienv;
         std::map<std::string, IGUIButton*> _button;
         IGUIButton* _ia;
         IGUIButton* _player;
@@ -45,7 +42,6 @@ public:
         IGUIWindow* win;
         IGUIStaticText* _text;
         Menu *_gameMenu;
-        // State statement;
 };
 
 #endif /* !MENUEVTMANAGER_HPP_ */

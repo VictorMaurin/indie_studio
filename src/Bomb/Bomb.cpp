@@ -145,11 +145,6 @@ void Bomb::update(std::shared_ptr<Assets> assets)
     }
 }
 
-void Bomb::canCollide(bool b)
-{
-
-}
-
 bool Bomb::isBreakable()
 {
     return (true);
