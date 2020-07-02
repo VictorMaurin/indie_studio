@@ -9,16 +9,19 @@
 
 Mesh::Mesh(std::string meshName, std::string textureName, std::shared_ptr<Irrlicht> irr)
 {
+    if (!irr || ! irr.get() || meshName.empty() || textureName.empty())
+        throw MyException("unexpected argument", "Mesh.cpp", 13, "Mesh::ctor()");
     this->irr = irr;
     mesh = irr->getSmgr()->getMesh(findAsset(meshName).c_str());
     if (!mesh) {
         irr->getDevice()->drop();
-        throw "couldnt create wall mesh";
+        throw MyException("couldn't create mesh", "Mesh.cpp", 16, "Mesh::ctor()");
     }
     node = irr->getSmgr()->addMeshSceneNode(mesh, 0, IDFlag_IsPickable);
     if (node) {
         node->setMaterialTexture( 0, irr->getDriver()->getTexture(findAsset(textureName).c_str()) );
-    }
+    } else
+        throw MyException("couldn't create node", "Mesh.cpp", 22, "Mesh::ctor()");
 }
 
 Mesh::~Mesh()
@@ -90,8 +93,7 @@ IMeshSceneNode *Mesh::getNode() const
 
 void Mesh::setTexture(std::string assets)
 {
-    if (node)
-    {
+    if (node) {
         node->setMaterialTexture(0, irr->getDriver()->getTexture(findAsset(assets).c_str()));
     }
 }

@@ -10,6 +10,8 @@
 
 Player::Player(std::string meshName, std::string textureName, std::shared_ptr<Irrlicht> irr, irr::EKEY_CODE advance, irr::EKEY_CODE behind, irr::EKEY_CODE left, irr::EKEY_CODE right, irr::EKEY_CODE plantBomb)
 {
+    if (meshName.empty() || textureName.empty() || !irr || !irr.get())
+        throw MyException("unexpected argument", "Player.cpp", 14, "Player::ctor()");
     this->_irr = irr;
     this->_speed = 5.f;
     this->then = _irr->getDevice()->getTimer()->getTime();
@@ -22,6 +24,8 @@ Player::Player(std::string meshName, std::string textureName, std::shared_ptr<Ir
     this->_plantBomb = plantBomb;
 
     this->event = std::make_unique<PlayerEvent>(_irr, advance, behind, left, right, plantBomb, this);
+    if (!event || !event.get())
+        throw MyException("couldn't create player's event receiver", "Player.cpp", 26, "Player::ctor()");
     this->initPlayer(meshName, textureName);
 }
 
@@ -38,7 +42,8 @@ void Player::initPlayer(std::string meshName, std::string textureName)
         PlayerOBJ->setAnimationSpeed(0);
         PlayerOBJ->setMaterialFlag(irr::video::EMF_LIGHTING, false);
         PlayerOBJ->setMaterialTexture(0, _irr->getDriver()->getTexture(findAsset(textureName).c_str()));
-    }
+    } else
+        throw MyException("couldn't create player", "Player.cpp", 44, "Player::init()");
 }
 
 void Player::moveUp(const irr::f32 frameDeltaTime, irr::f32 moveVertical)
@@ -138,6 +143,8 @@ void Player::plantBomb(std::shared_ptr<GameMap> map, std::shared_ptr<std::vector
     if (map->getMap().at((int)PlayerOBJ->getPosition().Z + int((map->getMapSize().Y / 2))).
         at((int)PlayerOBJ->getPosition().X + int((map->getMapSize().X / 2))) == NULL) {
         entities->push_back(std::make_shared<Bomb>(_irr, PlayerOBJ->getPosition()));
+        if (!entities->at(entities->size() - 1) || !entities->at(entities->size() - 1).get())
+            throw MyException("couldn't create bomb", "Player.cpp", 145, "Player::plantBomb()");
     }
 }
 

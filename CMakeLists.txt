@@ -43,6 +43,7 @@ if (UNIX)
         ./src/Map/GameMap.cpp
         ./src/PlayerEvent/PlayerEvent.cpp
         ./src/Core/Core.cpp
+        ./src/Exception/MyException.cpp
         ./assets/find_asset.cpp
  ./src/main.cpp)
 

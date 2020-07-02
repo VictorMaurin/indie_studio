@@ -11,6 +11,8 @@
 
 GameMap::GameMap(std::shared_ptr<std::vector<std::shared_ptr<IEntity>>> entities, int width, int height, std::shared_ptr<Irrlicht> irr)
 {
+    if (!entities || !irr || !irr.get() || width <= 2 || height <= 2)
+        throw MyException("unexpected argument", "GameMap.cpp", 15, "GameMap::ctor()");
     this->_height = height;
     this->_width = width;
 
@@ -32,10 +34,15 @@ void GameMap::initGround(std::shared_ptr<std::vector<std::shared_ptr<IEntity>>> 
     for (size_t i = 0; i < _height; i++) {
         xPos = -(int)(_width / 2);
         for (size_t j = 0; j < _width; j++) {
-            this->_ground[i][j] = std::make_shared<Mesh>("tile.obj", "grass.jpg", irr);
-            this->_ground[i][j]->setPosition(vector3df(xPos, 0.0f, zPos));
-            entities->push_back(this->_ground[i][j]);
-
+            try {
+                this->_ground[i][j] = std::make_shared<Mesh>("tile.obj", "grass.jpg", irr);
+                this->_ground[i][j]->setPosition(vector3df(xPos, 0.0f, zPos));
+                entities->push_back(this->_ground[i][j]);
+                if (!_ground[i][j] || !_ground[i][j].get() || !entities->at(entities->size() - 1))
+                    throw MyException("couldn't create ground", "GameMap.cpp", 40, "GameMap::initGround()");
+            } catch(const std::exception& e) {
+                std::cerr << e.what() << '\n';
+            }
             xPos += 1;
         }
         zPos += 1;
@@ -54,9 +61,11 @@ void GameMap::initUnbreakableBlocks(std::shared_ptr<std::vector<std::shared_ptr<
             if (i == 0 || i == _height - 1 || j == 0 || j == _width - 1 || //borders
             (i % 2 == 0 && j % 2 == 0)) {//inside _map
                 this->_map[i][j] = std::make_shared<Mesh>("block.obj", "block.png", irr);
+                entities->push_back(this->_map[i][j]);
+                if (!_map[i][j] || !_map[i][j].get() || !entities->at(entities->size() - 1))
+                    throw MyException("couldn't create map", "GameMap.cpp", 62, "GameMap::initUnbreakableBlocks()");
                 this->_map[i][j]->setPosition(vector3df(xPos, 0.0f, zPos));
                 this->_map[i][j]->canCollide(true);
-                entities->push_back(this->_map[i][j]);
             }
             xPos += 1;
         }
@@ -145,10 +154,12 @@ void GameMap::initBreakableBlocks(std::shared_ptr<std::vector<std::shared_ptr<IE
             if (this->_map[i][j] == 0) {
                 if ((i > 2 && i < _height - 3) || (j > 2 && j < _width - 3)) {
                     this->_map[i][j] = std::make_shared<Breakable>(irr);
+                    entities->push_back(this->_map[i][j]);
+                    if (!_map[i][j] || !_map[i][j].get() || !entities->at(entities->size() - 1))
+                        throw MyException("couldn't create map", "GameMap.cpp", 157, "GameMap::initBreakableBlocks()");
                     this->_map[i][j]->setScale(vector3df(0.85f, 0.85f, 0.85f));
                     this->_map[i][j]->setPosition(vector3df(xPos, -0.15f, zPos));
                     this->_map[i][j]->canCollide(true);
-                    entities->push_back(this->_map[i][j]);
                 }
             }
             xPos += 1;

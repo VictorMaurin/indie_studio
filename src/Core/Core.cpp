@@ -7,7 +7,6 @@ Core::Core(int fps)
 
 Core::~Core()
 {
-    _assets->deleteAll();
 }
 
 void Core::init()
@@ -15,7 +14,6 @@ void Core::init()
     _irr = std::make_shared<Irrlicht>();
     _irr->init();
     _irr->getDevice()->setWindowCaption(L"Bomberman");
-    _irr->getGUIenv();
     _assets = std::make_shared<Assets>(_irr);
 
     _assets->init();

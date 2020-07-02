@@ -6,8 +6,13 @@
 */
 
 #include <iostream>
-
 #include <stdio.h>  /* defines FILENAME_MAX */
+#include <stdlib.h>
+#include <string.h>
+#include <fstream>
+#include <string>
+
+#include "../src/Exception/MyException.hpp"
 #ifdef _WIN32
 #include <direct.h>
 #define GetCurrentDir _getcwd
@@ -39,5 +44,15 @@ std::string findAsset( std::string asset ) {
     current_working_dir += "assets";
     current_working_dir += NEXT_FOLDER;
     current_working_dir += asset;
-    return current_working_dir;
+
+    std::ifstream f(current_working_dir.c_str());
+    if (f.good())
+        return current_working_dir;
+    else {
+        char *err =(char*)malloc(33 + asset.length());
+        bzero(err, 33 + asset.length());
+        strcat(err, "requested asset doesn't exits : ");
+        strcat(err, asset.c_str());
+        throw MyException(err, "find_asset.cpp", 50, "findAsset()");
+    }
 }

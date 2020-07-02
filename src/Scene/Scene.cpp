@@ -6,6 +6,8 @@ Scene::Scene()
 
 Scene::Scene(std::shared_ptr<Assets> assets, std::shared_ptr<Irrlicht> irr)
 {
+    if (!assets || !assets.get() || !irr || !irr.get())
+        throw MyException("unexpected argument", "Scene.cpp", 10, "Scene::ctor()");
     _gameState = MENU;
     _assets = assets;
     _irr = irr;
@@ -19,6 +21,8 @@ void Scene::initMenu()
 {
     _gameState = MENU;
     _menu = std::make_shared<Menu>(_irr, this);
+    if (!_menu || !_menu.get())
+        throw MyException("couldn't create menu", "Scene.cpp", 10, "Scene::initMenu()");
     _menu->create(_assets, _irr);
 }
 
@@ -33,7 +37,8 @@ void Scene::menuScene()
 void Scene::startGame()
 {
     _gameState = GAME;
-    _menu.reset();
+    if (_menu)
+        _menu.reset();
     _irr->getDevice()->setEventReceiver(_irr->getEventreceiver().get());
 }
 

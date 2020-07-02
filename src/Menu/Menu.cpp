@@ -11,6 +11,8 @@
 
 Menu::Menu(std::shared_ptr<Irrlicht> irr, Scene *gameManager)
 {
+	if (!irr || !irr.get() || !gameManager)
+		throw MyException("unexpected argument", "Menu.cpp", 15, "Menu::ctor()");
 	_gameManager = gameManager;
     driver = irr->getDriver();
     device = irr->getDevice();
@@ -24,11 +26,15 @@ Menu::~Menu()
 
 void Menu::create(std::shared_ptr<Assets> assets, std::shared_ptr<Irrlicht> irr)
 {
+	if (!assets || !assets.get())
+		throw MyException("unexpected argument", "Menu.cpp", 30, "Menu::create()");
 	this->create_window();
 	this->create_buttons();
 	this->create_image();
 	this->create_text();
 	MyEvent *receiver = new MyEvent(assets, window, button, image, text, irr, this);
+	if (!receiver)
+		throw MyException("couldn't create menu event receiver", "Menu.cpp", 37, "Menu::create()");
 	device->setEventReceiver(receiver);
 }
 

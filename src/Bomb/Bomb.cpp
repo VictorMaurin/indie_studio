@@ -9,6 +9,8 @@
 
 Bomb::Bomb(std::shared_ptr<Irrlicht> irr, vector3df pos) : Mesh("bomb2.obj", "bombbody_BaseColor.png", irr)
 {
+    if (!irr || !irr.get())
+        throw MyException("unexpected argument", "Bomb.cpp", 13, "Bomb::ctor()");
     _irr = irr;
     this->setPosition(pos);
     posFloat.X = (int)pos.X;
@@ -129,6 +131,8 @@ void Bomb::explode(std::shared_ptr<GameMap> map, std::shared_ptr<std::vector<std
 
 void Bomb::update(std::shared_ptr<Assets> assets)
 {
+    if (!assets || !assets.get())
+        throw MyException("unexpected argument", "Bomb.cpp", 135, "Bomb::update()");
     now = _irr->getDevice()->getTimer()->getRealTime();
     if ((now - then) / 1000 >= 3 && passed == false) {
         passed = true;
