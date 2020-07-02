@@ -12,8 +12,8 @@
 #include <memory>
 #include <irrlicht.h>
 
-#include "../Assets/Assets.hpp"
-#include "../Irrlicht/Irrlicht.hpp"
+#include "Assets/Assets.hpp"
+#include "Irrlicht/Irrlicht.hpp"
 
 using namespace irr;
 using namespace scene;

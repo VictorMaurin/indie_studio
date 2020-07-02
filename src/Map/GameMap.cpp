@@ -6,8 +6,8 @@
 */
 
 #include "GameMap.hpp"
-#include "../Breakable/Breakable.hpp"
-#include "../Mesh/Mesh.hpp"
+#include "Breakable/Breakable.hpp"
+#include "Mesh/Mesh.hpp"
 
 GameMap::GameMap(std::shared_ptr<std::vector<std::shared_ptr<IEntity>>> entities, int width, int height, std::shared_ptr<Irrlicht> irr)
 {

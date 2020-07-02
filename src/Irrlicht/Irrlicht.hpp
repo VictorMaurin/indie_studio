@@ -3,8 +3,8 @@
 
 #include <irrlicht.h>
 #include <memory>
-#include "../Exception/MyException.hpp"
-#include "../Event/Event.hpp"
+#include "Exception/MyException.hpp"
+#include "Event/Event.hpp"
 
 using namespace irr;
 using namespace scene;

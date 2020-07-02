@@ -14,7 +14,7 @@ class Assets;
 #include <irrlicht.h>
 #include <string>
 
-#include "../Assets/Assets.hpp"
+#include "Assets/Assets.hpp"
 
 using namespace irr;
 using namespace scene;

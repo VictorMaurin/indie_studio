@@ -14,10 +14,10 @@ class Assets;
 #include <vector>
 #include <memory>
 #include <irrlicht.h>
-#include "../Irrlicht/Irrlicht.hpp"
-#include "../Entity/IEntity.hpp"
-#include "../Map/GameMap.hpp"
-#include "../Player/Player.hpp"
+#include "Irrlicht/Irrlicht.hpp"
+#include "Entity/IEntity.hpp"
+#include "Map/GameMap.hpp"
+#include "Player/Player.hpp"
 
 class Assets {
     public:

@@ -6,7 +6,7 @@
 */
 
 #include "Menu.hpp"
-#include "../../assets/assets.hpp"
+#include "assets.hpp"
 
 Menu::Menu(std::shared_ptr<Irrlicht> irr, Scene *gameManager)
 {

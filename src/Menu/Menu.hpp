@@ -18,7 +18,7 @@ class Scene;
 #include <map>
 #include <memory>
 #include "MenuEvtManager.hpp"
-#include "../Scene/Scene.hpp"
+#include "Scene/Scene.hpp"
 
 using namespace irr;
 using namespace scene;

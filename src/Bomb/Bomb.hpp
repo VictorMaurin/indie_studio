@@ -10,9 +10,9 @@
 
 #include <irrlicht.h>
 
-#include "../Irrlicht/Irrlicht.hpp"
-#include "../Assets/Assets.hpp"
-#include "../Mesh/Mesh.hpp"
+#include "Irrlicht/Irrlicht.hpp"
+#include "Assets/Assets.hpp"
+#include "Mesh/Mesh.hpp"
 
 using namespace irr;
 using namespace scene;

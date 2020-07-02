@@ -3,8 +3,8 @@
 
 class Menu;
 
-#include "../Assets/Assets.hpp"
-#include "../Menu/Menu.hpp"
+#include "Assets/Assets.hpp"
+#include "Menu/Menu.hpp"
 
 enum State
 {

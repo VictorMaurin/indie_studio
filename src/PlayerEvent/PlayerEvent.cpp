@@ -6,7 +6,7 @@
 */
 
 #include "PlayerEvent.hpp"
-#include "../Bomb/Bomb.hpp"
+#include "Bomb/Bomb.hpp"
 
 PlayerEvent::PlayerEvent(std::shared_ptr<Irrlicht> irr, irr::EKEY_CODE advance, irr::EKEY_CODE behind, irr::EKEY_CODE left, irr::EKEY_CODE right, irr::EKEY_CODE plantBomb, Player* _player)
 {

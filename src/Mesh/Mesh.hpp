@@ -13,9 +13,9 @@ class IEntity;
 #include <memory>
 #include <irrlicht.h>
 
-#include "../Assets/Assets.hpp"
-#include "../Entity/IEntity.hpp"
-#include "../../assets/assets.hpp"
+#include "Assets/Assets.hpp"
+#include "Entity/IEntity.hpp"
+#include "assets.hpp"
 
 using namespace irr;
 using namespace scene;

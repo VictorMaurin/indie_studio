@@ -12,7 +12,7 @@
 #include <fstream>
 #include <string>
 
-#include "../src/Exception/MyException.hpp"
+#include "Exception/MyException.hpp"
 #ifdef _WIN32
 #include <direct.h>
 #define GetCurrentDir _getcwd

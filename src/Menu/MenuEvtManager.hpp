@@ -12,8 +12,8 @@ class Menu;
 
 #include <memory>
 #include "Menu.hpp"
-#include "../Assets/Assets.hpp"
-#include "../Event/Event.hpp"
+#include "Assets/Assets.hpp"
+#include "Event/Event.hpp"
 
 using namespace irr;
 using namespace scene;

@@ -9,6 +9,8 @@ set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g")
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 include_directories(./include)
+include_directories(./src)
+include_directories(./assets)
 
 if (APPLE)
 	find_package(OPENGL)

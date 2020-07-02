@@ -14,11 +14,11 @@ class PlayerEvent;
 #include <irrlicht.h>
 #include <fstream>
 
-#include "../Irrlicht/Irrlicht.hpp"
-#include "../Assets/Assets.hpp"
-#include "../Event/Event.hpp"
-#include "../../assets/assets.hpp"
-#include "../PlayerEvent/PlayerEvent.hpp"
+#include "Irrlicht/Irrlicht.hpp"
+#include "Assets/Assets.hpp"
+#include "Event/Event.hpp"
+#include "assets.hpp"
+#include "PlayerEvent/PlayerEvent.hpp"
 
 using namespace irr;
 using namespace scene;

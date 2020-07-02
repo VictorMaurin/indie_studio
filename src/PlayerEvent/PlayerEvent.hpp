@@ -10,7 +10,7 @@
 
 class Player;
 
-#include "../Player/Player.hpp"
+#include "Player/Player.hpp"
 
 class PlayerEvent
 {
